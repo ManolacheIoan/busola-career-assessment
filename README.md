@@ -26,16 +26,36 @@ try next.
   environment preferences, practical constraints, ranked values, career anchors, a scatter plot
   of the four quadrants and an Ikigai summary.
 - **Occupation matching:** the person's interest scores are compared with the Holland codes of
-  67 occupations. Each match shows a fit percentage, the code letters it shares with the person,
+  120 occupations. Each match shows a fit percentage, the code letters it shares with the person,
   whether it can be done remotely, and whether it usually needs more study than the person
   currently has.
 - **A live quadrant map:** while the user rates each activity from 1 to 6 for skill and passion,
   a side panel places it in one of four zones ("golden zone", "comfort trap", "growth potential",
   "avoid") and updates instantly.
-- **An optional written report:** the answers, constraints and matched occupations are turned
-  into a structured two-part prompt. Where an AI runtime is available, the report is streamed
-  into the page, with a stop button and the option to continue with part 2. Everywhere else,
-  the user can copy or download the prompt and use it with any assistant.
+- **Automatic profile checks, shown before any AI:** Holland differentiation (how far apart the
+  scores are) and consistency (whether the top two types are neighbours on the Holland
+  hexagon, drawn as a small diagram), an overall confidence level, tensions between answers
+  (for example security as a value but an entrepreneurial career anchor) and answer-quality
+  flags (the same rating almost everywhere, agreeing with opposite statements, very short
+  stories, a 60-item step finished in under a minute).
+- **Regulated professions:** occupations that need a licence or a professional body in Romania
+  name it, for example the College of Psychologists for psychologists or ANRE authorisation
+  for electricians.
+- **An optional written report with visible evidence:** the answers, constraints, checks, the
+  activities rated highest and lowest, and the matched occupations are turned into a structured
+  two-part prompt. Every important claim in the report must cite its source in brackets, such
+  as `[Povestea 1]` or `[Holland: Investigativ 45]`, and the page renders these as evidence
+  pills. Where an AI runtime is available, the report is streamed into the page, with a stop
+  button and the option to continue with part 2. Everywhere else, the user can copy or
+  download the prompt and use it with any assistant.
+- **An experiment tracker:** the mini-experiments from the report are parsed into a checklist.
+  Before there is a report, five starting experiments are generated from the matched
+  occupations and quadrants. For each one the user records "liked it / so-so / didn't like it"
+  and a note, can add their own, and can ask for a report update ("What I learned from the
+  experiments") based on the results.
+- **Questions about the results:** a follow-up box where the user asks about their profile and
+  gets a short answer, with evidence, that has the full profile, report and experiment results
+  as context. The conversation is saved with the rest of the answers.
 - **Export:** the profile downloads as Markdown, the prompt as a text file, and the results page
   has a print stylesheet for saving as PDF.
 - **An interactive compass on the home page:** the needle follows the pointer with spring
@@ -64,19 +84,28 @@ try next.
 | **Charts drawn by hand in SVG** | The radar and the quadrant plot take their colours from the same CSS tokens as the rest of the page, so they work in both themes without a charting library. |
 | **Canvas for the background, SVG for the charts** | The contour lines are recalculated many times per second, which suits a canvas. The charts are static and need crisp, accessible text, which suits SVG. |
 | **Own Markdown renderer that escapes HTML first** | The report text comes from a model. Escaping before formatting means it can only produce headings, lists, bold and italics, never markup or scripts. |
+| **Evidence tags in a fixed vocabulary** | Asking the model to cite `[Povestea 1]` or `[Holland: Investigativ 45]` makes unsupported claims easy to spot, and a fixed set of forms keeps the tags short and consistent. |
+| **Checks calculated in code, then passed to the model** | Differentiation, consistency, tensions and answer quality follow fixed rules, so they are the same every time and visible without AI. The report's confidence section starts from them instead of the model guessing. |
+| **Experiments parsed from Markdown, with a calculated fallback** | The prompt asks for one list item per experiment, starting with a bold title, which is simple to parse while streaming. When there is no report, the tracker still works with experiments built from the profile. |
 | **Limits stated in the interface** | Occupation codes are labelled as indicative, multiple intelligences are presented as preferred styles because the model is weakly validated, and the zodiac is a hidden bonus that is excluded from every conclusion. |
 
 ## Quality
 
 **Automated testing**
 - **Unit tests** (Node test runner) for the scoring core: question bank structure, RIASEC sums
-  and tie detection, Big Five reverse keying and thresholds, quadrant boundaries, occupation fit
-  and the extra-study flag.
+  and tie detection, Big Five reverse keying and thresholds, quadrant boundaries, occupation fit,
+  the extra-study and regulated-profession flags, Holland differentiation and consistency, every
+  tension and answer-quality rule, experiment parsing and the starting experiments.
 - **End-to-end tests** (Playwright, on a desktop and a mobile profile): completing all 8 steps
   and checking the calculated code and occupations, step validation, saving and resuming after
   a reload, reopening steps from the route, the live quadrant map, the example profile not
   overwriting saved answers, Markdown and text downloads, tie messages, the zodiac bonus, the
-  two-click reset, the theme toggle, the "saved" indicator and the absence of horizontal scroll.
+  two-click reset, the experiment tracker and its persistence, the checks card, the theme
+  toggle, the "saved" indicator and the absence of horizontal scroll.
+- **AI flows with a mocked runtime:** a stand-in for the AI API records every prompt and returns
+  fixed Markdown, so the tests can check the evidence pills, that the prompt carries the checks
+  and the raw answers, that experiments from the report become a tracker, the report update and
+  the follow-up questions.
 - **Accessibility audit** with axe-core (WCAG 2.2 AA rules) on the home page, the context step,
   the interests step and the results page, in both themes.
 - A test checks that the only external requests are for Google Fonts.

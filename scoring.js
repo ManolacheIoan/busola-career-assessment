@@ -74,10 +74,11 @@
   ];
 
   /* ---------- occupations ---------- */
-  /* [name, Holland code, usual entry level (0-3, see EDU_LABEL), can be remote (1/0), what you do].
+  /* [name, Holland code, usual entry level (0-3, see EDU_LABEL), can be remote (1/0), what you do,
+      licence or professional body needed in Romania (regulated professions only)].
      Codes are indicative and modelled on the interest codes O*NET publishes for similar occupations. */
   var OCC = [
-    ['Electrician', 'RCI', 1, 0, 'Instalezi și repari rețele și echipamente electrice.'],
+    ['Electrician', 'RCI', 1, 0, 'Instalezi și repari rețele și echipamente electrice.', 'autorizare ANRE'],
     ['Mecanic auto', 'RIC', 1, 0, 'Diagnostichezi și repari vehicule.'],
     ['Tehnician de mentenanță industrială', 'RCI', 1, 0, 'Ții în funcțiune utilajele dintr-o fabrică.'],
     ['Operator CNC', 'RCI', 1, 0, 'Programezi și reglezi mașini care prelucrează piese.'],
@@ -94,13 +95,13 @@
     ['Specialist în securitate cibernetică', 'ICR', 2, 1, 'Protejezi sisteme și date împotriva atacurilor.'],
     ['Inginer DevOps / cloud', 'IRC', 2, 1, 'Automatizezi infrastructura pe care rulează aplicațiile.'],
     ['Inginer electronist', 'IRC', 2, 0, 'Proiectezi circuite și sisteme electronice.'],
-    ['Medic', 'ISR', 3, 0, 'Diagnostichezi și tratezi pacienți.'],
-    ['Farmacist', 'ICS', 3, 0, 'Eliberezi medicamente și îi consiliezi pe pacienți.'],
+    ['Medic', 'ISR', 3, 0, 'Diagnostichezi și tratezi pacienți.', 'aviz de la Colegiul Medicilor din România'],
+    ['Farmacist', 'ICS', 3, 0, 'Eliberezi medicamente și îi consiliezi pe pacienți.', 'aviz de la Colegiul Farmaciștilor din România'],
     ['Cercetător în biologie sau chimie', 'IRA', 3, 0, 'Faci experimente ca să înțelegi fenomene naturale.'],
-    ['Medic veterinar', 'IRS', 3, 0, 'Îngrijești și tratezi animale.'],
+    ['Medic veterinar', 'IRS', 3, 0, 'Îngrijești și tratezi animale.', 'aviz de la Colegiul Medicilor Veterinari'],
     ['Economist', 'ICE', 2, 1, 'Analizezi piețe, prețuri și politici economice.'],
     ['UX researcher', 'IAS', 2, 1, 'Studiezi cum folosesc oamenii un produs și ce îi încurcă.'],
-    ['Psiholog', 'ISA', 3, 0, 'Evaluezi și sprijini oameni prin metode psihologice.'],
+    ['Psiholog', 'ISA', 3, 0, 'Evaluezi și sprijini oameni prin metode psihologice.', 'atestat de liberă practică de la Colegiul Psihologilor din România'],
     ['Designer grafic', 'ARE', 1, 1, 'Creezi identități vizuale, afișe și materiale digitale.'],
     ['Designer UX/UI', 'AIE', 1, 1, 'Proiectezi interfețe ușor de folosit pentru aplicații și site-uri.'],
     ['Dezvoltator front-end', 'AIC', 1, 1, 'Construiești partea vizibilă și interactivă a site-urilor.'],
@@ -109,18 +110,18 @@
     ['Ilustrator', 'ARI', 1, 1, 'Desenezi pentru cărți, jocuri și publicații.'],
     ['Editor video', 'ARE', 1, 1, 'Montezi imagine și sunet pentru filme, reclame și clipuri.'],
     ['Producător muzical', 'AER', 1, 1, 'Compui, înregistrezi și mixezi muzică.'],
-    ['Arhitect', 'AIR', 3, 0, 'Proiectezi clădiri și spații.'],
+    ['Arhitect', 'AIR', 3, 0, 'Proiectezi clădiri și spații.', 'drept de semnătură de la Ordinul Arhitecților din România'],
     ['Designer de interior', 'AER', 2, 0, 'Amenajezi spații interioare funcționale și frumoase.'],
     ['Game designer', 'AIE', 1, 1, 'Imaginezi regulile, nivelurile și experiența unui joc.'],
-    ['Traducător', 'AIS', 2, 1, 'Traduci texte și adaptezi sensul dintr-o limbă în alta.'],
-    ['Profesor de gimnaziu sau liceu', 'SAI', 2, 0, 'Predai o materie și îi ajuți pe elevi să progreseze.'],
-    ['Învățător sau educator', 'SAC', 2, 0, 'Lucrezi cu copii mici și îi ajuți să învețe.'],
+    ['Traducător', 'AIS', 2, 1, 'Traduci texte și adaptezi sensul dintr-o limbă în alta.', 'autorizare de la Ministerul Justiției, pentru traduceri oficiale'],
+    ['Profesor de gimnaziu sau liceu', 'SAI', 2, 0, 'Predai o materie și îi ajuți pe elevi să progreseze.', 'modulul psihopedagogic'],
+    ['Învățător sau educator', 'SAC', 2, 0, 'Lucrezi cu copii mici și îi ajuți să învețe.', 'pregătire psihopedagogică'],
     ['Consilier de carieră', 'SEA', 2, 1, 'Îi ajuți pe oameni să-și aleagă direcția profesională.'],
-    ['Asistent medical', 'SIC', 1, 0, 'Îngrijești pacienți și lucrezi alături de medici.'],
-    ['Psihoterapeut', 'SIA', 3, 1, 'Lucrezi cu oameni care trec prin dificultăți emoționale.'],
-    ['Asistent social', 'SEA', 2, 0, 'Sprijini persoane și familii aflate în situații dificile.'],
+    ['Asistent medical', 'SIC', 1, 0, 'Îngrijești pacienți și lucrezi alături de medici.', 'aviz de la OAMGMAMR'],
+    ['Psihoterapeut', 'SIA', 3, 1, 'Lucrezi cu oameni care trec prin dificultăți emoționale.', 'formare în psihoterapie și atestat de la Colegiul Psihologilor din România'],
+    ['Asistent social', 'SEA', 2, 0, 'Sprijini persoane și familii aflate în situații dificile.', 'aviz de exercitare de la Colegiul Național al Asistenților Sociali'],
     ['Trainer corporate', 'SEA', 1, 1, 'Ții cursuri și ateliere pentru angajații unor companii.'],
-    ['Kinetoterapeut', 'SIR', 2, 0, 'Ajuți oameni să-și recupereze mobilitatea după accidentări.'],
+    ['Kinetoterapeut', 'SIR', 2, 0, 'Ajuți oameni să-și recupereze mobilitatea după accidentări.', 'aviz de la Colegiul Fizioterapeuților din România'],
     ['Antrenor de fitness', 'SRE', 1, 0, 'Creezi programe de exerciții și îi motivezi pe clienți.'],
     ['Logoped', 'SIA', 2, 0, 'Ajuți copii și adulți să vorbească mai clar.'],
     ['Customer success manager', 'SEC', 1, 1, 'Te asiguri că un client folosește bine un produs și rămâne mulțumit.'],
@@ -129,12 +130,12 @@
     ['Product manager', 'EIC', 2, 1, 'Decizi ce construiește o echipă și de ce.'],
     ['Specialist în marketing digital', 'EAC', 1, 1, 'Planifici campanii online și măsori rezultatele.'],
     ['Agent de vânzări B2B', 'ECS', 1, 0, 'Găsești clienți și negociezi contracte între firme.'],
-    ['Avocat', 'EIS', 3, 0, 'Reprezinți clienți și oferi consultanță juridică.'],
+    ['Avocat', 'EIS', 3, 0, 'Reprezinți clienți și oferi consultanță juridică.', 'examen de admitere în barou'],
     ['Recruiter', 'ESC', 1, 1, 'Cauți și selectezi candidați pentru companii.'],
     ['Consultant de management', 'EIC', 2, 1, 'Ajuți companii să-și rezolve probleme de organizare și strategie.'],
     ['Manager în ospitalitate', 'ECS', 1, 0, 'Conduci un hotel, un restaurant sau o cafenea.'],
-    ['Contabil', 'CEI', 2, 1, 'Ții evidența financiară a unei firme și pregătești declarațiile.'],
-    ['Auditor financiar', 'CEI', 2, 0, 'Verifici dacă situațiile financiare sunt corecte.'],
+    ['Contabil', 'CEI', 2, 1, 'Ții evidența financiară a unei firme și pregătești declarațiile.', 'calitatea de expert contabil CECCAR, pentru a semna situații financiare'],
+    ['Auditor financiar', 'CEI', 2, 0, 'Verifici dacă situațiile financiare sunt corecte.', 'autorizare ca auditor financiar (CAFR)'],
     ['Analist financiar', 'CIE', 2, 1, 'Analizezi investiții și performanța financiară.'],
     ['Administrator de baze de date', 'CIR', 2, 1, 'Organizezi, securizezi și optimizezi baze de date.'],
     ['Specialist în logistică', 'CEI', 2, 0, 'Planifici transportul și stocurile într-un lanț de aprovizionare.'],
@@ -143,8 +144,69 @@
     ['Inspector de control al calității', 'CRI', 1, 0, 'Verifici dacă produsele respectă standardele.'],
     ['Bibliotecar sau arhivist', 'CSA', 2, 0, 'Organizezi documente și ajuți oamenii să găsească informații.'],
     ['Actuar', 'CIE', 3, 1, 'Calculezi riscuri financiare pentru asigurări și pensii.'],
-    ['Tester software', 'CIR', 1, 1, 'Testezi aplicații și raportezi defectele găsite.']
-  ].map(function (o) { return { n: o[0], code: o[1], edu: o[2], remote: !!o[3], d: o[4] }; });
+    ['Tester software', 'CIR', 1, 1, 'Testezi aplicații și raportezi defectele găsite.'],
+    /* IT and digital */
+    ['Dezvoltator de aplicații mobile', 'ICR', 1, 1, 'Construiești aplicații pentru telefoane și tablete.'],
+    ['Inginer AI / machine learning', 'ICR', 2, 1, 'Antrenezi modele de inteligență artificială și le pui în producție.'],
+    ['Technical writer', 'AIC', 1, 1, 'Scrii documentație clară pentru produse tehnice.'],
+    ['Scrum Master', 'SEC', 1, 1, 'Ajuți o echipă de dezvoltare să lucreze organizat și să se îmbunătățească.'],
+    ['Administrator de rețea', 'IRC', 1, 1, 'Configurezi și întreții rețelele și serverele unei organizații.'],
+    ['Analist de business', 'CIE', 2, 1, 'Traduci nevoile unei afaceri în cerințe clare pentru echipa tehnică.'],
+    ['Specialist SEO', 'IEC', 1, 1, 'Analizezi și optimizezi site-uri ca să apară mai sus în căutări.'],
+    ['Artist 3D / animator', 'ARI', 1, 1, 'Modelezi și animezi personaje și obiecte 3D.'],
+    ['Social media manager', 'AEC', 1, 1, 'Creezi și programezi conținut pentru rețelele sociale ale unui brand.'],
+    /* health */
+    ['Medic dentist', 'IRS', 3, 0, 'Previi și tratezi problemele dentare.', 'aviz de la Colegiul Medicilor Stomatologi din România'],
+    ['Nutriționist-dietetician', 'ISR', 2, 1, 'Creezi planuri de alimentație adaptate fiecărei persoane.', 'aviz de la Colegiul Dieteticienilor din România'],
+    ['Paramedic', 'SRI', 1, 0, 'Acorzi primul ajutor și transporți pacienți în situații de urgență.'],
+    ['Asistent de farmacie', 'CSR', 1, 0, 'Pregătești și eliberezi medicamente alături de farmacist.', 'aviz de la OAMGMAMR'],
+    ['Tehnician de laborator medical', 'RIC', 1, 0, 'Faci analize pe probe biologice în laborator.', 'aviz de la OAMGMAMR'],
+    ['Tehnician dentar', 'RIA', 1, 0, 'Realizezi proteze și aparate dentare în laborator.'],
+    /* trades and outdoor */
+    ['Sudor', 'RCI', 1, 0, 'Unești piese metalice prin sudură.'],
+    ['Instalator', 'RCI', 1, 0, 'Montezi și repari instalații de apă, gaze și încălzire.', 'autorizare ANRE, pentru instalații de gaze'],
+    ['Instalator de panouri fotovoltaice', 'RCI', 1, 0, 'Montezi și pui în funcțiune sisteme de energie solară.', 'autorizare ANRE'],
+    ['Inginer de automatizări industriale', 'RIC', 2, 0, 'Programezi automatele care controlează liniile de producție.'],
+    ['Inginer constructor', 'RIC', 2, 0, 'Proiectezi și supraveghezi construcții.'],
+    ['Șofer profesionist', 'RCS', 1, 0, 'Transporți marfă sau persoane pe distanțe scurte sau lungi.', 'atestat profesional de la Autoritatea Rutieră Română'],
+    ['Pilot de avion', 'RIE', 2, 0, 'Pilotezi avioane de pasageri sau de marfă.', 'licență de pilot de la Autoritatea Aeronautică Civilă Română'],
+    ['Fermier', 'REC', 0, 0, 'Cultivi plante sau crești animale și îți administrezi ferma.'],
+    ['Inginer agronom', 'IRE', 2, 0, 'Ajuți fermele să obțină recolte mai bune cu metode științifice.'],
+    ['Brutar sau cofetar', 'RAC', 0, 0, 'Prepari pâine, prăjituri și deserturi.'],
+    ['Cosmetician', 'SAR', 1, 0, 'Faci tratamente de îngrijire a pielii.'],
+    ['Hair stylist', 'ARS', 1, 0, 'Tunzi, vopsești și coafezi clienții.'],
+    ['Ghid de turism', 'SRE', 1, 0, 'Conduci grupuri pe trasee și le povestești despre locuri.', 'atestat de ghid de turism'],
+    /* science */
+    ['Geolog', 'IRC', 2, 0, 'Studiezi roci, soluri și resurse naturale.'],
+    ['Meteorolog', 'IRC', 2, 0, 'Analizezi date ca să prognozezi vremea.'],
+    ['Inginer de mediu', 'IRC', 2, 0, 'Proiectezi soluții care reduc poluarea.'],
+    ['Statistician', 'ICA', 2, 1, 'Proiectezi studii și analizezi date ca să tragi concluzii sigure.'],
+    ['Cadru didactic universitar', 'ISA', 3, 0, 'Predai la facultate și faci cercetare.'],
+    /* arts and media */
+    ['Actor', 'AES', 1, 0, 'Joci roluri în teatru, film sau reclame.'],
+    ['Fotograf', 'ARE', 1, 0, 'Fotografiezi oameni, produse sau evenimente.'],
+    ['Designer de modă', 'AER', 1, 0, 'Creezi haine și colecții vestimentare.'],
+    ['Curator de muzeu', 'AIC', 2, 0, 'Alegi, documentezi și prezinți colecții și expoziții.'],
+    /* business */
+    ['Specialist în resurse umane', 'SEC', 2, 1, 'Te ocupi de angajați: recrutare, evaluări și dezvoltare.'],
+    ['Agent imobiliar', 'ECS', 1, 0, 'Ajuți oameni să cumpere, să vândă sau să închirieze locuințe.'],
+    ['Organizator de evenimente', 'EAS', 1, 0, 'Planifici conferințe, nunți sau festivaluri de la idee la ultima zi.'],
+    ['Specialist în relații publice', 'EAS', 2, 1, 'Construiești imaginea publică a unei firme și relația cu presa.'],
+    ['Specialist în achiziții', 'CES', 1, 0, 'Alegi furnizori și negociezi prețuri pentru ce cumpără o firmă.'],
+    ['Agent de turism', 'ECS', 1, 1, 'Organizezi călătorii pentru clienți.'],
+    ['Consultant financiar', 'ECI', 1, 1, 'Ajuți oameni să-și planifice economiile și investițiile.', 'autorizare ASF, pentru consultanță de investiții'],
+    /* public sector */
+    ['Polițist', 'RES', 1, 0, 'Menții ordinea publică și investighezi infracțiuni.', 'admitere la o școală de poliție'],
+    ['Militar', 'RCS', 1, 0, 'Servești în armată, în unități de luptă sau tehnice.', 'admitere într-o școală militară sau recrutare ca soldat profesionist'],
+    ['Funcționar public', 'CES', 2, 0, 'Aplici legi și proceduri într-o instituție a statului.', 'concurs pentru ocuparea unei funcții publice'],
+    ['Judecător sau procuror', 'ESI', 3, 0, 'Judeci cauze sau conduci anchete penale.', 'admitere la Institutul Național al Magistraturii'],
+    ['Notar', 'CEI', 3, 0, 'Autentifici acte și te asiguri că respectă legea.', 'examen de admitere în profesia de notar public'],
+    /* office and operations */
+    ['Consilier bancar', 'CES', 1, 0, 'Ajuți clienții unei bănci cu conturi, credite și plăți.'],
+    ['Asistent administrativ', 'CSE', 0, 0, 'Organizezi agenda, documentele și comunicarea unui birou.'],
+    ['Operator de date', 'CRI', 0, 1, 'Introduci și verifici date în sisteme informatice.'],
+    ['Gestionar de depozit', 'CRE', 0, 0, 'Primești, depozitezi și livrezi marfa dintr-un depozit.']
+  ].map(function (o) { return { n: o[0], code: o[1], edu: o[2], remote: !!o[3], d: o[4], reg: o[5] || '' }; });
 
   /* ---------- scoring ---------- */
   function riasecScores(answers) {
@@ -189,7 +251,7 @@
     var level = ctx && ctx.edu != null ? EDU_LEVEL[ctx.edu] : null;
     return OCC.map(function (o) {
       return {
-        n: o.n, code: o.code, d: o.d, remote: o.remote, edu: o.edu,
+        n: o.n, code: o.code, d: o.d, remote: o.remote, edu: o.edu, reg: o.reg,
         fit: occupationFit(sc, o.code),
         shared: o.code.split('').filter(function (l) { return top.indexOf(l) > -1; }),
         extraStudy: level != null && o.edu > level ? EDU_LABEL[o.edu] : ''
@@ -201,11 +263,121 @@
     return { code: order.slice(0, 3) };
   }
 
+  /* ---------- profile checks ---------- */
+  /* Holland hexagon order is R-I-A-S-E-C; neighbours are distance 1, opposites distance 3. */
+  function hexDistance(a, b) {
+    var d = Math.abs(RORDER.indexOf(a) - RORDER.indexOf(b));
+    return Math.min(d, 6 - d);
+  }
+  function differentiation(sc) {
+    var v = RORDER.map(function (t) { return sc[t]; });
+    var value = Math.max.apply(null, v) - Math.min.apply(null, v);
+    return { value: value, max: R_MAX - R_MIN, level: value < 10 ? 'lo' : (value < 20 ? 'mid' : 'hi') };
+  }
+  function consistency(code) {
+    var dist = hexDistance(code[0], code[1]);
+    return { pair: [code[0], code[1]], dist: dist, level: dist === 1 ? 'hi' : (dist === 2 ? 'mid' : 'lo') };
+  }
+  function has(arr, v) { return (arr || []).indexOf(v) > -1; }
+  function mostCommonShare(arr) {
+    var c = {}, best = 0;
+    arr.forEach(function (x) { if (x != null) { c[x] = (c[x] || 0) + 1; best = Math.max(best, c[x]); } });
+    return arr.length ? best / arr.length : 0;
+  }
+  /* d is the saved state: riasec, big5, values, anchors, env, stories, items, ctx, time */
+  function profileChecks(d) {
+    var rs = riasecScores(d.riasec || []), b = big5Scores(d.big5 || []);
+    var diff = differentiation(rs.sc), cons = consistency(rs.code);
+    var values = d.values || [], anchors = d.anchors || [], env = d.env || [], items = d.items || [];
+    var tensions = [], quality = [];
+    function tension(k, t, txt) { tensions.push({ k: k, t: t, d: txt }); }
+    function flag(k, t, txt) { quality.push({ k: k, t: t, d: txt }); }
+
+    if ((has(values, 'siguranță financiară') || has(values, 'stabilitate')) && has(anchors, 'Creativitate antreprenorială'))
+      tension('security-venture', 'Siguranță și antreprenoriat', 'Ai ales între valori siguranța sau stabilitatea, dar și ancora „Creativitate antreprenorială”. Un proiect propriu pornit în paralel cu un job stabil le poate împăca.');
+    if ((rs.code[0] === 'S' || rs.code[0] === 'E' || rs.code[1] === 'S' || rs.code[1] === 'E') && b.E.lvl === 'lo')
+      tension('people-energy', 'Oameni, dar în doze mici', 'Te atrag activitățile cu oameni, dar te încarci din liniște. Caută roluri cu discuții unu la unu sau în grupuri mici, nu contact continuu.');
+    if (has(values, 'echilibru viață-muncă') && (has(anchors, 'Management') || has(anchors, 'Provocare pură')))
+      tension('balance-ambition', 'Echilibru și ambiție', 'Vrei echilibru între viață și muncă, dar și conducere sau provocări mari, care cer de obicei multe ore. Merită să decizi ce ai sacrifica primul.');
+    if ((has(values, 'autonomie') || has(values, 'libertate') || has(anchors, 'Autonomie')) && env[3] != null && env[3] <= 2)
+      tension('autonomy-rules', 'Autonomie și reguli clare', 'Îți dorești autonomie, dar preferi pași și reguli clare. Poate vrei libertate în ce faci, cu o structură clară în cum se face.');
+    if (has(anchors, 'Siguranță') && (has(anchors, 'Autonomie') || has(anchors, 'Creativitate antreprenorială')))
+      tension('security-independence', 'Siguranță și independență', 'Ancorele tale trag în direcții diferite. Un rol de expert într-o organizație stabilă, cu libertate în felul de lucru, le poate combina.');
+    if (rs.code.indexOf('C') > -1 && b.C.lvl === 'lo')
+      tension('order-routine', 'Ordine fără rutină', 'Îți plac activitățile ordonate și procesele clare, dar spui că amâni lucrurile. Termenele externe și listele pot face diferența.');
+    if (items.length && !items.some(function (it) { return it.s != null && it.p != null && quadOf(it) === 'q1'; }))
+      tension('empty-gold', 'Zona de aur e goală', 'Nicio activitate nu are încă note mari și la abilitate, și la pasiune. Uită-te la „Potențial de dezvoltare”: acolo e cel mai probabil viitoarea ta zonă de aur.');
+    if (d.ctx && d.ctx.hours === 0 && careerMatches(rs.sc, 3, d.ctx).some(function (j) { return j.extraStudy; }))
+      tension('time-study', 'Timp puțin pentru studii', 'Primele meserii potrivite cer de obicei studii în plus, iar acum ai sub 3 ore pe săptămână. Începe cu pași mici, de test, înainte de un program lung.');
+
+    if (mostCommonShare(d.riasec || []) >= 0.8)
+      flag('flat-interests', 'Aceeași notă aproape peste tot', 'La interese ai dat aceeași notă la aproape toate activitățile, așa că diferențele dintre tipuri sunt mici. Dacă ai grăbit etapa, merită refăcută.');
+    var contradictory = BD.filter(function (dim) {
+      var keyed = false, rev = false;
+      BIT.forEach(function (it, i) { var v = (d.big5 || [])[i]; if (it.d === dim && v >= 4) { if (it.rev) rev = true; else keyed = true; } });
+      return keyed && rev;
+    }).length;
+    if (contradictory >= 2)
+      flag('contradictions', 'Afirmații opuse acceptate', 'La ' + contradictory + ' dimensiuni de personalitate ai fost de acord și cu o afirmație, și cu opusul ei. Rezultatele de personalitate sunt mai puțin sigure.');
+    var filled = (d.stories || []).filter(function (x) { return String(x || '').trim().length >= 20; });
+    if (filled.length) {
+      var avg = filled.reduce(function (a, x) { return a + String(x).trim().length; }, 0) / filled.length;
+      if (avg < 120) flag('short-stories', 'Povești scurte', 'Poveștile au puține detalii. Ele sunt cea mai bună dovadă, așa că raportul va fi mai precis dacă le completezi.');
+    }
+    var time = d.time || {};
+    if (time[1] && time[1] < 60000) flag('fast-interests', 'Interese completate foarte repede', 'Ai răspuns la cele 60 de activități în mai puțin de un minut.');
+    if (time[2] && time[2] < 20000) flag('fast-personality', 'Personalitate completată foarte repede', 'Ai răspuns la cele 20 de afirmații în mai puțin de 20 de secunde.');
+
+    var score = 3 - (diff.level === 'lo' ? 1 : 0) - Math.min(2, quality.length);
+    return { diff: diff, cons: cons, tensions: tensions, quality: quality, confidence: score >= 3 ? 'hi' : (score === 2 ? 'mid' : 'lo') };
+  }
+
+  /* ---------- experiments ---------- */
+  /* Reads the top-level list items of section 6 of the report: "- **Title:** description". */
+  function parseExperiments(text) {
+    var out = [], inSection = false;
+    String(text || '').split('\n').forEach(function (raw) {
+      var l = raw.trim();
+      if (/^#{1,4}\s/.test(l)) { inSection = /^#{1,4}\s*6[.)]/.test(l); return; }
+      if (!inSection || /^\s/.test(raw)) return;
+      var m = l.match(/^(?:[-*•]|\d+[.)])\s+(.*)$/);
+      if (!m) return;
+      var body = m[1].replace(/\s*\[[^\[\]]{1,80}\]/g, '').trim(), t, desc;
+      var bm = body.match(/^\*\*(.+?)\*\*\s*[:.–-]?\s*(.*)$/);
+      if (bm) { t = bm[1].replace(/[:.]\s*$/, ''); desc = bm[2]; }
+      else {
+        var cut = body.search(/[:.]\s/);
+        t = cut > 0 && cut < 70 ? body.slice(0, cut) : body.slice(0, 60);
+        desc = cut > 0 && cut < 70 ? body.slice(cut + 1) : body;
+      }
+      desc = desc.replace(/\*\*/g, '').replace(/\s{2,}/g, ' ').trim();
+      out.push({ t: t.trim(), d: desc.charAt(0).toUpperCase() + desc.slice(1) });
+    });
+    return out.slice(0, 8);
+  }
+  /* lower-case the first letter, but keep names that start with an acronym ("UX researcher") */
+  function lower(s) { return /^[A-ZĂÂÎȘȚ]{2}/.test(s) ? s : s.charAt(0).toLowerCase() + s.slice(1); }
+  /* Starting experiments built from the matched occupations and the quadrants, used before there is a report. */
+  function seedExperiments(jobs, items) {
+    var rated = (items || []).filter(function (it) { return it.s != null && it.p != null; });
+    var grow = rated.filter(function (it) { return quadOf(it) === 'q3'; })[0] || rated.filter(function (it) { return quadOf(it) === 'q1'; })[0];
+    var j0 = jobs[0] ? lower(jobs[0].n) : 'cineva din domeniul care te atrage', j1 = jobs[1] ? lower(jobs[1].n) : j0;
+    return [
+      { t: 'Interviu de 20 de minute', d: 'Vorbește cu cineva care lucrează ca ' + j0 + '. Întreabă cum arată o zi obișnuită și ce nu-i place. Ai aflat ceva dacă, după discuție, știi dacă ți-ai dori o asemenea zi.' },
+      { t: 'Întreabă 3 oameni', d: 'Roagă 3 oameni care te cunosc bine să-ți spună la ce te văd bun. Notează ce se repetă.' },
+      { t: 'Un proiect de weekend', d: grow ? 'Exersează „' + grow.n + '” un weekend, cu un rezultat concret la final. Dacă vrei să continui și după, e un semn bun.' : 'Alege o activitate din zona de aur și fă ceva concret cu ea într-un weekend.' },
+      { t: 'O zi de observație', d: 'Urmărește 2–3 ore munca reală a unui ' + j1 + ': un video „o zi din viața”, o zi de voluntariat sau un prieten din domeniu.' },
+      { t: 'Un curs scurt gratuit', d: 'Fă primul modul dintr-un curs gratuit legat de meseria de ' + j0 + '. Ai aflat ceva dacă după o săptămână încă vrei să continui.' }
+    ];
+  }
+
   return {
     RORDER: RORDER, RT: RT, RD: RD, RQ: RQ, RIT: RIT, R_MIN: R_MIN, R_MAX: R_MAX,
     BD: BD, BN: BN, BQ: BQ, BIT: BIT, BTXT: BTXT, LV: LV, B_PER: B_PER,
     CONSTR: CONSTR, EDU_LEVEL: EDU_LEVEL, EDU_LABEL: EDU_LABEL, ENV: ENV, OCC: OCC,
     riasecScores: riasecScores, big5Scores: big5Scores, quadOf: quadOf,
-    occupationFit: occupationFit, careerMatches: careerMatches
+    occupationFit: occupationFit, careerMatches: careerMatches,
+    hexDistance: hexDistance, differentiation: differentiation, consistency: consistency, profileChecks: profileChecks,
+    parseExperiments: parseExperiments, seedExperiments: seedExperiments
   };
 });

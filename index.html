@@ -429,10 +429,47 @@ input[type=text]:focus,textarea:focus{border-color:var(--gold);outline:none;box-
 .egg[open]{padding-bottom:20px}
 .egg .warn{margin-bottom:8px}
 
+/* evidence, checks, experiments, questions */
+.ev{display:inline-block;font-family:var(--f-mono);font-size:.68em;letter-spacing:.01em;line-height:1.5;padding:1px 8px;margin:0 2px;border-radius:999px;background:var(--gold-soft);border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);color:var(--ink-2);vertical-align:.12em;white-space:nowrap}
+.ev-key{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink-2);margin-top:14px}
+.ck{display:grid;grid-template-columns:170px minmax(0,1fr);gap:24px;align-items:center;margin-top:16px}
+.hex{width:100%;max-width:170px;height:auto;display:block;margin-inline:auto}
+.hex text{font-family:var(--f-display);font-weight:600}
+.ck-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.ck-t{display:grid;gap:6px;align-content:start;padding:14px 16px;border-radius:16px;background:var(--panel-2);border:1px solid var(--line)}
+.ck-t>span{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.ck-t b{font-family:var(--f-display);font-weight:600;font-size:18px}
+.ck-t b[data-l="hi"]{color:var(--q1-t)}.ck-t b[data-l="mid"]{color:var(--q3-t)}.ck-t b[data-l="lo"]{color:var(--q2-t)}
+.ck-t p{font-size:14px;color:var(--ink-2)}
+.notes{list-style:none;margin:10px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.notes li{display:grid;gap:4px;padding:12px 14px;border-radius:14px;border:1px dashed var(--line-2)}
+.notes li.qf{border-color:color-mix(in srgb,var(--q2) 55%,transparent);background:var(--q2-bg)}
+.notes b{font-weight:600}
+.notes p{font-size:14px;color:var(--ink-2)}
+.exps{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:12px;counter-reset:ex}
+.exps>li{display:grid;gap:8px;padding:16px 18px;border-radius:18px;border:1px solid var(--line);background:var(--panel-2);counter-increment:ex}
+.exps>li[data-st="yes"]{border-color:color-mix(in srgb,var(--q1) 60%,var(--line))}
+.exps>li[data-st="no"]{border-color:color-mix(in srgb,var(--q2) 50%,var(--line))}
+.ex-h{display:flex;align-items:baseline;gap:12px}
+.ex-h::before{content:counter(ex);display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:50%;font-family:var(--f-mono);font-size:12px;background:var(--panel);border:1px solid var(--line-2)}
+.exps>li[data-st="yes"] .ex-h::before{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}
+.ex-h b{font-weight:600;font-size:16.5px}
+.exps>li>p{font-size:14.5px;color:var(--ink-2)}
+.exps .chips .chip{min-height:40px;padding:7px 14px;font-size:14.5px}
+.exp-foot{display:grid;gap:12px;margin-top:18px}
+.chat{display:grid;gap:12px;margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
+.chat h3{font-size:17px;font-weight:600}
+.qa{display:grid;gap:8px}
+.qa-q{justify-self:end;max-width:85%;padding:10px 14px;border-radius:16px 16px 4px 16px;background:var(--gold-soft);border:1px solid color-mix(in srgb,var(--gold) 40%,transparent);font-weight:500}
+.qa-a{max-width:92%;padding:12px 16px;border-radius:16px 16px 16px 4px;background:var(--panel-2);border:1px solid var(--line);font-size:16px}
+.qa-a p{margin:0 0 8px}.qa-a p:last-child{margin:0}
+.ask{display:flex;gap:10px;align-items:flex-end}
+.ask textarea{min-height:52px;flex:1;min-width:0}
+
 /* print: results only, light colours */
 @media print{
   :root:not(#print){--bg:#fff;--bg-2:#E6EBF1;--panel:#fff;--panel-2:#F5F7FA;--glass:#fff;--ink:#0F1C2E;--ink-2:#3E4D63;--ink-3:#5C6B82;--line:#D3DBE5;--line-2:#B4C0D0;--gold:#E3A41F;--gold-t:#8F5D00;--gold-soft:rgba(227,164,31,.16);--q1-t:#8F5D00;--q2-t:#AE3F28;--q3-t:#2257AA;--q4-t:#5A677D;--shadow:none;color-scheme:light}
-  #topo,.haze,.top,.nav,.btnrow,#actions,.status,#copybox,.demo-note,.egg,.endrow,body::before{display:none!important}
+  #topo,.haze,.top,.nav,.btnrow,#actions,.status,#copybox,.demo-note,.egg,.endrow,.ask,.exps .chips,.exp-foot .add,.exp-foot button,body::before{display:none!important}
   main{padding:0;max-width:none}
   .card{box-shadow:none;break-inside:avoid;padding:18px}
   .r-grid,.quad-grid{grid-template-columns:1fr 1fr}
@@ -489,7 +526,8 @@ input[type=text]:focus,textarea:focus{border-color:var(--gold);outline:none;box-
   .legs{grid-template-columns:repeat(2,minmax(0,1fr))}
   .p6{grid-template-columns:minmax(0,1fr)}
   .p6-side{position:static;order:-1}
-  .r-grid,.quad-grid,.basis,.r-3,.iki,.careers{grid-template-columns:minmax(0,1fr)}
+  .r-grid,.quad-grid,.basis,.r-3,.iki,.careers,.ck,.notes{grid-template-columns:minmax(0,1fr)}
+  .ck-tiles{grid-template-columns:minmax(0,1fr)}
 }
 @media (max-width:640px){
   body{font-size:16px}
@@ -593,7 +631,8 @@ function fresh(){
     styles:[], styleEx:{}, env:Array(ENV.length).fill(null), values:[], valEx:{}, anchors:[],
     sdt:{auto:'',comp:'',conn:''}, stories:['','','',''],
     items:[], iki:{love:'',good:'',need:'',paid:''},
-    zodiac:'', rep:{a:'',b:''}};
+    zodiac:'', rep:{a:'',b:'',c:''},
+    exp:[], expSrc:'', chat:[], time:{}};
 }
 function normalize(o){
   var f=fresh();
@@ -616,7 +655,7 @@ function load(){
     if(raw)return normalize(JSON.parse(raw));
     /* answers saved by the first version: keep the free-text parts, restart the questionnaires */
     var old=localStorage.getItem(OLD_KEY);
-    if(old){var f=normalize(JSON.parse(old));f.phase=f.phase>=0?0:-1;f.rep={a:'',b:''};return f;}
+    if(old){var f=normalize(JSON.parse(old));f.phase=f.phase>=0?0:-1;f.rep={a:'',b:'',c:''};return f;}
     return null;
   }catch(e){return null;}
 }
@@ -668,7 +707,11 @@ function demoState(){
   d.items=[{n:'Programare',s:5,p:4},{n:'Design și desen',s:3,p:6},{n:'Analiză de date',s:5,p:3},{n:'Explicat lucruri altora',s:5,p:5},{n:'Scris',s:4,p:5},{n:'Organizat și planificat',s:4,p:2},{n:'Vorbit în public',s:2,p:4},{n:'Convins sau vândut',s:2,p:1},{n:'Lucru cu mâinile',s:2,p:3}];
   d.iki={love:'Să fac lucruri complicate să pară simple.',good:'Logică, structură și ochi pentru detaliu vizual.',need:'Aplicații pe care le poate folosi oricine, fără manual.',paid:'Design de produs, frontend, UX research.'};
   d.zodiac='Vărsător';
-  d.rep={a:'## 1. Profilul tău în 10 rânduri\nCodul tău Holland **IAS** spune că te atrag problemele de înțeles în profunzime, dar și felul în care arată și se simt soluțiile. Deschiderea foarte ridicată și agreabilitatea mare explică de ce cauți varietate și lucrezi bine cu oamenii, deși extraversiunea mai scăzută arată că te încarci din munca concentrată.\n\nValorile tale de top, **creativitatea** și **autonomia**, se potrivesc cu ancora de **expertiză tehnică**: vrei să devii foarte bun la ceva și să ai libertatea de a decide cum.\n\n## 2. Ce spun cele 4 cadrane\n- **Zona de aur:** programare, explicat lucruri altora, scris. Povestea cu aplicația de orar le leagă pe toate trei.\n- **Potențial de dezvoltare:** design și desen. Pasiunea e maximă, iar nota 3 la abilitate pare să însemne „n-am exersat sistematic”, nu „nu am talent”.\n- **Capcana confortului:** analiza de date. O poți folosi ca mijloc (de exemplu în UX research), nu ca scop.',b:'## 6. Cele 5 mini-experimente\n- **Un redesign de weekend:** alegi o aplicație locală greu de folosit și îi refaci un singur flux. Ai aflat că îți place dacă vrei să continui și duminică seara.\n- **Interviu de 20 de minute** cu un product designer din Cluj. Întreabă ce face concret într-o marți obișnuită.\n- **Întreabă 3 oameni care te cunosc bine** la ce te văd bun. Caută cuvintele care se repetă.\n\n## 7. Planul pe 30 de zile\n1. Săptămâna 1: interviul și cei 3 oameni.\n2. Săptămâna 2: redesignul de weekend.\n3. Săptămâna 3: un curs scurt gratuit de UX writing.\n4. Săptămâna 4: compari notițele și alegi o singură direcție pentru luna următoare.'};
+  d.rep={a:'## 1. Profilul tău în 10 rânduri\nCodul tău Holland **IAS** spune că te atrag problemele de înțeles în profunzime [Holland: Investigativ 45], dar și felul în care arată și se simt soluțiile [Holland: Artistic 41]. Deschiderea foarte ridicată explică de ce cauți varietate [Big Five: Deschidere 94], iar extraversiunea scăzută arată că te încarci din munca concentrată [Big Five: Extraversiune 25].\n\nValorile tale de top, **creativitatea** și **autonomia**, se potrivesc cu ancora de **expertiză tehnică**: vrei să devii foarte bun la ceva și să decizi singur cum [Valori: creativitate] [Ancore: Expertiză tehnică].\n\n## 2. Ce spun cele 4 cadrane\n- **Zona de aur:** programare, explicat lucruri altora, scris. Aplicația de orar le leagă pe toate trei [Povestea 1].\n- **Potențial de dezvoltare:** design și desen. Pasiunea e maximă, iar nota 3 la abilitate pare să însemne „n-am exersat sistematic” [Cadran: Potențial de dezvoltare – Design și desen].\n- **Capcana confortului:** analiza de date. O poți folosi ca mijloc, de exemplu în UX research [Cadran: Capcana confortului – Analiză de date].',b:'## 6. Cele 5 mini-experimente\n- **Un redesign de weekend:** alegi o aplicație locală greu de folosit și îi refaci un singur flux. Ai aflat că îți place dacă vrei să continui și duminică seara [Povestea 2].\n- **Interviu cu un product designer:** 20 de minute cu cineva din Cluj. Întreabă ce face concret într-o marți obișnuită [Context].\n- **Întreabă 3 oameni:** roagă 3 oameni care te cunosc bine să-ți spună la ce te văd bun. Caută cuvintele care se repetă [Povestea 3].\n\n## 7. Planul pe 30 de zile\n1. Săptămâna 1: interviul și cei 3 oameni.\n2. Săptămâna 2: redesignul de weekend.\n3. Săptămâna 3: un curs scurt gratuit de UX writing.\n4. Săptămâna 4: compari notițele și alegi o singură direcție pentru luna următoare.',
+    c:'## 10. Ce am aflat din experimente\n- **Redesignul de weekend** a confirmat direcția: ai continuat și duminică seara, exact semnul pe care îl căutam [Experiment 1].\n- **Interviul** a arătat că product design înseamnă multe ședințe, ceea ce se potrivește mai puțin cu extraversiunea ta scăzută [Experiment 2] [Big Five: Extraversiune 25]. UX research rămâne mai sus în listă.\n\nUrmătorul pas: un studiu mic cu 5 utilizatori pentru aplicația de orar, ca test real de UX research.'};
+  d.exp=C.parseExperiments(d.rep.b).map(function(e,i){return {t:e.t,d:e.d,st:['yes','meh',null][i],note:['Am lucrat 6 ore fără să-mi dau seama. Vreau să continui.','Interesant, dar prea multe ședințe pentru mine.',''][i]};});
+  d.expSrc='report';
+  d.chat=[{q:'De ce nu e programarea pe primul loc, dacă e în zona de aur?',a:'Pentru că zona de aur arată ce faci deja bine și cu plăcere [Cadran: Zona de aur – Programare], dar interesele tale cele mai puternice sunt cercetarea și designul [Holland: Investigativ 45] [Holland: Artistic 41]. Un rol de UX researcher sau front-end păstrează programarea ca unealtă, nu ca scop.'}];
   return d;
 }
 
@@ -678,6 +721,16 @@ function big5Scores(){return C.big5Scores(S.big5);}
 var quadOf=C.quadOf;
 function rated(it){return it.s!=null&&it.p!=null;}
 function careers(n){return C.careerMatches(riasecScores().sc,n,S.ctx);}
+function checks(){return C.profileChecks(S);}
+var LVF={hi:'ridicată',mid:'medie',lo:'scăzută'};
+var EXST=[['yes','Mi-a plăcut'],['meh','Așa și așa'],['no','Nu mi-a plăcut']];
+function expProgress(){return S.exp.some(function(e){return e.st||String(e.note||'').trim();});}
+function ensureExperiments(){
+  if(expProgress())return;
+  var parsed=C.parseExperiments(S.rep.b);
+  if(parsed.length>=3){if(S.expSrc!=='report'||S.exp.length!==parsed.length){S.exp=parsed.map(function(e){return {t:e.t,d:e.d,st:null,note:''};});S.expSrc='report';}}
+  else if(!S.exp.length||S.expSrc==='auto'){S.exp=C.seedExperiments(careers(3),S.items).map(function(e){return {t:e.t,d:e.d,st:null,note:''};});S.expSrc='auto';}
+}
 
 /* ---------- charts ---------- */
 function glyph(deg){
@@ -785,7 +838,9 @@ function quadPlot(items,hot){
 
 /* ---------- markdown (safe) ---------- */
 function inl(s){
-  return esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/(^|[^*])\*(?!\s)([^*]+?)\*(?!\*)/g,'$1<em>$2</em>');
+  return esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/(^|[^*])\*(?!\s)([^*]+?)\*(?!\*)/g,'$1<em>$2</em>')
+    /* [source] tags become evidence pills */
+    .replace(/\[([^\[\]]{2,80})\]/g,'<span class="ev" title="Dovadă din răspunsurile tale">$1</span>');
 }
 function md(t){
   var lines=String(t||'').split('\n'),out='',ul=false,ol=false;
@@ -853,7 +908,7 @@ function hero(){
     '<p class="eyebrow">Test de carieră și autodescoperire</p>'+
     '<h1>'+h1+'</h1>'+
     '<p class="lead">Un interviu ghidat, pas cu pas. La final primești profilul tău, meserii potrivite cu interesele tale și, opțional, un raport scris pentru tine.</p>'+
-    '<div class="facts"><div><b>30–45</b><span>minute</span></div><div><b>8</b><span>etape</span></div><div><b>67</b><span>meserii comparate</span></div></div>'+
+    '<div class="facts"><div><b>30–45</b><span>minute</span></div><div><b>8</b><span>etape</span></div><div><b>'+C.OCC.length+'</b><span>meserii comparate</span></div></div>'+
     '<div class="btnrow"><button type="button" class="primary" data-act="start">'+(started?'Începe din nou':'Începe testul')+ARROW+'</button>'+
     (started?'<button type="button" class="ghost" data-act="resume">Continuă de unde ai rămas</button>':'')+
     '<button type="button" class="linkbtn" data-act="demo">Vezi un profil exemplu</button></div>'+
@@ -1001,6 +1056,59 @@ function zodiacRing(){
   if(si>=0)prevZ=ang;
   return h;
 }
+function hexSVG(code){
+  var pos={},g='<svg class="hex" viewBox="0 0 170 160" role="img" aria-label="Hexagonul Holland, cu tipurile '+code.join(', ')+' evidențiate">';
+  RORDER.forEach(function(t,i){var a=(i*60-30)*Math.PI/180;pos[t]=[85+Math.sin(a)*56,80-Math.cos(a)*56];});
+  g+='<polygon points="'+RORDER.map(function(t){return pos[t].map(f1).join(',');}).join(' ')+'" fill="var(--panel-2)" stroke="var(--line-2)" stroke-width="1.5"/>';
+  g+='<line x1="'+f1(pos[code[0]][0])+'" y1="'+f1(pos[code[0]][1])+'" x2="'+f1(pos[code[1]][0])+'" y2="'+f1(pos[code[1]][1])+'" stroke="var(--gold)" stroke-width="4" stroke-linecap="round"/>';
+  RORDER.forEach(function(t){
+    var on=code.indexOf(t)>-1,p=pos[t];
+    g+='<circle cx="'+f1(p[0])+'" cy="'+f1(p[1])+'" r="14" fill="'+(on?'var(--gold)':'var(--panel)')+'" stroke="'+(on?'var(--gold)':'var(--line-2)')+'" stroke-width="1.5"/>';
+    g+='<text x="'+f1(p[0])+'" y="'+f1(p[1]+5)+'" text-anchor="middle" font-size="14" fill="'+(on?'var(--gold-ink)':'var(--ink-2)')+'">'+t+'</text>';
+  });
+  return g+'</svg>';
+}
+function checksCard(){
+  var k=checks(),rs=riasecScores(),a=k.cons.pair[0],b=k.cons.pair[1];
+  var dTxt={hi:'Codul tău Holland e clar.',mid:'Codul e orientativ: unele tipuri au scoruri apropiate.',lo:'Scorurile sunt apropiate, deci codul e doar orientativ. Contează mai mult poveștile și cadranele.'};
+  var cTxt={hi:'sunt vecine pe hexagonul Holland, deci se completează firesc.',mid:'sunt la o poziție distanță pe hexagon, o combinație obișnuită.',lo:'sunt opuse pe hexagon. E un profil mai rar, care se potrivește de obicei cu roluri hibride.'};
+  var fTxt={hi:'Răspunsurile sunt clare și coerente.',mid:'Rezultatele sunt utile, dar verifică-le prin experimente.',lo:'Ia rezultatele ca pe o primă schiță și refă etapele marcate mai jos.'};
+  var h='<article class="card" id="checks"><p class="eyebrow">Verificări automate</p><h2 class="c-title">Cât de mult te poți baza pe rezultate</h2>'+
+    '<div class="ck"><div>'+hexSVG(rs.code)+'</div><div class="ck-tiles">'+
+    '<div class="ck-t"><span>Diferențiere</span><b data-l="'+k.diff.level+'">'+LVF[k.diff.level]+'</b><p>'+k.diff.value+' puncte între cel mai mare și cel mai mic scor, din '+k.diff.max+'. '+dTxt[k.diff.level]+'</p></div>'+
+    '<div class="ck-t"><span>Consistență</span><b data-l="'+k.cons.level+'">'+LVF[k.cons.level]+'</b><p>'+RT[a]+' și '+RT[b]+' '+cTxt[k.cons.level]+'</p></div>'+
+    '<div class="ck-t"><span>Încredere generală</span><b data-l="'+k.confidence+'">'+LVF[k.confidence]+'</b><p>'+fTxt[k.confidence]+'</p></div>'+
+    '</div></div><h3 style="margin-top:22px;font-size:17px;font-weight:600">Puncte de atenție</h3>';
+  var all=k.quality.map(function(x){return '<li class="qf"><b>'+x.t+'</b><p>'+x.d+'</p></li>';}).concat(k.tensions.map(function(x){return '<li><b>'+x.t+'</b><p>'+x.d+'</p></li>';}));
+  h+=all.length?'<ul class="notes">'+all.join('')+'</ul>':'<p class="note" style="margin-top:8px">Nu am găsit contradicții între răspunsuri.</p>';
+  return h+'</article>';
+}
+function expCard(){
+  var tried=S.exp.filter(function(e){return e.st;}).length;
+  var h='<article class="card" id="exp"><p class="eyebrow">Experimente · următorii pași</p><h2 class="c-title">Testează direcțiile în realitate</h2>'+
+    '<p class="note">'+(S.expSrc==='report'?'Experimentele vin din raportul tău.':'Până ai un raport, pornești de la aceste experimente calculate din profilul tău.')+' Notează după fiecare ce ai aflat. Totul se salvează în browser.</p>'+
+    '<p class="counter" style="margin-top:14px"><span>Încercate: '+tried+' din '+S.exp.length+'</span><span class="bar"><i style="width:'+(S.exp.length?tried/S.exp.length*100:0)+'%"></i></span></p><ol class="exps">';
+  S.exp.forEach(function(e,i){
+    h+='<li data-st="'+(e.st||'')+'"><div class="ex-h"><b>'+esc(e.t)+'</b></div>'+(e.d?'<p>'+esc(e.d)+'</p>':'')+
+      '<div class="chips" role="radiogroup" aria-label="Rezultat: '+esc(e.t)+'">'+EXST.map(function(o){var on=e.st===o[0];return '<button type="button" role="radio" aria-checked="'+on+'" class="chip'+(on?' on':'')+'" data-act="exst" data-i="'+i+'" data-v="'+o[0]+'">'+o[1]+'</button>';}).join('')+'</div>'+
+      (e.st||String(e.note||'').trim()?field('Ce ai aflat?','exp.'+i+'.note',{rows:2}):'')+'</li>';
+  });
+  h+='</ol><div class="exp-foot"><div class="add"><input type="text" id="newExp" maxlength="80" placeholder="Adaugă un experiment al tău" autocomplete="off" aria-label="Experiment nou"><button type="button" class="ghost" data-act="exadd">Adaugă</button></div>';
+  if(HAS_AI)h+='<div class="btnrow"><button type="button" class="primary" data-act="upd"'+(tried&&!running?'':' disabled')+'>Actualizează raportul cu ce ai aflat'+ARROW+'</button></div><p class="status" id="expStatus" aria-live="polite"></p>';
+  else if(tried)h+='<p class="note">Rezultatele experimentelor intră automat în datele și promptul pe care le copiezi din secțiunea de raport.</p>';
+  h+='<div class="prose" id="rep3">'+md(S.rep.c)+'</div></div></article>';
+  return h;
+}
+function chatHtml(){
+  if(!HAS_AI&&!S.chat.length)return '';
+  var h='<div class="chat" id="chat"><h3>Întrebări despre rezultatele tale</h3>';
+  S.chat.forEach(function(c,i){
+    h+='<div class="qa"><p class="qa-q">'+esc(c.q)+'</p><div class="qa-a" id="qa-'+i+'">'+(c.a?md(c.a):'<div class="thinking"><span class="spin" aria-hidden="true"></span>Se gândește…</div>')+'</div></div>';
+  });
+  if(HAS_AI)h+='<div class="ask"><div class="f" style="flex:1;min-width:0"><label for="askq"><span class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Întrebarea ta</span></label><textarea id="askq" rows="2" placeholder="ex. De ce nu e programarea pe primul loc?"></textarea></div><button type="button" class="ghost" data-act="ask"'+(running?' disabled':'')+'>Întreabă</button></div><p class="status" id="chatStatus" aria-live="polite"></p>';
+  return h+'</div>';
+}
+function refreshPart(id,html){var el=$('#'+id);if(el)el.outerHTML=html;}
 function tiesNote(rs){
   if(!rs.ties.length)return '';
   return '<p class="ties">'+rs.ties.map(function(g){
@@ -1008,6 +1116,7 @@ function tiesNote(rs){
   }).join(' · ')+'. Între ele, ordinea din cod e interschimbabilă.</p>';
 }
 function results(){
+  ensureExperiments();
   var rs=riasecScores(),b=big5Scores(),jobs=careers(8);
   var h='<section class="stage wide results"><header class="st-head"><div class="st-leg">'+glyph(360)+'<span class="st-b"><b>N</b> · 360°</span><span class="st-of">Ocolul complet</span></div>'+
     '<h1>Profilul tău</h1><p class="lead">Tot ce vezi mai jos e calculat direct din răspunsurile tale, fără AI. Raportul scris personalizat e la finalul paginii.</p></header><div class="st-body">';
@@ -1015,10 +1124,12 @@ function results(){
   h+='<div class="r-grid"><article class="card glow"><p class="eyebrow">Interese · codul tău Holland</p><div class="code" aria-label="Cod Holland: '+rs.code.join('')+'">'+rs.code.map(function(c){return '<span data-l="'+c+'">'+c+'</span>';}).join('')+'</div>'+
     '<ul class="hl">'+rs.code.map(function(c,i){return '<li><b>0'+(i+1)+'</b><span><strong>'+RT[c]+'</strong>: '+RD[c]+'.</span></li>';}).join('')+'</ul>'+tiesNote(rs)+'</article>'+
     '<article class="card"><p class="eyebrow">Cele 6 tipuri · scor de la '+C.R_MIN+' la '+C.R_MAX+'</p>'+radar(RORDER.map(function(t){return (rs.sc[t]-C.R_MIN)/(C.R_MAX-C.R_MIN);}),RORDER.map(function(t){return RT[t];}),RORDER.map(function(t){return rs.sc[t];}),rs.code)+'</article></div>';
+  h+=checksCard();
   h+='<article class="card" id="careers"><p class="eyebrow">Meserii de explorat · orientativ</p><h2 class="c-title">Unde se potrivesc interesele tale</h2><p class="note">Am comparat scorurile tale cu codul Holland a '+C.OCC.length+' de meserii. Codurile sunt orientative, după cele publicate de O*NET pentru meserii similare. Literele aurii sunt cele din codul tău.</p><div class="careers">';
   jobs.forEach(function(j){
     var tags=[];
     if(j.extraStudy)tags.push('<span class="tag warn-t">Cere de obicei '+esc(j.extraStudy)+'</span>');
+    if(j.reg)tags.push('<span class="tag warn-t">Reglementată: '+esc(j.reg)+'</span>');
     if(j.remote)tags.push('<span class="tag">Se poate și remote</span>');
     h+='<div class="job glow"><div class="job-h"><b>'+esc(j.n)+'</b><span class="job-code" aria-label="Cod '+j.code+'">'+j.code.split('').map(function(l){return '<span class="'+(j.shared.indexOf(l)>-1?'hit':'')+'">'+l+'</span>';}).join('')+'</span></div><p>'+esc(j.d)+'</p>'+
       '<div class="fitbar"><span>potrivire</span><span class="track"><span class="fill" style="width:'+j.fit+'%;--d:400ms;display:block"></span></span><span class="pct">'+j.fit+'%</span></div>'+(tags.length?'<div class="tags">'+tags.join('')+'</div>':'')+'</div>';
@@ -1058,9 +1169,12 @@ function results(){
     (HAS_AI?'<p class="note" style="margin-top:10px">Când apeși butonul, răspunsurile tale sunt trimise către Claude, pe contul tău (consumă din utilizarea ta). La primul apel ți se cere confirmarea. Durează 1 până la 3 minute.</p>'
       :'<p class="note" style="margin-top:10px">Copiază datele și promptul și lipește-le în asistentul AI pe care îl folosești. Promptul conține deja toate instrucțiunile.</p>')+
     '<div class="btnrow" id="actions">'+actionsHtml()+'</div><p class="status" id="status" aria-live="polite"></p><div id="copybox"></div>'+
+    '<p class="ev-key"><span class="ev">Povestea 1</span> Pastilele arată pe ce răspunsuri se sprijină fiecare afirmație.</p>'+
     '<div class="prose" id="rep1">'+md(S.rep.a)+'</div><div class="prose" id="rep2">'+md(S.rep.b)+'</div>'+
+    chatHtml()+
     '<div class="warn" style="margin-top:22px">Acesta e un instrument de reflecție, nu un verdict. Interesele se schimbă: testează în realitate, nu te baza doar pe raport. Pentru decizii mari, vorbește cu un consilier de carieră acreditat.</div>'+
     '</article>';
+  h+=expCard();
   h+='<details class="egg" id="egg"'+(eggOpen?' open':'')+'><summary>Bonus pentru distracție: zodia ta</summary><div class="warn">Astrologia nu are validitate științifică. Dacă alegi o zodie, raportul scris adaugă la final câteva rânduri pentru distracție, separate de concluzii.</div>'+zodiacRing()+'</details>';
   h+='<div class="btnrow endrow"><button type="button" class="ghost" data-act="back">← Înapoi la răspunsuri</button>'+(HAS_AI?'':'<button type="button" class="ghost" data-act="print">Salvează ca PDF</button>')+'<button type="button" class="ghost" data-act="reset">Începe un test nou</button></div></div></section>';
   return h;
@@ -1145,13 +1259,17 @@ function render(top){
   main.classList.remove('anim');
   main.innerHTML=view();
   lastPick=null;lastMove=null;lastAdded=null;
-  if(top){wasBlocked=null;void main.offsetWidth;main.classList.add('anim');}
+  if(top){wasBlocked=null;enteredAt=Date.now();void main.offsetWidth;main.classList.add('anim');}
   renderProgress();
   refreshNav();
   after(top);
   window.scrollTo(0,top?0:y);
 }
-function go(n){S.phase=n;save();render(true);}
+var enteredAt=Date.now();
+function go(n){
+  if(S.phase>=0&&S.phase<8){S.time=S.time||{};S.time[S.phase]=(S.time[S.phase]||0)+(Date.now()-enteredAt);}
+  S.phase=n;save();render(true);
+}
 function after(top){
   if($('#compass'))initCompass();
   if(S.phase===7)updateLive();
@@ -1241,26 +1359,41 @@ function updateBadge(i){
 
 /* ---------- AI report ---------- */
 var ctl=null,running=false;
-var PERSONA='Ești un consilier de carieră și autodescoperire cu experiență, bazat pe psihologie vocațională (Holland/RIASEC, Big Five, Career Anchors, Ikigai, Self-Determination Theory). Ești cald, direct și onest. Nu flatezi: dacă datele sunt contradictorii sau insuficiente, spui asta. Scrii în limba română, la persoana a doua singular, simplu, fără jargon nedefinit. Te bazezi DOAR pe datele de mai jos și nu inventezi fapte despre persoană. Nu pui diagnostice medicale sau psihologice; dacă răspunsurile arată suferință serioasă, recomanzi blând un specialist. Format: markdown simplu, cu titluri „## ”, liste cu „- ” și **bold**; fără tabele.';
+var PERSONA='Ești un consilier de carieră și autodescoperire cu experiență, bazat pe psihologie vocațională (Holland/RIASEC, Big Five, Career Anchors, Ikigai, Self-Determination Theory). Ești cald, direct și onest. Nu flatezi: dacă datele sunt contradictorii sau insuficiente, spui asta. Scrii în limba română, la persoana a doua singular, simplu, fără jargon nedefinit. Te bazezi DOAR pe datele de mai jos și nu inventezi fapte despre persoană. Nu pui diagnostice medicale sau psihologice; dacă răspunsurile arată suferință serioasă, recomanzi blând un specialist. Format: markdown simplu, cu titluri „## ”, liste cu „- ” și **bold**; fără tabele.\nDOVEZI: după fiecare afirmație importantă pune între paranteze drepte sursa din date, folosind una dintre formele: [Povestea 1] … [Povestea 4], [Holland: Investigativ 45], [Big Five: Deschidere 94], [Valori: creativitate], [Ancore: Autonomie], [Cadran: Zona de aur – Programare], [Activitate: Montez filme], [Context], [Mediu de lucru], [Ikigai], [Verificări], [Experiment 1]. Folosește doar dovezi care există în date. Dacă o afirmație nu are dovadă, spune clar că e o presupunere.';
 var INSTR_A='SARCINA (partea 1 din 2). Scrie, în această ordine, exact aceste secțiuni:\n'+
-'## 1. Profilul tău în 10 rânduri\n(cod Holland, Big Five pe scurt, valorile de top, ancora de carieră, stilul și mediul de lucru preferat; conectează-le într-un portret coerent, nu le înșira.)\n'+
+'## 1. Profilul tău în 10 rânduri\n(cod Holland, Big Five pe scurt, valorile de top, ancora de carieră, stilul și mediul de lucru preferat; conectează-le într-un portret coerent, nu le înșira; dacă VERIFICĂRI AUTOMATE arată tensiuni, discută-le pe scurt și spune cum s-ar putea împăca.)\n'+
 '## 2. Ce spun cele 4 cadrane\n(interpretează fiecare cadran cu dovezi din răspunsurile persoanei; la „Potențial de dezvoltare” verifică dacă „nu sunt bun” poate însemna „nu am exersat”; la „Capcana confortului” spune cum poate fi folosit ca mijloc; adaugă o interpretare Ikigai: unde se intersectează ce iubește, la ce e bun, ce are nevoie lumea și pentru ce poate fi plătit.)\n'+
-'## 3. Top 5 direcții de carieră\n(poți porni de la meseriile calculate din codul Holland, dar alege tu, cu argumente; pentru fiecare: de ce se potrivește, legat explicit de date din interviu; cum arată o zi tipică; competențe de acumulat; riscuri și dezavantaje reale; cât de cerută e piața, orientativ și onest, fără cifre inventate și cu mențiunea că nu ai date în timp real.)\n'+
+'## 3. Top 5 direcții de carieră\n(poți porni de la meseriile calculate din codul Holland, dar alege tu, cu argumente; pentru fiecare: de ce se potrivește, legat explicit de date din interviu; cum arată o zi tipică; competențe de acumulat; riscuri și dezavantaje reale; cât de cerută e piața, orientativ și onest, fără cifre inventate și cu mențiunea că nu ai date în timp real; dacă e profesie reglementată în România, spune ce aviz sau atestat cere.)\n'+
 '## 4. 3 direcții neașteptate\n(la care persoana probabil nu s-ar fi gândit, cu motivul.)\n'+
 '## 5. Ce să eviți\n(tipuri de roluri sau medii care probabil o vor epuiza, cu dovezi din răspunsuri.)\n'+
 'Ține cont de constrângerile din context (timp, studii, mobilitate, buget). Lungime țintă: aproximativ 1100 de cuvinte. Nu scrie nimic înainte de „## 1.” și nimic după secțiunea 5.';
 var INSTR_B='SARCINA (partea 2 din 2). Scrie, în această ordine, exact aceste secțiuni:\n'+
-'## 6. Cele 5 mini-experimente\n(fiecare de 1 până la 2 săptămâni, cost mic sau zero, potrivite cu timpul și bugetul persoanei, concrete: un proiect de weekend, un curs scurt gratuit, voluntariat, job shadowing etc. Unul trebuie să fie un interviu de 20 de minute cu un profesionist din domeniu, iar unul să fie „întreabă 3 oameni care te cunosc bine la ce te văd bun”. Pentru fiecare: ce faci, cât durează și criteriul clar „am aflat că îmi place / nu îmi place dacă...”.)\n'+
+'## 6. Cele 5 mini-experimente\n(fiecare de 1 până la 2 săptămâni, cost mic sau zero, potrivite cu timpul și bugetul persoanei, concrete: un proiect de weekend, un curs scurt gratuit, voluntariat, job shadowing etc. Unul trebuie să fie un interviu de 20 de minute cu un profesionist din domeniu, iar unul să fie „întreabă 3 oameni care te cunosc bine la ce te văd bun”. Pentru fiecare: ce faci, cât durează și criteriul clar „am aflat că îmi place / nu îmi place dacă...”. Scrie fiecare experiment ca UN SINGUR element de listă, fără sub-liste, care începe cu **Titlu scurt:** urmat de descriere.)\n'+
 '## 7. Planul pe 30 de zile\n(săptămână cu săptămână, realist față de orele disponibile și constrângerile persoanei.)\n'+
-'## 8. Nivel de încredere\n(pentru fiecare concluzie mare din partea 1 și 2: încredere mare, medie sau mică și ce informație ar crește încrederea.)\n'+
+'## 8. Nivel de încredere\n(pornește de la VERIFICĂRI AUTOMATE: diferențiere, consistență și calitatea răspunsurilor; apoi, pentru fiecare concluzie mare din partea 1 și 2: încredere mare, medie sau mică și ce informație ar crește încrederea.)\n'+
 '## 9. Încheiere\n(3 până la 5 rânduri calde și oneste; menționează că interesele se schimbă și că testarea în realitate bate orice raport.)\n'+
 'Dacă în date există o zodie, adaugă la final „## Bonus pentru distracție”: 3 până la 4 rânduri despre „ce zice astrologia”, clar etichetat ca divertisment fără validitate științifică, fără legătură cu concluziile de mai sus. Dacă nu există zodie, nu scrie secțiunea. Lungime țintă: aproximativ 1000 de cuvinte. Nu repeta partea 1.';
+var INSTR_C='SARCINA (actualizare). Persoana a încercat câteva dintre experimente. Scrie exact această secțiune:\n'+
+'## 10. Ce am aflat din experimente\n(ce confirmă și ce infirmă fiecare rezultat, cu dovezi de forma [Experiment 1]; cum se schimbă ordinea direcțiilor de carieră; următoarele 2-3 experimente, la fel de concrete; încheie cu o propoziție despre ce merită decis acum.)\n'+
+'Lungime țintă: 400-500 de cuvinte. Nu repeta raportul.';
+function expBlock(){
+  var lab={yes:'mi-a plăcut',meh:'așa și așa',no:'nu mi-a plăcut'};
+  return S.exp.map(function(e,i){return 'Experiment '+(i+1)+' ('+e.t+'): '+(e.st?lab[e.st]:'încă neîncercat')+(String(e.note||'').trim()?' — notițe: '+e.note.trim():'');}).join('\n');
+}
+function activities(v){
+  var list=RIT.filter(function(_,i){return S.riasec[i]===v;}).map(function(it){return it.text;});
+  return list.length?list.slice(0,12).join('; ')+(list.length>12?' și încă '+(list.length-12):''):'niciuna';
+}
 function optText(k){var c=CONSTR.filter(function(x){return x.k===k;})[0],v=S.ctx[k];return v==null?'nespecificat':c.o[v];}
 function dataBlock(){
   var c=S.ctx,rs=riasecScores(),b=big5Scores(),L=[];
   L.push('CONTEXT: vârstă '+c.age+'; ocupație/studii: '+c.job+'; studii: '+optText('edu')+'; timp disponibil: '+optText('hours')+' pe săptămână; mobilitate: '+optText('mobility')+'; buget pentru cursuri: '+optText('budget')+'; alte detalii: '+(c.life||'nespecificat')+'; ce l-a adus aici: '+c.why+'; ce vrea să se schimbe în 1-2 ani: '+(c.change||'nespecificat'));
   L.push('HOLLAND (O*NET Interest Profiler, scor '+C.R_MIN+'-'+C.R_MAX+' pe tip): '+RORDER.map(function(t){return t+' '+RT[t]+' '+rs.sc[t];}).join(', ')+'. Cod: '+rs.code.join('')+(rs.ties.length?' (există scoruri egale: '+rs.ties.map(function(g){return g.join('=');}).join(', ')+')':''));
-  L.push('MESERII CALCULATE DIN COD (potrivire orientativă): '+careers(8).map(function(j){return j.n+' '+j.code+' '+j.fit+'%';}).join('; '));
+  L.push('ACTIVITĂȚI NOTATE CU 5 (i-ar plăcea foarte mult): '+activities(5));
+  L.push('ACTIVITĂȚI NOTATE CU 1 (nu i-ar plăcea deloc): '+activities(1));
+  L.push('MESERII CALCULATE DIN COD (potrivire orientativă): '+careers(8).map(function(j){return j.n+' '+j.code+' '+j.fit+'%'+(j.reg?' (profesie reglementată: '+j.reg+')':'')+(j.extraStudy?' (cere de obicei '+j.extraStudy+')':'');}).join('; '));
+  var k=checks();
+  L.push('VERIFICĂRI AUTOMATE: diferențiere Holland '+k.diff.value+' din '+k.diff.max+' ('+LVF[k.diff.level]+'); consistență '+k.cons.pair.join('-')+' ('+LVF[k.cons.level]+'); încredere generală '+LVF[k.confidence]+'; tensiuni: '+(k.tensions.length?k.tensions.map(function(x){return x.t+' — '+x.d;}).join(' | '):'niciuna')+'; calitatea răspunsurilor: '+(k.quality.length?k.quality.map(function(x){return x.t+' — '+x.d;}).join(' | '):'fără probleme'));
   L.push('BIG FIVE (Mini-IPIP, 0-100): '+BD.map(function(d){return BN[d]+' '+b[d].pct+' ('+LV[b[d].lvl]+')';}).join(', '));
   L.push('MEDIU DE LUCRU (1 = prima variantă, 5 = a doua): '+ENV.map(function(e,i){return e.a+' vs '+e.b+': '+(S.env[i]||'-');}).join('; '));
   L.push('STILURI PREFERATE (inteligențe multiple, model popular, slab validat): '+S.styles.map(function(s){return s+(S.styleEx[s]&&S.styleEx[s].trim()?' — exemplu: '+S.styleEx[s].trim():'');}).join(' | '));
@@ -1275,7 +1408,16 @@ function dataBlock(){
 }
 function promptA(){return PERSONA+'\n\nDATELE PERSOANEI\n'+dataBlock()+'\n\n'+INSTR_A;}
 function promptB(){return PERSONA+'\n\nDATELE PERSOANEI\n'+dataBlock()+'\n\nPARTEA 1 (deja scrisă; nu o repeta, dar păstrează coerența cu ea):\n'+S.rep.a+'\n\n'+INSTR_B;}
-function fullPrompt(){return PERSONA+'\n\nDATELE PERSOANEI\n'+dataBlock()+'\n\n'+INSTR_A+'\n\nDupă aceea, continuă fără pauză cu:\n\n'+INSTR_B.replace('Nu repeta partea 1.','');}
+function promptC(){return PERSONA+'\n\nDATELE PERSOANEI\n'+dataBlock()+'\n\nRAPORTUL ANTERIOR:\n'+S.rep.a+'\n\n'+S.rep.b+'\n\nREZULTATELE EXPERIMENTELOR:\n'+expBlock()+'\n\n'+INSTR_C;}
+function promptQ(q){
+  var prev=S.chat.slice(0,-1).slice(-3).map(function(c){return 'Întrebare: '+c.q+'\nRăspuns: '+c.a;}).join('\n\n');
+  return PERSONA+'\n\nDATELE PERSOANEI\n'+dataBlock()+'\n\nRAPORTUL:\n'+(S.rep.a||'(nu a fost generat)')+'\n\n'+S.rep.b+'\n\n'+S.rep.c+(expProgress()?'\n\nREZULTATELE EXPERIMENTELOR:\n'+expBlock():'')+(prev?'\n\nCONVERSAȚIA DE PÂNĂ ACUM:\n'+prev:'')+
+    '\n\nÎNTREBAREA PERSOANEI: '+q+'\n\nRăspunde direct la întrebare, în cel mult 200 de cuvinte, folosind doar datele și raportul, cu dovezi între paranteze drepte. Fără titluri. Dacă întrebarea nu ține de carieră sau de profilul persoanei, spune politicos că poți ajuta doar cu asta.';
+}
+function fullPrompt(){
+  return PERSONA+'\n\nDATELE PERSOANEI\n'+dataBlock()+'\n\n'+INSTR_A+'\n\nDupă aceea, continuă fără pauză cu:\n\n'+INSTR_B.replace('Nu repeta partea 1.','')+
+    (expProgress()?'\n\nREZULTATELE EXPERIMENTELOR:\n'+expBlock()+'\n\nLa final, adaugă și:\n\n'+INSTR_C.replace('Nu repeta raportul.',''):'');
+}
 
 function actionsHtml(){
   if(running)return '<button type="button" class="ghost" data-act="stop">■ Oprește</button>';
@@ -1308,7 +1450,7 @@ function copyText(text,okMsg){
     }else{fallback();}
   }catch(e){fallback();}
 }
-function setStatus(t,err){var s=$('#status');if(s){s.textContent=t||'';s.className='status'+(err?' err':'');}}
+function setStatus(t,err,sel){var s=$(sel||'#status');if(s){s.textContent=t||'';s.className='status'+(err?' err':'');}}
 function refreshActions(){var a=$('#actions');if(a)a.innerHTML=actionsHtml();}
 function errCopy(code){
   if(code==='rate_limited')return 'Prea multe cereri sau ai atins limita de utilizare. Încearcă din nou mai târziu.';
@@ -1322,39 +1464,69 @@ async function getApi(name){
   try{return window.claude&&window.claude.use?await window.claude.use(name):null;}catch(e){return null;}
 }
 async function runPart(n,sample){
-  var el=$('#rep'+n);
+  var el=$('#rep'+n),key=['','a','b','c'][n];
   ctl=new AbortController();
-  setStatus('Partea '+n+' din 2: Claude scrie raportul. Poate dura până la 1-2 minute.');
+  setStatus(n===3?'Claude actualizează raportul cu rezultatele experimentelor.':'Partea '+n+' din 2: Claude scrie raportul. Poate dura până la 1-2 minute.',false,n===3?'#expStatus':'#status');
   if(el){el.innerHTML='<div class="thinking"><span class="spin" aria-hidden="true"></span>Se gândește…</div>';el.classList.add('streaming');}
   try{
-    var res=await sample(n===1?promptA():promptB(),{
+    var res=await sample([null,promptA,promptB,promptC][n](),{
       signal:ctl.signal,cache:false,
       onText:function(u){var e=$('#rep'+n);if(e)e.innerHTML=md(u.text);}
     });
-    S.rep[n===1?'a':'b']=res.text;save();
+    S.rep[key]=res.text;save();
     var e2=$('#rep'+n);
     if(e2)e2.innerHTML=md(res.text)+(res.truncated?'<p class="muted">Textul a fost tăiat din cauza lungimii. Apasă „Regenerează raportul” ca să-l reiei.</p>':'');
   }finally{var e3=$('#rep'+n);if(e3)e3.classList.remove('streaming');}
 }
+function setBusy(){
+  refreshActions();
+  Array.prototype.forEach.call(document.querySelectorAll('[data-act="upd"],[data-act="ask"]'),function(b){b.disabled=running||(b.dataset.act==='upd'&&!S.exp.some(function(e){return e.st;}));});
+}
 async function generate(which){
   if(running)return;
-  running=true;refreshActions();setStatus('Pregătesc cererea…');
+  var sel=which==='c'?'#expStatus':'#status';
+  running=true;setBusy();setStatus('Pregătesc cererea…',false,sel);
   var sample=await getApi('sample');
-  if(!sample){running=false;refreshActions();setStatus(errCopy('sampling_disabled'),true);return;}
+  if(!sample){running=false;setBusy();setStatus(errCopy('sampling_disabled'),true,sel);return;}
   try{
-    if(which==='all'){S.rep={a:'',b:''};var r2=$('#rep2');if(r2)r2.innerHTML='';}
+    if(which==='all'){S.rep.a='';S.rep.b='';var r2=$('#rep2');if(r2)r2.innerHTML='';}
     if(which==='all'||which==='a')await runPart(1,sample);
-    if(which==='all'||which==='b')await runPart(2,sample);
-    setStatus('Gata. Poți descărca raportul sau regenera o versiune nouă.');
+    if(which==='all'||which==='b'){
+      await runPart(2,sample);
+      if(!expProgress()){ensureExperiments();save();refreshPart('exp',expCard());}
+    }
+    if(which==='c')await runPart(3,sample);
+    setStatus(which==='c'?'Gata. Raportul are acum secțiunea „Ce am aflat din experimente”.':'Gata. Poți descărca raportul sau regenera o versiune nouă.',false,sel);
   }catch(e){
     var code=e&&e.code;
-    if(code==='cancelled'){setStatus('Oprit. Ce a apucat să fie scris rămâne pe ecran.');}
+    if(code==='cancelled'){setStatus('Oprit. Ce a apucat să fie scris rămâne pe ecran.',false,sel);}
     else{
-      setStatus(errCopy(code),true);
-      var el=$('#rep'+(S.rep.a&&which!=='a'?2:1));
+      setStatus(errCopy(code),true,sel);
+      var el=$('#rep'+(which==='c'?3:(S.rep.a&&which!=='a'?2:1)));
       if(e&&e.text&&el)el.innerHTML=md(e.text);
     }
-  }finally{running=false;ctl=null;refreshActions();}
+  }finally{running=false;ctl=null;setBusy();}
+}
+async function ask(){
+  var ta=$('#askq'),q=ta?ta.value.trim():'';
+  if(!q||running)return;
+  running=true;setBusy();
+  var sample=await getApi('sample');
+  if(!sample){running=false;setBusy();setStatus(errCopy('sampling_disabled'),true,'#chatStatus');return;}
+  S.chat.push({q:q,a:''});
+  var i=S.chat.length-1;
+  refreshPart('chat',chatHtml());
+  ctl=new AbortController();
+  try{
+    var res=await sample(promptQ(q),{signal:ctl.signal,cache:false,onText:function(u){var e=$('#qa-'+i);if(e)e.innerHTML=md(u.text);}});
+    S.chat[i].a=res.text;save();
+  }catch(e){
+    if(e&&e.text)S.chat[i].a=e.text;else S.chat.splice(i,1);
+    save();refreshPart('chat',chatHtml());
+    setStatus(e&&e.code==='cancelled'?'Oprit.':errCopy(e&&e.code),!(e&&e.code==='cancelled'),'#chatStatus');
+    return;
+  }finally{running=false;ctl=null;setBusy();}
+  refreshPart('chat',chatHtml());
 }
 function blobDownload(name,data){
   var url=URL.createObjectURL(new Blob([data],{type:'text/plain;charset=utf-8'}));
@@ -1384,8 +1556,13 @@ function reportMd(){
     var its=S.items.filter(function(i){return quadOf(i)===q;});
     t+='**'+QN[q].t+'** ('+QN[q].s+'): '+(its.length?its.map(function(i){return i.n;}).join(', '):'-')+'\n\n';
   });
+  var k=checks();
+  t+='## Verificări automate\n\n- Diferențiere: '+LVF[k.diff.level]+' ('+k.diff.value+' din '+k.diff.max+')\n- Consistență: '+LVF[k.cons.level]+' ('+k.cons.pair.join('-')+')\n- Încredere generală: '+LVF[k.confidence]+'\n'+k.quality.concat(k.tensions).map(function(x){return '- '+x.t+': '+x.d;}).join('\n')+'\n\n';
+  if(S.exp.length)t+='## Experimente\n\n'+expBlock().split('\n').map(function(l){return '- '+l;}).join('\n')+'\n\n';
   if(S.rep.a)t+='\n'+S.rep.a+'\n';
   if(S.rep.b)t+='\n'+S.rep.b+'\n';
+  if(S.rep.c)t+='\n'+S.rep.c+'\n';
+  if(S.chat.length)t+='\n## Întrebări și răspunsuri\n\n'+S.chat.map(function(c){return '**'+c.q+'**\n\n'+c.a;}).join('\n\n')+'\n';
   return t;
 }
 
@@ -1396,6 +1573,8 @@ main.addEventListener('input',function(e){
 });
 main.addEventListener('keydown',function(e){
   if(e.key==='Enter'&&e.target&&e.target.id==='newItem'){e.preventDefault();addItem(e.target.value);}
+  if(e.key==='Enter'&&e.target&&e.target.id==='newExp'){e.preventDefault();var b=main.querySelector('[data-act="exadd"]');if(b)b.click();}
+  if(e.key==='Enter'&&!e.shiftKey&&e.target&&e.target.id==='askq'){e.preventDefault();ask();}
 });
 main.addEventListener('toggle',function(e){if(e.target&&e.target.id==='egg')eggOpen=e.target.open;},true);
 function addItem(v){
@@ -1468,6 +1647,20 @@ main.addEventListener('click',function(e){
     return;
   }
   if(a==='zod'){S.zodiac=S.zodiac===d.v?'':d.v;lastPick='z'+S.zodiac;save();render(false);return;}
+  if(a==='exst'){
+    var ei=+d.i;S.exp[ei].st=S.exp[ei].st===d.v?null:d.v;save();refreshPart('exp',expCard());
+    var eb=main.querySelector('[data-act="exst"][data-i="'+ei+'"][data-v="'+d.v+'"]');if(eb)eb.focus({preventScroll:true});
+    return;
+  }
+  if(a==='exadd'){
+    var ne=$('#newExp'),nt=ne?ne.value.trim():'';
+    if(!nt)return;
+    S.exp.push({t:nt,d:'',st:null,note:''});save();refreshPart('exp',expCard());
+    var ne2=$('#newExp');if(ne2)ne2.focus({preventScroll:true});
+    return;
+  }
+  if(a==='upd'){generate('c');return;}
+  if(a==='ask'){ask();return;}
   if(a==='gen'){generate('all');return;}
   if(a==='genb'){generate('b');return;}
   if(a==='stop'){if(ctl)ctl.abort();return;}
