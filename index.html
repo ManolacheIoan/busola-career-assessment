@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Busola</title>
+<meta name="description" content="Busola: un test ghidat de carieră și autodescoperire, în 8 etape, cu profil calculat și raport scris personalizat.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Onest:wght@400;500;600;700&family=Martian+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a navigation chart. One central column over a live topographic relief; the 8 steps are the 8 compass points (N → NW), and the results close the circle at 360°. */
+:root{
+  --bg:#EAEFF4; --bg-2:#DCE4ED; --panel:#FFFFFF; --panel-2:#F3F6FA; --glass:rgba(234,239,244,.8);
+  --ink:#0F1C2E; --ink-2:#46566D; --ink-3:#7C8AA0; --line:#D3DBE5; --line-2:#B4C0D0;
+  --gold:#E3A41F; --gold-ink:#1B1404; --gold-t:#8F5D00; --gold-soft:rgba(227,164,31,.16); --gold-glow:rgba(227,164,31,.45);
+  --q1:#E3A41F; --q2:#D4573C; --q3:#2F6FD0; --q4:#8592A6;
+  --q1-t:#8F5D00; --q2-t:#AE3F28; --q3-t:#2257AA; --q4-t:#5A677D;
+  --q1-bg:rgba(227,164,31,.17); --q2-bg:rgba(212,87,60,.12); --q3-bg:rgba(47,111,208,.12); --q4-bg:rgba(133,146,166,.15);
+  --topo:rgba(15,28,46,.08); --topo-i:rgba(15,28,46,.17);
+  --shadow:0 1px 2px rgba(15,28,46,.05),0 18px 40px -22px rgba(15,28,46,.32);
+  --danger:#B42318;
+  --f-display:'Unbounded','Onest',system-ui,sans-serif;
+  --f-body:'Onest',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --f-mono:'Martian Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.2,.8,.2,1); --spring:cubic-bezier(.34,1.56,.64,1);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#07101D; --bg-2:#0D1A2C; --panel:#0E1B2F; --panel-2:#13233A; --glass:rgba(7,16,29,.78);
+    --ink:#E8EEF7; --ink-2:#A3B1C7; --ink-3:#6C7C95; --line:#1D2E46; --line-2:#2D4363;
+    --gold:#F3B63F; --gold-ink:#1B1404; --gold-t:#F3B63F; --gold-soft:rgba(243,182,63,.13); --gold-glow:rgba(243,182,63,.4);
+    --q1:#F3B63F; --q2:#F07B5F; --q3:#6EA4FF; --q4:#8E9CB4;
+    --q1-t:#F3B63F; --q2-t:#F59680; --q3-t:#8DB7FF; --q4-t:#A5B1C6;
+    --q1-bg:rgba(243,182,63,.14); --q2-bg:rgba(240,123,95,.13); --q3-bg:rgba(110,164,255,.13); --q4-bg:rgba(142,156,180,.12);
+    --topo:rgba(150,180,225,.075); --topo-i:rgba(243,182,63,.17);
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 22px 48px -24px rgba(0,0,0,.7);
+    --danger:#F97066;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#07101D; --bg-2:#0D1A2C; --panel:#0E1B2F; --panel-2:#13233A; --glass:rgba(7,16,29,.78);
+  --ink:#E8EEF7; --ink-2:#A3B1C7; --ink-3:#6C7C95; --line:#1D2E46; --line-2:#2D4363;
+  --gold:#F3B63F; --gold-ink:#1B1404; --gold-t:#F3B63F; --gold-soft:rgba(243,182,63,.13); --gold-glow:rgba(243,182,63,.4);
+  --q1:#F3B63F; --q2:#F07B5F; --q3:#6EA4FF; --q4:#8E9CB4;
+  --q1-t:#F3B63F; --q2-t:#F59680; --q3-t:#8DB7FF; --q4-t:#A5B1C6;
+  --q1-bg:rgba(243,182,63,.14); --q2-bg:rgba(240,123,95,.13); --q3-bg:rgba(110,164,255,.13); --q4-bg:rgba(142,156,180,.12);
+  --topo:rgba(150,180,225,.075); --topo-i:rgba(243,182,63,.17);
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 22px 48px -24px rgba(0,0,0,.7);
+  --danger:#F97066;
+  color-scheme:dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 110px);-webkit-text-size-adjust:100%}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none!important}
+img,svg{max-width:100%}
+body{margin:0;font-family:var(--f-body);font-size:17px;line-height:1.55;color:var(--ink);background:var(--bg);overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--glass)}
+h1,h2,h3{margin:0;text-wrap:balance}
+h1,h2{font-family:var(--f-display);font-weight:600;letter-spacing:-.03em;line-height:1.08}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2.5px solid var(--gold);outline-offset:3px;border-radius:6px}
+::selection{background:var(--gold);color:var(--gold-ink)}
+.mono{font-family:var(--f-mono);font-size:.78em;letter-spacing:.02em}
+
+/* atmosphere */
+#topo{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.haze{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(55% 45% at 88% -5%,var(--gold-soft),transparent 70%),radial-gradient(45% 40% at 0% 100%,var(--q3-bg),transparent 70%)}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:var(--glass);-webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5);border-bottom:1px solid var(--line)}
+.top-in{max-width:1180px;margin:0 auto;padding-block:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;align-items:center;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;border:0;background:none;padding:4px 2px;font-family:var(--f-display);font-weight:600;font-size:18px;letter-spacing:-.02em;flex:none}
+.brand .glyph{width:32px;height:32px;color:var(--ink)}
+.brand .gn{transition:transform 1.1s var(--spring)}
+.route{flex:1;min-width:0;display:grid;gap:7px}
+.route-l{position:relative;list-style:none;margin:0;padding:0;display:flex;justify-content:space-between;align-items:center;height:16px}
+.route-l::before{content:"";position:absolute;left:6px;right:6px;top:7px;height:2px;background:var(--line);border-radius:2px}
+.route-fill{position:absolute;left:6px;top:7px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--gold-soft),var(--gold));width:calc((100% - 12px) * var(--p,0));transition:width .9s var(--ease)}
+.route-l li{position:relative;z-index:1;display:block}
+.route-l button{display:block;width:14px;height:14px;border-radius:50%;border:2px solid var(--line-2);background:var(--bg);padding:0;transition:transform .3s var(--spring),background .3s,border-color .3s}
+.route-l button:disabled{cursor:default}
+.route-l li.done button{background:var(--gold);border-color:var(--gold)}
+.route-l li.done button:hover{transform:scale(1.35)}
+.route-l li.cur button{border-color:var(--gold);background:var(--panel);box-shadow:0 0 0 0 var(--gold-glow);animation:beacon 2.2s infinite}
+.route-l button::after{content:attr(data-tip);position:absolute;top:24px;left:50%;transform:translate(-50%,-4px);background:var(--ink);color:var(--bg);font-family:var(--f-mono);font-size:10.5px;padding:5px 9px;border-radius:7px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.route-l li:first-child button::after{left:0;transform:translate(0,-4px)}
+.route-l li:last-child button::after{left:auto;right:0;transform:translate(0,-4px)}
+.route-l button:hover::after,.route-l button:focus-visible::after{opacity:1;transform:translate(-50%,0)}
+.route-l li:first-child button:hover::after,.route-l li:last-child button:hover::after{transform:translate(0,0)}
+.route-meta{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--ink-2);white-space:nowrap;min-width:0}
+.route-meta span{overflow:hidden;text-overflow:ellipsis}
+.route-meta b{color:var(--ink);font-weight:600}
+.top-r{display:flex;align-items:center;gap:10px;flex:none;margin-left:auto}
+.demo-pill{display:inline-flex;align-items:center;gap:8px;border:1px dashed var(--gold);color:var(--gold-t);background:var(--gold-soft);border-radius:999px;padding:6px 12px;font-family:var(--f-mono);font-size:11px;letter-spacing:.04em}
+.demo-pill:hover{background:var(--gold);color:var(--gold-ink)}
+.theme{width:40px;height:40px;border-radius:50%;border:1px solid var(--line-2);background:var(--panel);display:grid;place-items:center;transition:transform .5s var(--spring),border-color .2s}
+.theme:hover{transform:rotate(25deg);border-color:var(--gold)}
+.theme svg{width:18px;height:18px}
+.theme .moon{display:none}
+:root[data-theme="dark"] .theme .sun{display:none}
+:root[data-theme="dark"] .theme .moon{display:block}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .theme .sun{display:none}:root:not([data-theme="light"]) .theme .moon{display:block}}
+
+/* page */
+main{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding-block:44px 120px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.stage{max-width:820px;margin-inline:auto}
+.stage.wide{max-width:1180px}
+.st-head{margin-bottom:36px;display:grid;gap:16px}
+.st-leg{display:flex;align-items:center;gap:14px;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.st-leg .glyph{width:46px;height:46px;color:var(--ink)}
+.st-b b{color:var(--gold-t);font-weight:500}
+.st-of::before{content:"";display:inline-block;width:22px;height:1px;background:var(--line-2);vertical-align:middle;margin-right:14px}
+.stage h1{font-size:clamp(30px,5.4vw,52px);letter-spacing:-.04em}
+.lead{font-size:18.5px;color:var(--ink-2);max-width:60ch}
+.st-body{display:grid;gap:20px}
+.st-body h2{font-size:clamp(20px,3vw,25px);margin-top:30px}
+.st-body h3{font-size:17px;font-weight:600;margin-top:14px}
+.note{font-size:15px;color:var(--ink-2);max-width:66ch}
+.eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px var(--gold-soft)}
+
+/* compass glyph */
+.glyph{display:block;flex:none;overflow:visible}
+.gn{transform-origin:20px 20px;transform:rotate(var(--b,0deg))}
+
+/* buttons */
+.btnrow{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.primary{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:12px;background:var(--gold);color:var(--gold-ink);border:0;border-radius:14px;padding:14px 22px 14px 24px;font-weight:600;font-size:16.5px;min-height:52px;box-shadow:0 10px 28px -14px var(--gold-glow);transition:transform .3s var(--spring),box-shadow .3s,background .3s,color .3s}
+.primary::before{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.45) 48%,transparent 66%);transform:translateX(-120%);transition:transform .8s var(--ease)}
+.primary:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 16px 34px -14px var(--gold-glow)}
+.primary:hover:not(:disabled)::before{transform:translateX(120%)}
+.primary .arr{transition:transform .3s var(--spring)}
+.primary:hover:not(:disabled) .arr{transform:translateX(4px)}
+.primary:disabled{background:var(--bg-2);color:var(--ink-3);box-shadow:none;cursor:not-allowed}
+.primary.ready{animation:ready .9s var(--spring)}
+.ghost{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:1.5px solid var(--line-2);border-radius:14px;padding:12px 18px;font-weight:600;min-height:48px;color:var(--ink);transition:border-color .2s,transform .3s var(--spring)}
+.ghost:hover{border-color:var(--gold);transform:translateY(-1px)}
+.linkbtn{background:none;border:0;padding:6px 0;color:var(--gold-t);text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:4px;font-weight:600}
+.linkbtn:hover{text-decoration-color:var(--gold)}
+
+/* step navigation */
+.nav{position:sticky;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:4;margin-top:36px;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px;border:1px solid var(--line);border-radius:20px;background:var(--glass);-webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5);box-shadow:var(--shadow);flex-wrap:wrap}
+.nav-r{display:flex;align-items:center;gap:14px;flex:1;justify-content:flex-end;min-width:0}
+.hint{font-size:14px;color:var(--ink-2);text-align:right;min-width:0}
+
+/* form */
+.fields{display:grid;gap:22px}
+.row2{display:grid;grid-template-columns:170px minmax(0,1fr);gap:16px}
+.f{display:grid;gap:8px}
+.f>span{font-weight:600;font-size:16px}
+.f small{display:block;color:var(--ink-2);font-size:14px;font-weight:400;margin-top:-4px}
+input[type=text],textarea{width:100%;font:inherit;font-size:16.5px;color:var(--ink);background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:13px 16px;line-height:1.5;transition:border-color .2s,box-shadow .25s,background .2s}
+input[type=text]::placeholder,textarea::placeholder{color:var(--ink-3)}
+input[type=text]:hover,textarea:hover{border-color:var(--line-2)}
+textarea{resize:vertical;min-height:92px}
+input[type=text]:focus,textarea:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 4px var(--gold-soft)}
+
+/* rating scales */
+.legend-box{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;padding:14px 18px;border:1px dashed var(--line-2);border-radius:16px;color:var(--ink-2);font-size:15px}
+.legend-box b{color:var(--ink)}
+.counter{display:flex;align-items:center;gap:14px;font-family:var(--f-mono);font-size:12px;color:var(--ink-2);letter-spacing:.02em}
+.counter .bar{flex:1;max-width:240px;height:4px;background:var(--line);border-radius:4px;overflow:hidden}
+.counter .bar i{display:block;height:100%;width:0;background:var(--gold);border-radius:4px;transition:width .6s var(--ease)}
+.qs-list{display:grid;gap:12px}
+.q{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px 20px 14px;transition:border-color .35s,box-shadow .35s}
+.q.ok{border-color:color-mix(in srgb,var(--gold) 45%,var(--line))}
+.q-top{display:flex;gap:14px;align-items:baseline;margin-bottom:12px}
+.q-n{position:relative;font-family:var(--f-mono);font-size:11.5px;color:var(--ink-3);min-width:46px;font-variant-numeric:tabular-nums;transition:color .3s}
+.q.ok .q-n{color:var(--gold-t)}
+.q-text{font-weight:500;font-size:17.5px;flex:1;min-width:0}
+.lk{--p:0;position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));align-items:center;height:52px}
+.lk::before,.lk::after{content:"";position:absolute;top:50%;height:2px;margin-top:-1px;left:calc(100% / (2 * var(--n)));border-radius:2px}
+.lk::before{right:calc(100% / (2 * var(--n)));background:var(--line)}
+.lk::after{width:calc((100% - 100% / var(--n)) * var(--p));background:var(--gold);transition:width .5s var(--ease)}
+.lk button{position:relative;z-index:1;justify-self:center;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line-2);background:var(--panel);padding:0;font-family:var(--f-mono);font-size:13px;font-weight:500;color:var(--ink-2);transition:transform .4s var(--spring),background .25s,border-color .25s,color .25s,box-shadow .3s}
+.lk button:hover{border-color:var(--gold);color:var(--ink);transform:scale(1.1)}
+.lk button.lit{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 16%,var(--panel));color:var(--ink)}
+.lk button.on{background:var(--gold);border-color:var(--gold);color:var(--gold-ink);transform:scale(1.16);box-shadow:0 0 0 6px var(--gold-soft)}
+.lk button.ring::after{content:"";position:absolute;inset:-2px;border-radius:50%;border:2px solid var(--gold);animation:ring .7s var(--ease) forwards;pointer-events:none}
+.lk-ends{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;color:var(--ink-3);margin-top:4px}
+
+/* choices */
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.opt{position:relative;display:block;width:100%;text-align:left;border:1.5px solid var(--line);background-color:var(--panel);border-radius:20px;padding:18px 54px 18px 20px;transition:border-color .25s,transform .35s var(--spring),box-shadow .35s,background-color .25s}
+.opt strong{display:block;font-weight:600;font-size:16.5px;margin-bottom:3px}
+.opt span{font-size:14.5px;color:var(--ink-2);display:block}
+.opt::after{content:"";position:absolute;top:18px;right:18px;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line-2);transition:background-color .25s,border-color .25s,transform .4s var(--spring)}
+.opt:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.opt.on{border-color:var(--gold);background-color:color-mix(in srgb,var(--gold) 9%,var(--panel));box-shadow:0 14px 30px -20px var(--gold-glow)}
+.opt.on::after{border-color:var(--gold);background:var(--gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%231B1404' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat}
+.opt.just::after,.chip.just,.zb.just{animation:pop .5s var(--spring)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:var(--panel);border-radius:999px;padding:9px 16px;min-height:44px;font-weight:500;transition:border-color .2s,background .25s,color .25s,transform .35s var(--spring)}
+.chip:hover{border-color:var(--gold);transform:translateY(-1px)}
+.chip.on{background:var(--gold);border-color:var(--gold);color:var(--gold-ink);font-weight:600}
+.chip .rb{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--gold-ink);color:var(--gold);font-family:var(--f-mono);font-size:10.5px}
+.chip.sug{border-style:dashed;color:var(--ink-2)}
+.chip.sug::before{content:"+";font-weight:600;color:var(--gold-t)}
+.rank{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.rank li{display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:8px 8px 8px 18px}
+.rank li:first-child{border-color:var(--gold)}
+.rank li.from-below{animation:fromBelow .45s var(--ease)}
+.rank li.from-above{animation:fromAbove .45s var(--ease)}
+.rk{font-family:var(--f-display);font-weight:600;font-size:20px;width:26px;color:var(--gold-t)}
+.rv{flex:1;font-weight:600;min-width:0}
+.mv{display:flex;gap:6px}
+.mv button{width:42px;height:42px;border:1.5px solid var(--line);background:var(--panel-2);border-radius:12px;display:grid;place-items:center;padding:0;transition:border-color .2s}
+.mv button:hover:not(:disabled){border-color:var(--gold)}
+.mv button:disabled{opacity:.3;cursor:not-allowed}
+
+/* quadrants */
+.p6{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:28px;align-items:start}
+.p6-main{display:grid;gap:16px;min-width:0}
+.p6-side{position:sticky;top:120px}
+.add{display:flex;gap:10px}
+.add input{flex:1;min-width:0}
+.items{display:grid;gap:12px}
+.item{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px 20px 18px}
+.item.just{animation:rise .5s var(--ease)}
+.item.out{animation:out .25s var(--ease) forwards}
+.item-h{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}
+.item-h strong{font-size:18px;font-weight:600}
+.item-hr{display:flex;align-items:center;gap:10px}
+.qbadge{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:var(--qbg,transparent);color:var(--qt,var(--ink-3));border:1px dashed var(--qt,var(--line-2));transition:background .3s,color .3s}
+.qbadge.set{border-style:solid;border-color:transparent;animation:pop .45s var(--spring)}
+.x{border:0;background:none;color:var(--ink-3);font-size:14px;padding:6px;display:inline-flex;align-items:center;gap:6px;border-radius:8px}
+.x:hover{color:var(--danger)}
+.item-sc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 22px;margin-top:6px}
+.lab{font-size:13.5px;color:var(--ink-2);font-weight:500;margin-top:8px}
+.live{display:grid;gap:12px}
+.live-cap{font-size:13.5px;color:var(--ink-2)}
+
+/* zodiac */
+.warn{background:var(--panel-2);border:1px solid var(--line);border-radius:16px;padding:14px 18px;font-size:15px;color:var(--ink-2);max-width:68ch}
+.warn strong{color:var(--ink)}
+.zwrap{display:grid;place-items:center;padding:12px 0}
+.zring{--r:min(178px,calc(50vw - 50px));--bs:clamp(56px,13vw,78px);position:relative;width:calc(var(--r) * 2 + var(--bs));aspect-ratio:1;max-width:100%}
+.zring::before{content:"";position:absolute;inset:calc(var(--bs) / 2);border-radius:50%;border:1px dashed var(--line-2)}
+.zring::after{content:"";position:absolute;inset:calc(var(--bs) / 2 + 26px);border-radius:50%;border:1px solid var(--line)}
+.zb{position:absolute;left:50%;top:50%;z-index:2;width:var(--bs);height:var(--bs);margin:calc(var(--bs) / -2);border-radius:50%;transform:rotate(var(--a)) translateY(calc(-1 * var(--r))) rotate(calc(-1 * var(--a)));display:grid;place-content:center;justify-items:center;gap:1px;border:1.5px solid var(--line);background:var(--panel);padding:0;transition:border-color .2s,background .25s,color .25s,scale .35s var(--spring)}
+.zb:hover{border-color:var(--gold);scale:1.08}
+.zb .g{font-size:calc(var(--bs) * .3);line-height:1}
+.zb .nm{font-size:calc(var(--bs) * .14);font-weight:500;color:var(--ink-2)}
+.zb.on{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}
+.zb.on .nm{color:var(--gold-ink)}
+.zneedle{position:absolute;left:50%;top:calc(50% - var(--r) + var(--bs) / 2 + 6px);width:14px;margin-left:-7px;height:calc(var(--r) - var(--bs) / 2 - 6px);transform-origin:50% 100%;transform:rotate(var(--b));z-index:1;background:linear-gradient(var(--gold),color-mix(in srgb,var(--gold) 30%,transparent));clip-path:polygon(50% 0,100% 100%,0 100%);animation:zspin 1s var(--spring)}
+.zneedle.idle{opacity:.25;animation:none}
+.zc{position:absolute;left:50%;top:50%;width:46%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:var(--panel);border:1px solid var(--line);z-index:2;display:grid;place-content:center;justify-items:center;text-align:center;box-shadow:var(--shadow)}
+.zc b{font-size:clamp(30px,8vw,46px);line-height:1;font-weight:400}
+.zc span{font-family:var(--f-display);font-size:clamp(13px,3vw,17px);font-weight:600;margin-top:6px}
+.zc .mono{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3);font-weight:400;letter-spacing:.08em;text-transform:uppercase;margin-top:6px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center;padding-block:8px 24px}
+.hero-t{display:grid;gap:22px;min-width:0}
+.hero h1{font-size:clamp(36px,5.5vw,66px);letter-spacing:-.05em;line-height:1.02;position:relative;isolation:isolate}
+.hero h1 .w{display:inline-block}
+.mk{position:relative;display:inline-block}
+.mk::after{content:"";position:absolute;left:-.06em;right:-.06em;bottom:.06em;height:.26em;background:var(--gold);border-radius:.08em;z-index:-1;transform-origin:left;animation:mark .9s var(--ease) 1.05s both}
+.facts{display:flex;flex-wrap:wrap;gap:10px}
+.facts div{display:flex;align-items:baseline;gap:8px;padding:9px 14px;border:1px solid var(--line);border-radius:12px;background:var(--glass)}
+.facts b{font-family:var(--f-display);font-weight:600;font-size:17px}
+.facts span{font-size:14px;color:var(--ink-2)}
+.hero-c{display:grid;gap:14px;justify-items:center;min-width:0}
+.compass{width:100%;max-width:470px;height:auto;display:block;touch-action:pan-y;filter:drop-shadow(0 24px 40px rgba(15,28,46,.12))}
+.compass text{font-family:var(--f-mono)}
+.compass .sec{fill:var(--f);transition:fill .35s}
+.compass .slab{opacity:.62;transition:opacity .35s;font-family:var(--f-body);font-weight:600}
+.compass.is-q1 .sec[data-q="q1"],.compass.is-q2 .sec[data-q="q2"],.compass.is-q3 .sec[data-q="q3"],.compass.is-q4 .sec[data-q="q4"]{fill:color-mix(in srgb,var(--s) 34%,transparent)}
+.compass.is-q1 .slab[data-q="q1"],.compass.is-q2 .slab[data-q="q2"],.compass.is-q3 .slab[data-q="q3"],.compass.is-q4 .slab[data-q="q4"]{opacity:1}
+.compass .card-l{font-family:var(--f-display);font-weight:600}
+#needle{filter:drop-shadow(0 6px 6px rgba(15,28,46,.25))}
+.cread{width:100%;max-width:470px;display:flex;gap:14px;align-items:flex-start;padding:14px 18px;border:1px solid var(--line);border-radius:18px;background:var(--glass);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.cread i{flex:none;width:12px;height:12px;border-radius:50%;margin-top:6px;background:var(--c);box-shadow:0 0 0 5px color-mix(in srgb,var(--c) 22%,transparent);transition:background .3s}
+.cread b{font-weight:600}
+.cread small{color:var(--ink-3);font-size:13.5px}
+.cread p{font-size:14.5px;color:var(--ink-2);margin-top:2px}
+.cread .swap{animation:swap .35s var(--ease)}
+.hint-c{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.sec-h{display:grid;gap:12px;margin:72px 0 24px}
+.sec-h h2{font-size:clamp(24px,3.4vw,34px);max-width:22ch}
+.legs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.leg-card{background-color:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;display:grid;gap:8px;align-content:start;transition:transform .4s var(--spring),border-color .25s}
+.leg-card:hover{transform:translateY(-4px);border-color:var(--line-2)}
+.leg-card:hover .gn{animation:gspin2 1s var(--spring)}
+.leg-top{display:flex;align-items:center;justify-content:space-between;color:var(--ink-3)}
+.leg-top .glyph{width:34px;height:34px;color:var(--ink)}
+.leg-card b{font-family:var(--f-display);font-weight:600;font-size:15px;letter-spacing:-.01em}
+.leg-card p{font-size:14px;color:var(--ink-2)}
+.basis{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:32px;align-items:start}
+.basis .tags{margin-top:16px}
+.basis-t{display:grid;gap:12px;font-size:15.5px;color:var(--ink-2)}
+
+/* cards and results */
+.card{background-color:var(--panel);border:1px solid var(--line);border-radius:26px;padding:28px;box-shadow:var(--shadow);min-width:0}
+.glow{background-image:radial-gradient(460px circle at var(--mx,-999px) var(--my,-999px),var(--gold-soft),transparent 45%)}
+.c-title{font-size:clamp(20px,2.6vw,26px);margin:12px 0 8px}
+.r-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px}
+.r-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.demo-note{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 16px;border:1px dashed var(--gold);border-radius:16px;background:var(--gold-soft);font-size:15px}
+.code{display:flex;gap:10px;margin-top:20px}
+.code span{position:relative;font-family:var(--f-display);font-weight:700;font-size:62px;line-height:1;width:80px;height:94px;display:grid;place-items:center;background:var(--gold);color:var(--gold-ink);border-radius:16px;overflow:hidden;box-shadow:inset 0 -10px 18px -10px rgba(27,20,4,.35)}
+.code span:nth-child(2){background:color-mix(in srgb,var(--gold) 72%,var(--panel))}
+.code span:nth-child(3){background:color-mix(in srgb,var(--gold) 48%,var(--panel))}
+.code span::after{content:"";position:absolute;left:0;right:0;top:50%;height:1.5px;background:rgba(27,20,4,.2)}
+.code span.flip{animation:flip .09s linear}
+.hl{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:12px}
+.hl li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;font-size:15.5px;color:var(--ink-2)}
+.hl li b{font-family:var(--f-mono);font-size:13px;color:var(--gold-t);padding-top:2px}
+.hl li strong{color:var(--ink)}
+.radar{width:100%;max-width:470px;height:auto;display:block;margin:6px auto 0}
+.radar text{font-family:var(--f-body)}
+.radar .rg{transform-origin:150px 150px;animation:grow2 1.3s var(--spring) .35s both}
+.anim .radar .rdot{animation:fadein .4s ease both;animation-delay:calc(1.1s + var(--k) * 80ms)}
+.b5{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 36px;margin-top:22px}
+.bar-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:8px}
+.bar-h b{font-weight:600;font-size:16.5px}
+.bar-h .r{display:flex;align-items:center;gap:10px}
+.pct{font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.lvl{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:var(--panel-2);border:1px solid var(--line);color:var(--ink-2)}
+.track{position:relative;height:10px;background:var(--bg-2);border-radius:10px}
+.track::before,.track::after{content:"";position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--panel);z-index:1}
+.track::before{left:34%}
+.track::after{left:67%}
+.fill{height:100%;border-radius:10px;background:linear-gradient(90deg,color-mix(in srgb,var(--gold) 35%,transparent),var(--gold))}
+.anim .fill{animation:grow 1.4s var(--ease) both;animation-delay:var(--d)}
+.bar-t{font-size:14.5px;color:var(--ink-2);margin-top:10px}
+.thr{font-family:var(--f-mono);font-size:11px;color:var(--ink-3);margin-top:8px}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{display:inline-block;background:var(--panel-2);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:14.5px;font-weight:500}
+.vlist{list-style:none;margin:0;padding:0;display:grid;gap:8px;counter-reset:v}
+.vlist li{display:flex;align-items:center;gap:12px;font-weight:500;counter-increment:v}
+.vlist li::before{content:counter(v);display:grid;place-items:center;width:28px;height:28px;border-radius:50%;flex:none;font-family:var(--f-mono);font-size:12px;background:var(--panel-2);border:1px solid var(--line);color:var(--ink-2)}
+.vlist li:first-child::before{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}
+.r-3 .card{display:grid;gap:16px;align-content:start}
+.quad-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:start;margin-top:18px}
+.plot{width:100%;height:auto;display:block}
+.plot text{font-family:var(--f-body)}
+.plot .pt{transform-box:fill-box;transform-origin:center}
+.anim .plot .pt{animation:drop .6s var(--spring) both;animation-delay:calc(.5s + var(--k) * 90ms)}
+.plot .hot{transform-box:fill-box;transform-origin:center;animation:pulsept 1s var(--ease)}
+.qlist{display:grid;gap:12px}
+.qb{padding:16px 18px;border-radius:18px;background:var(--qbg)}
+.qb h3{display:flex;align-items:center;gap:10px;font-size:16.5px;font-weight:600;flex-wrap:wrap}
+.qb h3 i{width:10px;height:10px;border-radius:50%;background:var(--qc);flex:none}
+.qb h3 small{font-weight:500;font-size:13.5px;color:var(--ink-2)}
+.qb p{font-size:14.5px;color:var(--ink-2);margin-top:4px}
+.qi{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.qi span{font-size:13.5px;padding:4px 10px;border-radius:999px;background:var(--panel);border:1px solid var(--line)}
+.qi span em{font-style:normal;font-family:var(--f-mono);font-size:11px;color:var(--ink-3);margin-left:4px}
+.iki{display:grid;grid-template-columns:280px minmax(0,1fr);gap:32px;align-items:center;margin-top:12px}
+.venn{position:relative;width:100%;max-width:280px;aspect-ratio:1;margin-inline:auto}
+.venn i{position:absolute;width:58%;aspect-ratio:1;border-radius:50%;border:1.5px solid var(--qc);background:var(--qbg);animation:breathe 6s ease-in-out infinite;animation-delay:var(--dl)}
+.venn i:nth-child(1){left:21%;top:0}
+.venn i:nth-child(2){right:0;top:21%}
+.venn i:nth-child(3){left:21%;bottom:0}
+.venn i:nth-child(4){left:0;top:21%}
+.venn b{position:absolute;font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);text-align:center;width:30%;line-height:1.3}
+.venn .c{left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--f-display);font-size:13px;text-transform:none;letter-spacing:0;color:var(--gold-t);font-weight:600}
+.iki-l{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.iki-l div{display:grid;gap:4px;padding-left:14px;border-left:2px solid var(--qc)}
+.iki-l b{font-size:13px;font-family:var(--f-mono);letter-spacing:.04em;color:var(--ink-3);font-weight:400;text-transform:uppercase}
+.iki-l p{font-size:15px}
+.report{position:relative;overflow:hidden}
+.report::before{content:"";position:absolute;right:-120px;top:-120px;width:320px;height:320px;border-radius:50%;border:1px dashed var(--line-2);pointer-events:none}
+.report .btnrow{margin-top:18px}
+.status{font-size:15px;color:var(--ink-2);min-height:24px;margin-top:14px}
+.status.err{color:var(--danger)}
+.prose{font-size:17px;line-height:1.72;max-width:68ch}
+.prose:empty{display:none}
+.prose h2{font-size:22px;margin:36px 0 10px;letter-spacing:-.02em}
+.prose h3{font-size:18px;margin:22px 0 6px}
+.prose p{margin:0 0 12px}
+.prose ul,.prose ol{margin:0 0 14px;padding-left:22px}
+.prose li{margin:5px 0}
+.prose li::marker{color:var(--gold-t)}
+.prose strong{font-weight:600}
+.prose.streaming>:last-child::after{content:"";display:inline-block;width:.55em;height:1.05em;margin-left:3px;vertical-align:-.15em;background:var(--gold);animation:blink 1s steps(2) infinite}
+.thinking{display:flex;align-items:center;gap:12px;color:var(--ink-2);margin-top:18px}
+.spin{width:22px;height:22px;border-radius:50%;border:2px solid var(--line-2);border-top-color:var(--gold);animation:spin 1s linear infinite}
+.muted{color:var(--ink-2)}
+.endrow{margin-top:30px;justify-content:center}
+
+/* animations */
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes wordin{from{opacity:0;transform:translateY(.45em) rotate(2deg);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+@keyframes mark{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes tickin{from{opacity:0;transform:rotate(-40deg) scale(.92)}to{opacity:1;transform:none}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes gspin{from{transform:rotate(calc(var(--b,0deg) - 220deg))}to{transform:rotate(var(--b,0deg))}}
+@keyframes gspin2{from{transform:rotate(calc(var(--b,0deg) - 360deg))}to{transform:rotate(var(--b,0deg))}}
+@keyframes zspin{from{transform:rotate(var(--from))}to{transform:rotate(var(--b))}}
+@keyframes beacon{0%{box-shadow:0 0 0 0 var(--gold-glow)}70%{box-shadow:0 0 0 9px transparent}100%{box-shadow:0 0 0 0 transparent}}
+@keyframes ring{from{transform:scale(1);opacity:.9}to{transform:scale(1.9);opacity:0}}
+@keyframes pop{0%{transform:scale(.82)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+@keyframes ready{0%{transform:scale(1)}40%{transform:scale(1.06)}100%{transform:scale(1)}}
+@keyframes out{to{opacity:0;transform:translateX(30px) scale(.97)}}
+@keyframes fromBelow{from{transform:translateY(calc(100% + 8px))}to{transform:none}}
+@keyframes fromAbove{from{transform:translateY(calc(-100% - 8px))}to{transform:none}}
+@keyframes swap{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes grow{from{width:0}}
+@keyframes grow2{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes drop{from{transform:translateY(-26px) scale(.2);opacity:0}to{transform:none;opacity:1}}
+@keyframes pulsept{0%{transform:scale(1)}40%{transform:scale(1.8)}100%{transform:scale(1)}}
+@keyframes flip{from{transform:rotateX(70deg)}to{transform:none}}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+@keyframes blink{50%{opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.anim .st-head>*,.anim .st-body>:not(.qs-list),.anim .nav,.anim .hero-t>:not(h1),.anim .sec-h,.anim .legs>*,.anim .basis,.anim .hero-c .cread{animation:rise .75s var(--ease) both;animation-delay:calc(var(--i,0) * 70ms + 60ms)}
+.st-head>:nth-child(2){--i:1}.st-head>:nth-child(3){--i:2}
+.st-body>:nth-child(1){--i:3}.st-body>:nth-child(2){--i:4}.st-body>:nth-child(3){--i:5}.st-body>:nth-child(4){--i:6}.st-body>:nth-child(5){--i:7}.st-body>:nth-child(n+6){--i:8}
+.anim .nav{--i:6}
+.hero-t>:nth-child(1){--i:0}.hero-t>:nth-child(3){--i:6}.hero-t>:nth-child(4){--i:7}.hero-t>:nth-child(5){--i:8}.hero-t>:nth-child(6){--i:9}
+.anim .hero-c .cread{--i:12}
+.anim .sec-h{--i:10}
+.legs>:nth-child(1){--i:11}.legs>:nth-child(2){--i:12}.legs>:nth-child(3){--i:13}.legs>:nth-child(4){--i:14}.legs>:nth-child(5){--i:15}.legs>:nth-child(6){--i:16}.legs>:nth-child(7){--i:17}.legs>:nth-child(8){--i:18}
+.anim .basis{--i:16}
+.anim .q{animation:rise .7s var(--ease) both;animation-delay:calc(min(var(--qi),12) * 45ms + 260ms)}
+.anim .hero h1 .w{animation:wordin .9s var(--ease) both;animation-delay:calc(var(--i) * 60ms + 120ms)}
+.anim .c-ring{stroke-dasharray:1;animation:draw 1.8s var(--ease) both .1s}
+.anim .c-ticks{transform-origin:200px 200px;animation:tickin 1.6s var(--ease) both .1s}
+.anim .c-secs{animation:fadein 1s ease both .6s}
+.anim .st-leg .gn{animation:gspin 1.5s var(--spring) both .25s}
+
+@media (max-width:980px){
+  .hero{grid-template-columns:minmax(0,1fr);gap:28px}
+  .hero-c{order:-1}
+  .compass{max-width:380px}
+  .legs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .p6{grid-template-columns:minmax(0,1fr)}
+  .p6-side{position:static;order:-1}
+  .r-grid,.quad-grid,.basis,.r-3,.iki{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  main{padding-block:28px 110px}
+  .top-in{gap:12px}
+  .brand span{display:none}
+  .route-meta .bear{display:none}
+  .row2,.opts,.item-sc,.b5,.iki-l{grid-template-columns:1fr}
+  .card{padding:20px;border-radius:22px}
+  .q{padding:16px 14px 12px}
+  .lk button{width:40px;height:40px}
+  .code span{width:64px;height:76px;font-size:48px}
+  .nav{padding:8px}
+  .nav .ghost{padding:10px 14px}
+  .hint{text-align:left;font-size:13px}
+  .nav-r{flex-wrap:wrap-reverse;justify-content:flex-end}
+  .lead{font-size:17px}
+  .legs{grid-template-columns:1fr}
+  .sec-h{margin-top:52px}
+  .demo-pill .t{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+</style>
+</head>
+<body>
+<canvas id="topo" aria-hidden="true"></canvas>
+<div class="haze" aria-hidden="true"></div>
+<header class="top"><div class="top-in">
+  <button type="button" class="brand" id="brand" aria-label="Busola, înapoi la început">
+    <svg class="glyph" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="1.5"/><path d="M20 1.5v4M20 34.5v4M1.5 20h4M34.5 20h4" stroke="currentColor" stroke-opacity=".5" stroke-width="1.5"/><g class="gn" id="brandNeedle"><path d="M20 6 L24.5 20 L15.5 20Z" fill="var(--gold)"/><path d="M15.5 20 L24.5 20 L20 34Z" fill="currentColor" fill-opacity=".4"/></g><circle cx="20" cy="20" r="2.4" fill="var(--panel)" stroke="currentColor" stroke-width="1.4"/></svg>
+    <span>Busola</span>
+  </button>
+  <div class="route" id="route" hidden></div>
+  <div class="top-r">
+    <button type="button" class="demo-pill" id="demoPill" hidden>Profil exemplu<span class="t"> · ieși</span></button>
+    <button type="button" class="theme" id="themeBtn" aria-label="Schimbă tema (luminoasă sau întunecată)">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+    </button>
+  </div>
+</div></header>
+<main id="main"></main>
+
+<script>
+(function(){
+'use strict';
+var KEY='busola-v1', THEME_KEY='busola-theme';
+var RM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- data ---------- */
+var RORDER=['R','I','A','S','E','C'];
+var RT={R:'Realist',I:'Investigativ',A:'Artistic',S:'Social',E:'Întreprinzător',C:'Convențional'};
+var RD={
+  R:'te atrag munca concretă, uneltele, mașinile și lucrurile pe care le poți face sau repara cu mâinile',
+  I:'te atrag analiza, cercetarea, datele și problemele logice dificile',
+  A:'te atrag creația, designul, scrisul, muzica și exprimarea originală',
+  S:'te atrag oamenii: să înveți, să ajuți, să lucrezi în echipă',
+  E:'te atrag inițiativa, convingerea, conducerea proiectelor și afacerile proprii',
+  C:'te atrag ordinea, procesele clare, detaliile și sistemele care funcționează fără greșeli'
+};
+var RQ={
+  R:['Repar sau asamblez un aparat, un motor sau o piesă','Lucrez cu unelte, mașini sau echipamente','Construiesc sau montez ceva cu propriile mâini'],
+  I:['Analizez date ca să descopăr un tipar','Citesc și fac cercetare ca să înțeleg o problemă în profunzime','Rezolv probleme de logică sau de matematică'],
+  A:['Desenez, proiectez sau creez design vizual','Scriu texte, povești sau scenarii','Compun muzică sau creez conținut video sau audio'],
+  S:['Învăț sau explic ceva altor oameni','Ascult și ajut oameni care trec printr-o perioadă grea','Lucrez în echipă, împreună cu alți oameni, la un scop comun'],
+  E:['Conving oameni de o idee sau vând un produs','Conduc un proiect sau o echipă','Pornesc o afacere sau o inițiativă proprie'],
+  C:['Organizez informații, fișiere și evidențe','Optimizez un proces ca să meargă fără greșeli','Urmez proceduri clare și verific detaliile']
+};
+var RIT=[];
+for(var k=0;k<3;k++){RORDER.forEach(function(t){RIT.push({t:t,text:RQ[t][k]});});}
+
+var BD=['O','C','E','A','N'];
+var BN={O:'Deschidere',C:'Conștiinciozitate',E:'Extraversiune',A:'Agreabilitate',N:'Stabilitate emoțională'};
+var BQ={
+  O:[['Îmi place să încerc lucruri noi, chiar dacă nu știu cum vor ieși',0],['Mă atrag ideile abstracte și întrebările de tipul „de ce?”',0],['Prefer să fac lucrurile așa cum le-am făcut mereu',1]],
+  C:[['Îmi termin sarcinile la timp, chiar și când nu am chef',0],['Las lucrurile pe ultima sută de metri',1],['Țin o listă de lucruri de făcut și o urmez',0]],
+  E:[['Mă încarc de energie când sunt printre oameni',0],['Încep ușor o discuție cu persoane necunoscute',0],['După o zi cu mulți oameni, am nevoie de liniște ca să-mi revin',1]],
+  A:[['Îmi pasă de ce simt ceilalți și îi ascult cu atenție',0],['Prefer cooperarea în loc de competiție',0],['Mi-e greu să am încredere în intențiile oamenilor',1]],
+  N:[['Rămân calm când lucrurile se complică',0],['Mă îngrijorez des pentru lucruri care ar putea merge prost',1],['Mă refac repede după o zi proastă',0]]
+};
+var BIT=[];
+for(var j=0;j<3;j++){BD.forEach(function(d){BIT.push({d:d,text:BQ[d][j][0],rev:BQ[d][j][1]});});}
+var BTXT={
+  O:{hi:'Ești curios și deschis la idei noi. Te susțin rolurile cu varietate și învățare continuă. Atenție: te poți plictisi repede de rutină.',mid:'Ai un echilibru între nou și testat: poți explora, dar apreciezi și ce e dovedit.',lo:'Preferi concretul și ce e verificat. Rolurile cu proceduri clare îți priesc. Atenție: poți evita schimbări care ți-ar prinde bine.'},
+  C:{hi:'Ești fiabil, organizat și duci lucrurile la capăt. Atenție la perfecționism și la dificultatea de a delega.',mid:'Poți fi riguros când contează și flexibil când nu.',lo:'Ești flexibil și spontan. Ai nevoie de structuri externe (termene, parteneri) ca să finalizezi proiectele lungi.'},
+  E:{hi:'Te încarci din interacțiune. Rolurile cu mult contact cu oamenii te susțin. Atenție la lucrul izolat pe perioade lungi.',mid:'Te simți bine și printre oameni, și singur; depinde de context.',lo:'Te încarci din liniște. Munca profundă, cu perioade fără întreruperi, îți priește. Atenție la rolurile cu ședințe și contact continuu.'},
+  A:{hi:'Ești cooperant și empatic. Excelezi în echipe. Atenție: poate fi greu să spui „nu” sau să negociezi dur.',mid:'Poți fi și colaborativ, și ferm, în funcție de situație.',lo:'Ești direct și critic. Ești bun în negociere și la decizii dificile. Atenție la felul în care sunt primite feedback-urile tale.'},
+  N:{hi:'Rămâi calm sub presiune, ceea ce e valoros în roluri cu miză mare.',mid:'Reacționezi uman la stres, dar te adaptezi.',lo:'Ești sensibil la stres și la incertitudine. Medii previzibile, cu sprijin și limite clare, îți prind bine.'}
+};
+
+var STYLES=[
+  {t:'Verbal / scris',d:'înveți și lucrezi cel mai natural citind, scriind, vorbind'},
+  {t:'Logic / numeric',d:'te ghidezi după tipare, reguli, cifre, cauză și efect'},
+  {t:'Vizual / spațial',d:'gândești în imagini, scheme, culori, spațiu'},
+  {t:'Practic / kinestezic',d:'înveți făcând, cu mâinile sau prin mișcare'},
+  {t:'Muzical / ritmic',d:'sunetul, ritmul și melodia te ajută să înveți și să te concentrezi'},
+  {t:'Interpersonal',d:'înveți și produci prin oameni: discuții, colaborare, explicat altora'},
+  {t:'Introspectiv',d:'te gândești adânc, lucrezi singur, îți înțelegi bine motivațiile'},
+  {t:'Natură / sisteme',d:'observi, clasifici și vezi cum se leagă lucrurile (natură, ecosisteme, sisteme complexe)'}
+];
+var VALUES=['libertate','siguranță financiară','creativitate','impact social','statut','învățare continuă','autonomie','echilibru viață-muncă','aventură','stabilitate','leadership','expertiză','comunitate','onestitate','sănătate','competiție','frumos','spiritualitate','putere','noutate'];
+var ANCHORS=[
+  {t:'Expertiză tehnică',d:'vrei să fii foarte bun într-un domeniu anume'},
+  {t:'Management',d:'vrei să conduci oameni și să răspunzi de rezultate'},
+  {t:'Autonomie',d:'vrei să-ți stabilești singur regulile și ritmul'},
+  {t:'Siguranță',d:'vrei stabilitate, predictibilitate, un loc sigur'},
+  {t:'Creativitate antreprenorială',d:'vrei să construiești ceva al tău, de la zero'},
+  {t:'Servire / cauză',d:'vrei ca munca ta să facă lumea mai bună'},
+  {t:'Provocare pură',d:'te motivează problemele aparent imposibile'},
+  {t:'Stil de viață',d:'vrei ca munca să se potrivească cu restul vieții tale'}
+];
+var SUGG=['Programare','Explicat lucruri altora','Scris','Organizat și planificat','Convins sau vândut','Design și desen','Analiză de date','Sport și antrenament','Lucru cu mâinile','Vorbit în public','Învățat limbi străine','Rezolvat probleme tehnice'];
+var ZODIAC=['Berbec','Taur','Gemeni','Rac','Leu','Fecioară','Balanță','Scorpion','Săgetător','Capricorn','Vărsător','Pești'];
+var ZG=['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'];
+var PH=['Context','Interese','Personalitate','Stil de lucru','Valori și motivații','Povești','Cele 4 cadrane','Zodie','Rezultate'];
+var BR=['N','NE','E','SE','S','SV','V','NV','N'];
+var LEGD=['De unde pornești: vârstă, ocupație, constrângeri reale.','18 activități după modelul Holland (RIASEC).','15 afirmații despre cele 5 mari dimensiuni.','Cele 3 moduri în care înveți și lucrezi natural.','Valori, ancore de carieră și ce te pune în mișcare.','4 întâmplări reale, cele mai bune dovezi.','Ce faci, cât de bun și cât de pasionat ești.','Opțional, doar pentru distracție.'];
+var QN={
+  q1:{t:'Zona de aur',s:'bun și pasionat',d:'Aici construiești. Caută roluri care te țin cât mai mult în această zonă.'},
+  q2:{t:'Capcana confortului',s:'bun, dar nepasionat',d:'Poate fi bine plătit, dar te golește în timp. Folosește-l ca mijloc, nu ca scop.'},
+  q3:{t:'Potențial de dezvoltare',s:'pasionat, dar încă nepriceput',d:'De învățat sistematic. „Nu sunt bun” poate însemna doar „n-am exersat încă”.'},
+  q4:{t:'De evitat sau delegat',s:'nici bun, nici pasionat',d:'Aici nu merită să-ți investești energia, dacă ai de ales.'}
+};
+function qv(q){return '--qc:var(--'+q+');--qbg:var(--'+q+'-bg);--qt:var(--'+q+'-t)';}
+
+/* ---------- state ---------- */
+function fresh(){
+  return {phase:-1,
+    ctx:{age:'',job:'',life:'',why:'',change:''},
+    riasec:Array(18).fill(null), big5:Array(15).fill(null),
+    styles:[], styleEx:{}, values:[], valEx:{}, anchors:[],
+    sdt:{auto:'',comp:'',conn:''}, stories:['','','',''],
+    items:[], iki:{love:'',good:'',need:'',paid:''},
+    zodiac:'', rep:{a:'',b:''}};
+}
+function load(){
+  try{
+    var raw=localStorage.getItem(KEY);
+    if(!raw) return null;
+    var o=JSON.parse(raw), f=fresh();
+    for(var k in f){ if(o[k]!==undefined) f[k]=o[k]; }
+    return f;
+  }catch(e){return null;}
+}
+var DEMO=false;
+var S=load()||fresh();
+function save(){if(DEMO)return;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function reset(){
+  if(DEMO){DEMO=false;S=load()||fresh();S.phase=-1;render(true);return;}
+  S=fresh();try{localStorage.removeItem(KEY);}catch(e){} render(true);
+}
+
+var $=function(s,r){return (r||document).querySelector(s);};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function pad3(n){return ('00'+n).slice(-3);}
+function setPath(path,val){
+  var p=path.split('.'),o=S;
+  for(var i=0;i<p.length-1;i++){o=o[p[i]];}
+  o[p[p.length-1]]=val;
+}
+function getPath(path){
+  var p=path.split('.'),o=S;
+  for(var i=0;i<p.length;i++){o=o==null?'':o[p[i]];}
+  return o==null?'':o;
+}
+
+/* ---------- example profile ---------- */
+function demoState(){
+  var d=fresh();
+  d.ctx={age:'24',job:'Masterand la Informatică, lucrez part-time ca tester QA',life:'Locuiesc în Cluj, am un buget mic și pot dedica 6–8 ore pe săptămână pentru ceva nou.',why:'Simt că testarea nu mi se potrivește pe termen lung și vreau o direcție mai clară înainte să termin masterul.',change:'Să lucrez la ceva care combină partea tehnică cu designul și cu oamenii.'};
+  var RV={R:[2,2,3],I:[5,4,5],A:[5,4,4],S:[4,3,4],E:[2,3,2],C:[3,2,3]};
+  var BV={O:[5,5,2],C:[4,3,3],E:[2,3,4],A:[5,4,2],N:[3,3,4]};
+  d.riasec=[];d.big5=[];
+  for(var a=0;a<3;a++){RORDER.forEach(function(t){d.riasec.push(RV[t][a]);});BD.forEach(function(x){d.big5.push(BV[x][a]);});}
+  d.styles=['Vizual / spațial','Logic / numeric','Introspectiv'];
+  d.styleEx={'Vizual / spațial':'Am învățat Figma într-un weekend doar uitându-mă la interfețe pe care le admir.','Logic / numeric':'Găsesc repede cauza unui bug când desenez fluxul pe hârtie.','Introspectiv':'Îmi țin un jurnal de proiecte și știu exact ce m-a motivat la fiecare.'};
+  d.values=['creativitate','autonomie','învățare continuă','impact social','echilibru viață-muncă'];
+  d.valEx={'creativitate':'Am refăcut din proprie inițiativă interfața aplicației de la facultate.','autonomie':'Lucrez cel mai bine când primesc problema, nu pașii.','învățare continuă':'Fac un curs nou aproape în fiecare lună.'};
+  d.anchors=['Expertiză tehnică','Autonomie'];
+  d.sdt={auto:'Când îmi aleg singur unealta și ordinea pașilor într-un proiect.',comp:'Când un utilizator reușește din prima ceva ce înainte îl încurca.',conn:'La sesiunile de pair programming cu colegii de an.'};
+  d.stories=['Am reproiectat aplicația de orar a facultății. Am vorbit cu 15 colegi, am făcut prototipul în Figma și l-am implementat în React. Acum îl folosesc peste 400 de studenți.','Când aranjez o interfață pixel cu pixel și caut cea mai simplă variantă a unui ecran. Mă uit la ceas și au trecut patru ore.','Colegii mă roagă să le explic algoritmi și să le fac schițe pentru prezentări, pentru că „le faci să arate clar”.','Primul job de vară într-un call center: scripturi fixe, zero autonomie, metrici pe minut. După trei săptămâni eram epuizat.'];
+  d.items=[{n:'Programare',s:5,p:4},{n:'Design și desen',s:3,p:6},{n:'Analiză de date',s:5,p:3},{n:'Explicat lucruri altora',s:5,p:5},{n:'Scris',s:4,p:5},{n:'Organizat și planificat',s:4,p:2},{n:'Vorbit în public',s:2,p:4},{n:'Convins sau vândut',s:2,p:1},{n:'Lucru cu mâinile',s:2,p:3}];
+  d.iki={love:'Să fac lucruri complicate să pară simple.',good:'Logică, structură și ochi pentru detaliu vizual.',need:'Aplicații pe care le poate folosi oricine, fără manual.',paid:'Design de produs, frontend, UX research.'};
+  d.zodiac='Vărsător';
+  d.rep={a:'## 1. Profilul tău în 10 rânduri\nCodul tău Holland **IAS** spune că te atrag problemele de înțeles în profunzime, dar și felul în care arată și se simt soluțiile. Deschiderea foarte ridicată și agreabilitatea mare explică de ce cauți varietate și lucrezi bine cu oamenii, deși extraversiunea mai scăzută arată că te încarci din munca concentrată.\n\nValorile tale de top, **creativitatea** și **autonomia**, se potrivesc cu ancora de **expertiză tehnică**: vrei să devii foarte bun la ceva și să ai libertatea de a decide cum.\n\n## 2. Ce spun cele 4 cadrane\n- **Zona de aur:** programare, explicat lucruri altora, scris. Povestea cu aplicația de orar le leagă pe toate trei.\n- **Potențial de dezvoltare:** design și desen. Pasiunea e maximă, iar nota 3 la abilitate pare să însemne „n-am exersat sistematic”, nu „nu am talent”.\n- **Capcana confortului:** analiza de date. O poți folosi ca mijloc (de exemplu în UX research), nu ca scop.',b:'## 6. Cele 5 mini-experimente\n- **Un redesign de weekend:** alegi o aplicație locală greu de folosit și îi refaci un singur flux. Ai aflat că îți place dacă vrei să continui și duminică seara.\n- **Interviu de 20 de minute** cu un product designer din Cluj. Întreabă ce face concret într-o marți obișnuită.\n- **Întreabă 3 oameni care te cunosc bine** la ce te văd bun. Caută cuvintele care se repetă.\n\n## 7. Planul pe 30 de zile\n1. Săptămâna 1: interviul și cei 3 oameni.\n2. Săptămâna 2: redesignul de weekend.\n3. Săptămâna 3: un curs scurt gratuit de UX writing.\n4. Săptămâna 4: compari notițele și alegi o singură direcție pentru luna următoare.'};
+  return d;
+}
+
+/* ---------- scoring ---------- */
+function riasecScores(){
+  var sc={R:0,I:0,A:0,S:0,E:0,C:0};
+  RIT.forEach(function(it,i){sc[it.t]+=(S.riasec[i]||0);});
+  var code=RORDER.slice().sort(function(a,b){return sc[b]-sc[a]||RORDER.indexOf(a)-RORDER.indexOf(b);}).slice(0,3);
+  return {sc:sc,code:code};
+}
+function big5Scores(){
+  var sum={O:0,C:0,E:0,A:0,N:0};
+  BIT.forEach(function(it,i){var v=S.big5[i]||3;sum[it.d]+=it.rev?6-v:v;});
+  var out={};
+  BD.forEach(function(d){
+    var pct=Math.round((sum[d]-3)/12*100);
+    out[d]={pct:pct,lvl:pct<34?'lo':(pct<67?'mid':'hi')};
+  });
+  return out;
+}
+var LV={lo:'mai scăzut',mid:'mediu',hi:'mai ridicat'};
+function quadOf(it){
+  var g=it.s>=4,p=it.p>=4;
+  return g&&p?'q1':(g?'q2':(p?'q3':'q4'));
+}
+function rated(it){return it.s!=null&&it.p!=null;}
+
+/* ---------- charts ---------- */
+function glyph(deg){
+  return '<svg class="glyph" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="1.5"/><path d="M20 1.5v4M20 34.5v4M1.5 20h4M34.5 20h4" stroke="currentColor" stroke-opacity=".5" stroke-width="1.5"/><g class="gn" style="--b:'+deg+'deg"><path d="M20 6 L24.5 20 L15.5 20Z" fill="var(--gold)"/><path d="M15.5 20 L24.5 20 L20 34Z" fill="currentColor" fill-opacity=".4"/></g><circle cx="20" cy="20" r="2.4" fill="var(--panel)" stroke="currentColor" stroke-width="1.4"/></svg>';
+}
+function polar(r,deg){var a=deg*Math.PI/180;return [200+r*Math.sin(a),200-r*Math.cos(a)];}
+function f1(n){return n.toFixed(1);}
+function compassSVG(){
+  var s='<svg id="compass" class="compass is-q1" viewBox="0 0 400 400" role="img" aria-label="Busola celor 4 cadrane: abilitatea crește spre nord, pasiunea spre est">';
+  s+='<defs><radialGradient id="cface" cx="50%" cy="42%" r="62%"><stop offset="0%" style="stop-color:var(--panel)"/><stop offset="100%" style="stop-color:var(--panel-2)"/></radialGradient></defs>';
+  s+='<circle cx="200" cy="200" r="197" fill="url(#cface)" stroke="var(--line-2)" stroke-width="1.5"/>';
+  s+='<circle cx="200" cy="200" r="186" fill="none" stroke="var(--line)" stroke-width="1"/>';
+  var secs=[['q1',0,90],['q3',90,180],['q4',180,270],['q2',270,360]];
+  s+='<g class="c-secs">';
+  secs.forEach(function(x){
+    var a=polar(146,x[1]),b=polar(146,x[2]);
+    s+='<path class="sec" data-q="'+x[0]+'" style="--f:var(--'+x[0]+'-bg);--s:var(--'+x[0]+')" d="M200 200 L'+f1(a[0])+' '+f1(a[1])+' A146 146 0 0 1 '+f1(b[0])+' '+f1(b[1])+' Z"/>';
+  });
+  s+='</g>';
+  s+='<circle class="c-ring" pathLength="1" cx="200" cy="200" r="148" fill="none" stroke="var(--line-2)" stroke-width="1.5"/>';
+  s+='<g class="c-ticks">';
+  for(var d=0;d<360;d+=5){
+    var len=d%45===0?16:(d%15===0?10:5),p1=polar(184,d),p2=polar(184-len,d);
+    s+='<line x1="'+f1(p1[0])+'" y1="'+f1(p1[1])+'" x2="'+f1(p2[0])+'" y2="'+f1(p2[1])+'" stroke="'+(d%45===0?'var(--gold)':'var(--ink-3)')+'" stroke-width="'+(d%45===0?2:1)+'" stroke-linecap="round"/>';
+    if(d%30===0&&d%90!==0){var t=polar(158,d);s+='<text x="'+f1(t[0])+'" y="'+f1(t[1]+3.5)+'" text-anchor="middle" font-size="9.5" fill="var(--ink-3)">'+pad3(d)+'</text>';}
+  }
+  [['N',0],['E',90],['S',180],['V',270]].forEach(function(c){var t=polar(159,c[1]);s+='<text class="card-l" x="'+f1(t[0])+'" y="'+f1(t[1]+6)+'" text-anchor="middle" font-size="17" fill="'+(c[0]==='N'?'var(--gold-t)':'var(--ink)')+'">'+c[0]+'</text>';});
+  s+='</g>';
+  s+='<path d="M200 60V340M60 200H340" stroke="var(--ink-3)" stroke-width="1" stroke-dasharray="2 5" fill="none"/>';
+  s+='<text x="207" y="76" font-size="9" fill="var(--ink-2)" letter-spacing=".8">ABILITATE ↑</text>';
+  s+='<text x="336" y="190" text-anchor="end" font-size="9" fill="var(--ink-2)" letter-spacing=".8">PASIUNE →</text>';
+  s+='<g id="needle" transform="rotate(45 200 200)"><path d="M200 58 L215 200 L185 200Z" fill="var(--gold)"/><path d="M200 58 L200 200 L185 200Z" fill="var(--gold-ink)" fill-opacity=".14"/><path d="M185 200 L215 200 L200 342Z" fill="var(--ink-3)"/><path d="M200 200 L215 200 L200 342Z" fill="var(--ink)" fill-opacity=".18"/></g>';
+  var labs={q1:['Zona','de aur',45],q3:['Potențial de','dezvoltare',135],q4:['De evitat','sau delegat',225],q2:['Capcana','confortului',315]};
+  Object.keys(labs).forEach(function(q){
+    var L=labs[q],p=polar(100,L[2]);
+    s+='<text class="slab" data-q="'+q+'" x="'+f1(p[0])+'" y="'+f1(p[1]-4)+'" text-anchor="middle" font-size="13" fill="var(--'+q+'-t)" stroke="var(--panel)" stroke-width="5" paint-order="stroke" stroke-linejoin="round" pointer-events="none"><tspan x="'+f1(p[0])+'">'+L[0]+'</tspan><tspan x="'+f1(p[0])+'" dy="16">'+L[1]+'</tspan></text>';
+  });
+  s+='<circle cx="200" cy="200" r="12" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/><circle cx="200" cy="200" r="4.5" fill="var(--gold)"/>';
+  return s+'</svg>';
+}
+function creadHtml(q){
+  return '<i style="--c:var(--'+q+')"></i><div class="swap"><b>'+QN[q].t+'</b> <small>· '+QN[q].s+'</small><p>'+QN[q].d+'</p></div>';
+}
+function radar(vals,labels,scores,top){
+  var c=150,r=114,n=vals.length;
+  function pt(i,f){var a=-Math.PI/2+i*2*Math.PI/n;return [c+Math.cos(a)*r*f,c+Math.sin(a)*r*f];}
+  var g='<svg class="radar" viewBox="-86 -4 472 310" role="img" aria-label="Grafic radar al intereselor, scor de la 3 la 15 pe fiecare tip">';
+  [.2,.4,.6,.8,1].forEach(function(f){
+    var pts=vals.map(function(_,i){return pt(i,f).map(f1).join(',');}).join(' ');
+    g+='<polygon points="'+pts+'" fill="'+(f===1?'var(--panel-2)':'none')+'" stroke="var(--line)" stroke-width="1"/>';
+  });
+  vals.forEach(function(_,i){var p=pt(i,1);g+='<line x1="'+c+'" y1="'+c+'" x2="'+f1(p[0])+'" y2="'+f1(p[1])+'" stroke="var(--line)"/>';});
+  [.2,.4,.6,.8,1].forEach(function(f){g+='<text x="'+(c+5)+'" y="'+f1(c-r*f+3)+'" font-size="9" fill="var(--ink-3)" style="font-family:var(--f-mono)">'+Math.round(f*15)+'</text>';});
+  var dp=vals.map(function(v,i){return pt(i,Math.max(.04,v)).map(f1).join(',');}).join(' ');
+  g+='<g class="rg"><polygon points="'+dp+'" fill="var(--gold)" fill-opacity=".24" stroke="var(--gold)" stroke-width="2.5" stroke-linejoin="round"/></g>';
+  vals.forEach(function(v,i){var p=pt(i,Math.max(.04,v));g+='<circle class="rdot" style="--k:'+i+'" cx="'+f1(p[0])+'" cy="'+f1(p[1])+'" r="4.5" fill="var(--gold)" stroke="var(--panel)" stroke-width="2"/>';});
+  labels.forEach(function(l,i){
+    var p=pt(i,1.2),a=-Math.PI/2+i*2*Math.PI/n,cs=Math.cos(a),hi=top.indexOf(RORDER[i])>-1;
+    var anc=Math.abs(cs)<.2?'middle':(cs>0?'start':'end');
+    g+='<text x="'+f1(p[0])+'" y="'+f1(p[1]+4)+'" text-anchor="'+anc+'" font-size="13.5" font-weight="'+(hi?700:500)+'" fill="'+(hi?'var(--gold-t)':'var(--ink-2)')+'">'+esc(l)+' <tspan font-weight="400" fill="var(--ink-3)">'+esc(scores[i])+'</tspan></text>';
+  });
+  return g+'</svg>';
+}
+function trunc(s,n){return s.length>n?s.slice(0,n-1)+'…':s;}
+function quadPlot(items,hot){
+  var W=580,H=480,L=62,R=14,T=14,B=58,pw=W-L-R,ph=H-T-B,mx=L+pw/2,my=T+ph/2;
+  function X(p){return L+(p-.5)/6*pw;}
+  function Y(s){return T+ph-(s-.5)/6*ph;}
+  var g='<svg class="plot" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Matricea celor 4 cadrane: abilitate pe verticală, pasiune pe orizontală">';
+  g+='<rect x="'+mx+'" y="'+T+'" width="'+pw/2+'" height="'+ph/2+'" fill="var(--q1-bg)"/>';
+  g+='<rect x="'+L+'" y="'+T+'" width="'+pw/2+'" height="'+ph/2+'" fill="var(--q2-bg)"/>';
+  g+='<rect x="'+mx+'" y="'+my+'" width="'+pw/2+'" height="'+ph/2+'" fill="var(--q3-bg)"/>';
+  g+='<rect x="'+L+'" y="'+my+'" width="'+pw/2+'" height="'+ph/2+'" fill="var(--q4-bg)"/>';
+  for(var v=1;v<=6;v++){
+    g+='<text x="'+f1(X(v))+'" y="'+(T+ph+16)+'" text-anchor="middle" font-size="11" fill="var(--ink-3)" style="font-family:var(--f-mono)">'+v+'</text>';
+    g+='<text x="'+(L-10)+'" y="'+f1(Y(v)+4)+'" text-anchor="end" font-size="11" fill="var(--ink-3)" style="font-family:var(--f-mono)">'+v+'</text>';
+  }
+  g+='<path d="M'+mx+' '+T+'V'+(T+ph)+'M'+L+' '+my+'H'+(L+pw)+'" stroke="var(--line-2)" stroke-width="1.5" stroke-dasharray="4 6"/>';
+  g+='<path d="M'+L+' '+T+'V'+(T+ph)+'H'+(L+pw)+'" fill="none" stroke="var(--ink-3)" stroke-width="1.5"/>';
+  g+='<text x="'+(mx+12)+'" y="'+(T+24)+'" font-size="15" font-weight="700" fill="var(--q1-t)">Zona de aur</text>';
+  g+='<text x="'+(L+12)+'" y="'+(T+24)+'" font-size="15" font-weight="700" fill="var(--q2-t)">Capcana confortului</text>';
+  g+='<text x="'+(mx+12)+'" y="'+(T+ph-14)+'" font-size="15" font-weight="700" fill="var(--q3-t)">Potențial de dezvoltare</text>';
+  g+='<text x="'+(L+12)+'" y="'+(T+ph-14)+'" font-size="15" font-weight="700" fill="var(--q4-t)">De evitat sau delegat</text>';
+  g+='<text x="'+(L+pw/2)+'" y="'+(H-8)+'" text-anchor="middle" font-size="14" font-weight="600" fill="var(--ink)">Cât de pasionat ești →</text>';
+  g+='<text transform="translate(18 '+(T+ph/2)+') rotate(-90)" text-anchor="middle" font-size="14" font-weight="600" fill="var(--ink)">Cât de bun ești →</text>';
+  /* labels on the same row alternate above / below so they don't overlap */
+  var rowPos={};
+  items.slice().sort(function(a,b){return a.p-b.p;}).forEach(function(it){var r=rowPos['r'+it.s]=(rowPos['r'+it.s]||0);it._below=r%2===1;rowPos['r'+it.s]=r+1;});
+  var seen={},pts='',labs='';
+  items.forEach(function(it,idx){
+    var key=it.s+'-'+it.p,k=seen[key]||0;seen[key]=k+1;
+    var x=X(it.p)+k*12,y=Y(it.s)-k*12;
+    var q=quadOf(it),below=it._below!==(k%2===1);
+    var anc='middle',tx=x;
+    if(x>W-R-70){anc='end';tx=x+10;}else if(x<L+60){anc='start';tx=x-10;}
+    var ty=below?y+27:y-16;
+    pts+='<g class="pt'+(hot===it.n?' hot':'')+'" style="--k:'+idx+'"><circle cx="'+f1(x)+'" cy="'+f1(y)+'" r="13" fill="var(--'+q+')" fill-opacity=".18"/><circle cx="'+f1(x)+'" cy="'+f1(y)+'" r="7" fill="var(--'+q+')" stroke="var(--panel)" stroke-width="2"/></g>';
+    labs+='<text x="'+f1(tx)+'" y="'+f1(ty)+'" text-anchor="'+anc+'" font-size="13" font-weight="600" fill="var(--ink)" stroke="var(--panel)" stroke-width="4" paint-order="stroke" stroke-linejoin="round">'+esc(trunc(it.n,17))+'</text>';
+    delete it._below;
+  });
+  g+=pts+labs;
+  return g+'</svg>';
+}
+
+/* ---------- markdown (safe) ---------- */
+function inl(s){
+  return esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/(^|[^*])\*(?!\s)([^*]+?)\*(?!\*)/g,'$1<em>$2</em>');
+}
+function md(t){
+  var lines=String(t||'').split('\n'),out='',ul=false,ol=false;
+  function close(){if(ul){out+='</ul>';ul=false;}if(ol){out+='</ol>';ol=false;}}
+  lines.forEach(function(raw){
+    var l=raw.trim(),m;
+    if(!l){close();return;}
+    if(/^-{3,}$/.test(l)){close();return;}
+    if((m=l.match(/^(#{1,4})\s+(.*)$/))){close();var lv=m[1].length<=2?'h2':'h3';out+='<'+lv+'>'+inl(m[2])+'</'+lv+'>';return;}
+    if((m=l.match(/^[-*•]\s+(.*)$/))){if(ol){out+='</ol>';ol=false;}if(!ul){out+='<ul>';ul=true;}out+='<li>'+inl(m[1])+'</li>';return;}
+    if((m=l.match(/^\d+[.)]\s+(.*)$/))){if(ul){out+='</ul>';ul=false;}if(!ol){out+='<ol>';ol=true;}out+='<li>'+inl(m[1])+'</li>';return;}
+    close();out+='<p>'+inl(l)+'</p>';
+  });
+  close();
+  return out;
+}
+
+/* ---------- UI components ---------- */
+var ARROW='<svg class="arr" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+var lastPick=null,lastMove=null,lastAdded=null,lastHot=null,prevZ=0;
+function lk(act,k,i,val,label,max,ends){
+  max=max||5;val=val||0;
+  var h='<div class="lk" role="radiogroup" aria-label="'+esc(label)+'" style="--n:'+max+';--p:'+(val?(val-1)/(max-1):0)+'">';
+  for(var v=1;v<=max;v++){
+    var c=v===val?'on':(val&&v<val?'lit':'');
+    h+='<button type="button" role="radio" aria-checked="'+(v===val)+'" class="'+c+'" data-act="'+act+'" data-k="'+esc(k)+'" data-i="'+i+'" data-v="'+v+'">'+v+'</button>';
+  }
+  h+='</div>';
+  if(ends)h+='<div class="lk-ends" aria-hidden="true"><span>'+ends[0]+'</span><span>'+ends[1]+'</span></div>';
+  return h;
+}
+function field(label,path,opts){
+  opts=opts||{};
+  var id='f-'+path.replace(/[^a-z0-9]+/gi,'-');
+  var v=esc(getPath(path)),sm=opts.hint?'<small>'+esc(opts.hint)+'</small>':'';
+  var inp=opts.rows?'<textarea id="'+id+'" data-bind="'+esc(path)+'" rows="'+opts.rows+'" placeholder="'+esc(opts.ph||'')+'">'+v+'</textarea>'
+    :'<input type="text" id="'+id+'" data-bind="'+esc(path)+'" value="'+v+'" placeholder="'+esc(opts.ph||'')+'"'+(opts.num?' inputmode="numeric"':'')+' autocomplete="off">';
+  return '<div class="f"><label for="'+id+'"><span>'+esc(label)+'</span></label>'+sm+inp+'</div>';
+}
+function counter(key){return '<div class="counter" data-count="'+key+'"><span class="c-t"></span><span class="bar"><i></i></span></div>';}
+function nav(label){
+  return '<div class="nav"><button type="button" class="ghost" data-act="back">← Înapoi</button><div class="nav-r"><p class="hint" id="hint" aria-live="polite"></p><button type="button" class="primary" id="next" data-act="next">'+esc(label||'Continuă')+ARROW+'</button></div></div>';
+}
+function stage(title,lead,body,label,wide){
+  var i=S.phase;
+  return '<section class="stage'+(wide?' wide':'')+'"><header class="st-head"><div class="st-leg">'+glyph(i*45)+'<span class="st-b"><b>'+BR[i]+'</b> · '+pad3(i*45)+'°</span><span class="st-of">Etapa '+(i+1)+' din 8</span></div>'+
+    '<h1>'+esc(title)+'</h1><p class="lead">'+lead+'</p></header><div class="st-body">'+body+'</div>'+nav(label)+'</section>';
+}
+function pickOn(arr,v){return arr.indexOf(v)>-1;}
+function just(v){return lastPick===v?' just':'';}
+
+/* ---------- steps ---------- */
+function hero(){
+  var started=(function(){try{var r=localStorage.getItem(KEY);return !!(r&&JSON.parse(r).phase>=0);}catch(e){return false;}})();
+  var words='Află la ce ești bun și ce să încerci mai departe'.split(' ');
+  var h1=words.map(function(w,i){return '<span class="w" style="--i:'+i+'">'+(w==='bun'?'<span class="mk">bun</span>':w)+'</span>';}).join(' ');
+  var h='<section class="stage wide"><div class="hero">'+
+  '<div class="hero-t">'+
+    '<p class="eyebrow">Test de carieră și autodescoperire</p>'+
+    '<h1>'+h1+'</h1>'+
+    '<p class="lead">Un interviu ghidat, pas cu pas. La final primești profilul tău, un raport scris pentru tine și 5 experimente pe care le poți face chiar luna asta.</p>'+
+    '<div class="facts"><div><b>30–45</b><span>minute</span></div><div><b>8</b><span>etape</span></div><div><b>5</b><span>experimente concrete</span></div></div>'+
+    '<div class="btnrow"><button type="button" class="primary" data-act="start">'+(started?'Începe din nou':'Începe testul')+ARROW+'</button>'+
+    (started?'<button type="button" class="ghost" data-act="resume">Continuă de unde ai rămas</button>':'')+
+    '<button type="button" class="linkbtn" data-act="demo">Vezi un profil exemplu</button></div>'+
+    '<p class="note">Răspunsurile rămân în browserul tău. Doar când ceri raportul scris, ele sunt trimise către Claude, folosind contul tău Claude.</p>'+
+  '</div>'+
+  '<div class="hero-c">'+compassSVG()+'<div class="cread" id="cread" aria-live="polite">'+creadHtml('q1')+'</div><p class="hint-c">Abilitatea crește spre nord, pasiunea spre est</p></div>'+
+  '</div>';
+  h+='<div class="sec-h"><p class="eyebrow">Traseul</p><h2>8 etape, câte una pe fiecare cap de compas</h2></div><div class="legs">';
+  for(var i=0;i<8;i++){
+    h+='<div class="leg-card glow"><div class="leg-top">'+glyph(i*45)+'<span class="mono">'+BR[i]+' · '+pad3(i*45)+'°</span></div><b>'+PH[i]+'</b><p>'+LEGD[i]+'</p></div>';
+  }
+  h+='</div>';
+  h+='<div class="sec-h"><p class="eyebrow">Pe ce se sprijină</p><h2>Modele din psihologia vocațională</h2></div>'+
+  '<div class="basis card glow"><div><p class="note">Fiecare etapă folosește un model cercetat. Rezultatele se calculează direct din răspunsurile tale.</p><div class="tags"><span class="tag">Holland (RIASEC)</span><span class="tag">Big Five</span><span class="tag">Career Anchors</span><span class="tag">Ikigai</span><span class="tag">Teoria autodeterminării</span></div></div>'+
+  '<div class="basis-t"><p>Motivația e citită prin cele 3 nevoi din teoria autodeterminării: autonomie, competență și relaționare.</p><p>Inteligențele multiple apar ca stiluri de lucru preferate, nu ca etichete științifice.</p><p>Zodia e doar pentru distracție și nu intră în nicio concluzie.</p></div></div>';
+  return h+'</section>';
+}
+function p0(){
+  return stage('Context','Câteva întrebări simple, ca să înțeleg de unde pornești.',
+    '<div class="fields"><div class="row2">'+field('Câți ani ai?','ctx.age',{ph:'ex. 24',num:true})+
+    field('Ce faci acum (ocupație sau studii)?','ctx.job',{ph:'ex. student la Automatică, lucrez în retail...'})+'</div>'+
+    field('Care e situația ta de viață?','ctx.life',{rows:3,hint:'Constrângeri de bani, locație, familie, timp. Cu cât ești mai sincer, cu atât mai realiste vor fi recomandările.'})+
+    field('Ce te-a adus aici acum?','ctx.why',{rows:3})+
+    field('Ce ai vrea să se schimbe în 1 până la 2 ani?','ctx.change',{rows:3})+'</div>');
+}
+function qList(items,arr,key,ends){
+  var h='<div class="qs-list">';
+  items.forEach(function(it,i){
+    h+='<div class="q'+(arr[i]!=null?' ok':'')+'" style="--qi:'+i+'"><div class="q-top"><span class="q-n">'+('0'+(i+1)).slice(-2)+' / '+items.length+'</span><p class="q-text">'+esc(it.text)+'</p></div>'+lk('lk',key,i,arr[i],it.text,5,ends)+'</div>';
+  });
+  return h+'</div>';
+}
+function p1(){
+  var h='<div class="legend-box"><span>Cât de mult ți-ar plăcea să faci asta o zi întreagă?</span><span><b>1</b> = deloc · <b>5</b> = enorm</span></div><p class="note">Nu te gândi dacă te pricepi, ci doar dacă ți-ar plăcea.</p>'+counter('riasec')+qList(RIT,S.riasec,'riasec',['deloc','enorm']);
+  return stage('Interese','Modelul Holland (RIASEC) grupează activitățile în 6 tipuri. Aici afli care dintre ele te atrag cel mai mult.',h);
+}
+function p2(){
+  var h='<div class="legend-box"><span>Cât de bine te descrie fiecare afirmație?</span><span><b>1</b> = deloc · <b>5</b> = mă descrie perfect</span></div><p class="note">Răspunde cum ești de obicei, nu cum ți-ai dori să fii.</p>'+counter('big5')+qList(BIT,S.big5,'big5',['deloc','perfect']);
+  return stage('Personalitate','Cele 5 mari dimensiuni (Big Five) sunt cel mai bine validat model de personalitate. Rezultatele sunt tendințe, nu etichete.',h);
+}
+function p3(){
+  var h='<p class="counter"><span>Alese: '+S.styles.length+' din 3</span><span class="bar"><i style="width:'+(S.styles.length/3*100)+'%"></i></span></p><div class="opts">';
+  STYLES.forEach(function(s){
+    var on=pickOn(S.styles,s.t);
+    h+='<button type="button" class="opt glow'+(on?' on':'')+just(s.t)+'" aria-pressed="'+on+'" data-act="pick" data-k="styles" data-max="3" data-v="'+esc(s.t)+'"><strong>'+esc(s.t)+'</strong><span>'+esc(s.d)+'</span></button>';
+  });
+  h+='</div>';
+  if(S.styles.length){
+    h+='<h2>Un exemplu concret pentru fiecare</h2><p class="note">Opțional, dar foarte util. De exemplu: „Ce ai învățat repede, fără să te chinui?”</p><div class="fields">';
+    S.styles.forEach(function(s){h+=field(s,'styleEx.'+s,{rows:2});});
+    h+='</div>';
+  }
+  return stage('Stil de lucru și de învățare','Alege cele 3 stiluri în care te regăsești cel mai mult. Modelul inteligențelor multiple e popular, dar slab validat științific, așa că îl folosim doar ca „stiluri preferate”, nu ca adevăr despre creierul tău.',h);
+}
+function p4(){
+  var h='<h2 style="margin-top:0">Valorile tale</h2><p class="note">Alege 5 valori care contează cel mai mult pentru tine. Apoi ordonează-le. ('+S.values.length+' din 5)</p><div class="chips">';
+  VALUES.forEach(function(v){
+    var on=pickOn(S.values,v),ix=S.values.indexOf(v);
+    h+='<button type="button" class="chip'+(on?' on':'')+just(v)+'" aria-pressed="'+on+'" data-act="pick" data-k="values" data-max="5" data-v="'+esc(v)+'">'+(on?'<span class="rb">'+(ix+1)+'</span>':'')+esc(v)+'</button>';
+  });
+  h+='</div>';
+  if(S.values.length){
+    h+='<h3>Ordinea ta</h3><ol class="rank">';
+    S.values.forEach(function(v,i){
+      var cls='';
+      if(lastMove){if(i===lastMove.to)cls=lastMove.d<0?'from-below':'from-above';else if(i===lastMove.from)cls=lastMove.d<0?'from-above':'from-below';}
+      h+='<li class="'+cls+'"><span class="rk">'+(i+1)+'</span><span class="rv">'+esc(v)+'</span><span class="mv">'+
+      '<button type="button" data-act="mv" data-i="'+i+'" data-d="-1" aria-label="Mută mai sus: '+esc(v)+'"'+(i===0?' disabled':'')+'>↑</button>'+
+      '<button type="button" data-act="mv" data-i="'+i+'" data-d="1" aria-label="Mută mai jos: '+esc(v)+'"'+(i===S.values.length-1?' disabled':'')+'>↓</button></span></li>';
+    });
+    h+='</ol><h3>Un exemplu real pentru primele 3</h3><p class="note">Opțional, dar mult mai valoros decât lista singură: când ai trăit concret această valoare?</p><div class="fields">';
+    S.values.slice(0,3).forEach(function(v){h+=field(v,'valEx.'+v,{rows:2});});
+    h+='</div>';
+  }
+  h+='<h2>Ancora ta de carieră</h2><p class="note">Ce descrie cel mai bine ce cauți într-o carieră? Alege 2. ('+S.anchors.length+' din 2)</p><div class="opts">';
+  ANCHORS.forEach(function(a){
+    var on=pickOn(S.anchors,a.t);
+    h+='<button type="button" class="opt glow'+(on?' on':'')+just(a.t)+'" aria-pressed="'+on+'" data-act="pick" data-k="anchors" data-max="2" data-v="'+esc(a.t)+'"><strong>'+esc(a.t)+'</strong><span>'+esc(a.d)+'</span></button>';
+  });
+  h+='</div><h2>Ce te motivează cu adevărat</h2><p class="note">Teoria autodeterminării spune că motivația vine din 3 nevoi. Dă câte un exemplu (opțional, dar util).</p><div class="fields">'+
+    field('Când te simți autonom (tu decizi cum faci)?','sdt.auto',{rows:2})+
+    field('Când te simți competent (te pricepi și vezi progres)?','sdt.comp',{rows:2})+
+    field('Când te simți conectat cu alții?','sdt.conn',{rows:2})+'</div>';
+  return stage('Valori și motivații','Valorile spun ce contează pentru tine, ancora spune ce cauți într-o carieră, iar nevoile de motivație spun în ce condiții dai tot ce ai mai bun.',h);
+}
+function p5(){
+  var h='<div class="fields">'+
+    field('1. O realizare de care ești mândru','stories.0',{rows:4,hint:'Din orice domeniu: școală, sport, muncă, hobby, viață personală. Ce ai făcut tu, concret?'})+
+    field('2. O activitate în care pierzi noțiunea timpului','stories.1',{rows:4,hint:'Ce faci atunci? Ce anume te absoarbe?'})+
+    field('3. Ceva ce alții te roagă des să faci sau să le explici','stories.2',{rows:4})+
+    field('4. O muncă sau o situație pe care ai urât-o (sau un eșec)','stories.3',{rows:4,hint:'Ce te-a deranjat concret? Ce te-a epuizat?'})+'</div>';
+  return stage('Povești de dovezi','Aceasta e cea mai importantă etapă. Comportamentul din trecut spune mai mult decât orice auto-evaluare. Scrie câteva propoziții pentru fiecare, cu detalii reale.',counter('stories')+h);
+}
+function badge(it,i){
+  if(!rated(it))return '<span class="qbadge" data-qb="'+i+'">de notat</span>';
+  var q=quadOf(it);
+  return '<span class="qbadge set" data-qb="'+i+'" style="'+qv(q)+'">'+QN[q].t+'</span>';
+}
+function p6(){
+  var h='<div class="p6"><div class="p6-main">';
+  h+='<p class="note">Adaugă între 5 și 12 lucruri pe care le faci sau le-ai putea face: abilități, activități, hobby-uri, materii. Pentru fiecare, notezi de la 1 la 6 cât de bun ești și cât de pasionat ești. Nu există nota 3,5: ești obligat să te poziționezi.</p>';
+  h+='<div class="add"><input type="text" id="newItem" maxlength="40" placeholder="ex. programare, explicat lucruri, desen..." autocomplete="off" aria-label="Activitate nouă"><button type="button" class="ghost" data-act="add">Adaugă</button></div>';
+  var left=SUGG.filter(function(s){return !S.items.some(function(i){return i.n.toLowerCase()===s.toLowerCase();});});
+  if(left.length&&S.items.length<12){
+    h+='<div class="chips">';
+    left.slice(0,8).forEach(function(s){h+='<button type="button" class="chip sug" data-act="sug" data-v="'+esc(s)+'">'+esc(s)+'</button>';});
+    h+='</div>';
+  }
+  h+=counter('items')+'<div class="items">';
+  S.items.forEach(function(it,i){
+    h+='<div class="item'+(lastAdded===it.n?' just':'')+'"><div class="item-h"><strong>'+esc(it.n)+'</strong><span class="item-hr">'+badge(it,i)+'<button type="button" class="x" data-act="rm" data-i="'+i+'" aria-label="Șterge '+esc(it.n)+'">✕</button></span></div>'+
+    '<div class="item-sc"><div><p class="lab">Cât de bun ești?</p>'+lk('qs','s',i,it.s,'Cât de bun ești la '+it.n,6,['deloc','foarte bun'])+'</div>'+
+    '<div><p class="lab">Cât de pasionat ești?</p>'+lk('qs','p',i,it.p,'Cât de pasionat ești de '+it.n,6,['deloc','foarte'])+'</div></div></div>';
+  });
+  h+='</div></div>';
+  h+='<aside class="p6-side"><div class="card live"><p class="eyebrow">Harta ta, în timp real</p><div id="liveplot">'+quadPlot(S.items.filter(rated),null)+'</div><p class="live-cap" id="livecap"></p></div></aside></div>';
+  h+='<h2>Ikigai</h2><p class="note">Cele 4 întrebări din Ikigai. Răspunde pe scurt, cu ce îți vine în minte (opțional, dar util).</p><div class="fields"><div class="row2" style="grid-template-columns:1fr 1fr">'+
+    field('Ce iubești să faci?','iki.love',{rows:2})+
+    field('La ce ești bun?','iki.good',{rows:2})+'</div><div class="row2" style="grid-template-columns:1fr 1fr">'+
+    field('De ce crezi că are lumea nevoie (din ce ai văzut tu)?','iki.need',{rows:2})+
+    field('Pentru ce ai putea fi plătit?','iki.paid',{rows:2})+'</div></div>';
+  return stage('Cele 4 cadrane','Aici punem totul cap la cap: la ce ești bun, ce te pasionează și unde se suprapun.',h,null,true);
+}
+function p7(){
+  var si=ZODIAC.indexOf(S.zodiac),ang=si<0?0:si*30;
+  var from=prevZ;
+  if(si>=0&&Math.abs(ang-from)>180)from+=ang>from?360:-360;
+  var h='<div class="warn">Astrologia nu are validitate științifică. O includem ca divertisment și <strong>nu o folosim în nicio concluzie</strong> sau recomandare de carieră. Poți sări peste această etapă.</div>';
+  h+='<div class="zwrap"><div class="zring">';
+  ZODIAC.forEach(function(z,i){
+    var on=S.zodiac===z;
+    h+='<button type="button" class="zb'+(on?' on':'')+just(z)+'" style="--a:'+(i*30)+'deg" aria-pressed="'+on+'" data-act="zod" data-v="'+z+'"><span class="g" aria-hidden="true">'+ZG[i]+'︎</span><span class="nm">'+z+'</span></button>';
+  });
+  h+='<div class="zneedle'+(si<0?' idle':'')+'" style="--b:'+ang+'deg;--from:'+from+'deg"></div>';
+  h+='<div class="zc">'+(si<0?'<span>Alege</span><span class="mono">o zodie</span>':'<b aria-hidden="true">'+ZG[si]+'︎</b><span>'+S.zodiac+'</span><span class="mono">'+pad3(ang)+'°</span>')+'</div>';
+  h+='</div></div>';
+  if(si>=0)prevZ=ang;
+  return stage('Zodie (opțional)','Dacă vrei, alege zodia. Primești câteva rânduri pentru distracție, separate clar de restul raportului.',h,S.zodiac?'Vezi rezultatele':'Sari peste și vezi rezultatele');
+}
+function results(){
+  var rs=riasecScores(),b=big5Scores();
+  var h='<section class="stage wide results"><header class="st-head"><div class="st-leg">'+glyph(360)+'<span class="st-b"><b>N</b> · 360°</span><span class="st-of">Ocolul complet</span></div>'+
+    '<h1>Profilul tău</h1><p class="lead">Tot ce vezi mai jos e calculat direct din răspunsurile tale, fără AI. Raportul scris personalizat e la finalul paginii.</p></header><div class="st-body">';
+  if(DEMO)h+='<div class="demo-note"><span><b>Profil exemplu.</b> Datele sunt demonstrative și nu îți aparțin.</span><button type="button" class="linkbtn" data-act="start">Începe testul tău</button></div>';
+  h+='<div class="r-grid"><article class="card glow"><p class="eyebrow">Interese · codul tău Holland</p><div class="code" aria-label="Cod Holland: '+rs.code.join('')+'">'+rs.code.map(function(c){return '<span data-l="'+c+'">'+c+'</span>';}).join('')+'</div>'+
+    '<ul class="hl">'+rs.code.map(function(c,i){return '<li><b>0'+(i+1)+'</b><span><strong>'+RT[c]+'</strong>: '+RD[c]+'.</span></li>';}).join('')+'</ul></article>'+
+    '<article class="card"><p class="eyebrow">Cele 6 tipuri · scor de la 3 la 15</p>'+radar(RORDER.map(function(t){return rs.sc[t]/15;}),RORDER.map(function(t){return RT[t];}),RORDER.map(function(t){return rs.sc[t];}),rs.code)+'</article></div>';
+  h+='<article class="card"><p class="eyebrow">Personalitate · Big Five</p><h2 class="c-title">Tendințe, nu etichete</h2><p class="note">Un scor mai mare nu e „mai bun”: fiecare capăt al scalei are avantaje și riscuri.</p><div class="b5">';
+  BD.forEach(function(d,i){
+    h+='<div><div class="bar-h"><b>'+BN[d]+'</b><span class="r"><span class="pct" data-to="'+b[d].pct+'">'+b[d].pct+'</span><span class="lvl">'+LV[b[d].lvl]+'</span></span></div><div class="track"><div class="fill" style="width:'+Math.max(4,b[d].pct)+'%;--d:'+(i*120+300)+'ms"></div></div><p class="bar-t">'+BTXT[d][b[d].lvl]+'</p></div>';
+  });
+  h+='</div><p class="thr">Praguri: sub 34 = mai scăzut · 34–66 = mediu · 67 și peste = mai ridicat</p></article>';
+  h+='<div class="r-3"><article class="card glow"><p class="eyebrow">Stiluri preferate</p><div class="tags">'+S.styles.map(function(s){return '<span class="tag">'+esc(s)+'</span>';}).join('')+'</div></article>'+
+    '<article class="card glow"><p class="eyebrow">Valorile tale, în ordine</p><ol class="vlist">'+S.values.map(function(v){return '<li>'+esc(v)+'</li>';}).join('')+'</ol></article>'+
+    '<article class="card glow"><p class="eyebrow">Ancore de carieră</p><div class="tags">'+S.anchors.map(function(s){return '<span class="tag">'+esc(s)+'</span>';}).join('')+'</div></article></div>';
+  h+='<article class="card"><p class="eyebrow">Cele 4 cadrane · abilitate × pasiune</p><h2 class="c-title">Unde se așază ce faci</h2><p class="note">Fiecare punct e o activitate sau abilitate de-a ta. Cadranele se calculează din notele tale: 4 sau mai mult înseamnă „mare”.</p><div class="quad-grid"><div>'+quadPlot(S.items,null)+'</div><div class="qlist">';
+  ['q1','q2','q3','q4'].forEach(function(q){
+    var its=S.items.filter(function(i){return quadOf(i)===q;});
+    h+='<div class="qb" style="'+qv(q)+'"><h3><i></i>'+QN[q].t+' <small>'+QN[q].s+'</small></h3><p>'+QN[q].d+'</p>'+
+    (its.length?'<div class="qi">'+its.map(function(i){return '<span>'+esc(i.n)+'<em>'+i.s+'·'+i.p+'</em></span>';}).join('')+'</div>':'<p class="muted" style="margin-top:6px">Nimic aici.</p>')+'</div>';
+  });
+  h+='</div></div></article>';
+  var ik=[['Ce iubești',S.iki.love,'q1'],['La ce ești bun',S.iki.good,'q3'],['De ce are lumea nevoie',S.iki.need,'q2'],['Pentru ce poți fi plătit',S.iki.paid,'q4']].filter(function(x){return String(x[1]).trim();});
+  if(ik.length){
+    h+='<article class="card"><p class="eyebrow">Ikigai · cu cuvintele tale</p><div class="iki"><div class="venn" aria-hidden="true">'+
+      '<i style="'+qv('q1')+';--dl:0s"></i><i style="'+qv('q3')+';--dl:-1.5s"></i><i style="'+qv('q2')+';--dl:-3s"></i><i style="'+qv('q4')+';--dl:-4.5s"></i>'+
+      '<b style="left:35%;top:8%">iubești</b><b style="right:3%;top:44%">ești bun</b><b style="left:35%;bottom:8%">lumea are nevoie</b><b style="left:3%;top:44%">ești plătit</b><b class="c">ikigai</b></div>'+
+      '<div class="iki-l">'+ik.map(function(x){return '<div style="'+qv(x[2])+'"><b>'+x[0]+'</b><p>'+esc(x[1])+'</p></div>';}).join('')+'</div></div></article>';
+  }
+  h+='<article class="card report" id="report"><p class="eyebrow">Raport scris · Claude</p><h2 class="c-title">Raportul tău personalizat</h2>'+
+    '<p class="lead" style="font-size:17px">Claude citește tot ce ai răspuns și scrie: profilul pe scurt, interpretarea cadranelor, top 5 cariere, 3 direcții neașteptate, ce să eviți, 5 mini-experimente, planul pe 30 de zile și cât de sigure sunt concluziile.</p>'+
+    '<p class="note" style="margin-top:10px">Când apeși butonul, răspunsurile tale sunt trimise către Claude, pe contul tău (consumă din utilizarea ta). La primul apel ți se cere confirmarea. Durează 1 până la 3 minute.</p>'+
+    '<div class="btnrow" id="actions">'+actionsHtml()+'</div><p class="status" id="status" aria-live="polite"></p><div id="copybox"></div>'+
+    '<div class="prose" id="rep1">'+md(S.rep.a)+'</div><div class="prose" id="rep2">'+md(S.rep.b)+'</div>'+
+    '<div class="warn" style="margin-top:22px">Acesta e un instrument de reflecție, nu un verdict. Interesele se schimbă: testează în realitate, nu te baza doar pe raport. Pentru decizii mari, vorbește cu un consilier de carieră acreditat.</div>'+
+    '</article>';
+  h+='<div class="btnrow endrow"><button type="button" class="ghost" data-act="back">← Înapoi la răspunsuri</button><button type="button" class="ghost" data-act="reset">Începe un test nou</button></div></div></section>';
+  return h;
+}
+
+/* ---------- validation ---------- */
+function count(arr){return arr.filter(function(x){return x!==null;}).length;}
+function need(ph){
+  var c=S.ctx;
+  if(ph===0){return (!c.age.trim()||!c.job.trim()||!c.why.trim())?'Completează vârsta, ocupația și ce te-a adus aici.':'';}
+  if(ph===1){var n=18-count(S.riasec);return n?'Mai ai de răspuns la '+n+' afirmații.':'';}
+  if(ph===2){var m=15-count(S.big5);return m?'Mai ai de răspuns la '+m+' afirmații.':'';}
+  if(ph===3){return S.styles.length<3?'Alege 3 stiluri ('+S.styles.length+' din 3).':'';}
+  if(ph===4){
+    if(S.values.length<5)return 'Alege 5 valori ('+S.values.length+' din 5).';
+    if(S.anchors.length<2)return 'Alege 2 ancore de carieră ('+S.anchors.length+' din 2).';
+    return '';
+  }
+  if(ph===5){var f=S.stories.filter(function(s){return s.trim().length>=20;}).length;return f<3?'Scrie cel puțin 3 povești (câteva propoziții fiecare).':'';}
+  if(ph===6){
+    if(S.items.length<5)return 'Adaugă cel puțin 5 activități ('+S.items.length+' din 5).';
+    var u=S.items.filter(function(i){return i.s===null||i.p===null;}).length;
+    return u?'Mai ai de notat '+u+(u===1?' activitate.':' activități.'):'';
+  }
+  return '';
+}
+function setCount(key,text,frac){
+  var el=$('[data-count="'+key+'"]');if(!el)return;
+  el.querySelector('.c-t').textContent=text;
+  el.querySelector('.bar i').style.width=Math.min(100,frac*100)+'%';
+}
+var wasBlocked=null;
+function refreshNav(){
+  var nx=$('#next'),hn=$('#hint');
+  if(nx){
+    var m=need(S.phase);nx.disabled=!!m;if(hn)hn.textContent=m;
+    if(wasBlocked===true&&!m){nx.classList.remove('ready');void nx.offsetWidth;nx.classList.add('ready');}
+    wasBlocked=!!m;
+  }
+  setCount('riasec','Răspunsuri: '+count(S.riasec)+' din 18',count(S.riasec)/18);
+  setCount('big5','Răspunsuri: '+count(S.big5)+' din 15',count(S.big5)/15);
+  var f=S.stories.filter(function(s){return s.trim().length>=20;}).length;
+  setCount('stories','Povești completate: '+f+' (minim 3)',f/4);
+  setCount('items','Activități: '+S.items.length+' din 12 (minim 5)',S.items.length/12);
+}
+
+/* ---------- rendering ---------- */
+var main=$('#main'),routeEl=$('#route');
+function renderProgress(){
+  var bn=$('#brandNeedle');
+  bn.style.transform='rotate('+(S.phase<0?0:S.phase*45)+'deg)';
+  $('#demoPill').hidden=!DEMO;
+  if(S.phase<0){routeEl.hidden=true;return;}
+  routeEl.hidden=false;
+  if(!routeEl.dataset.built){
+    var h='<ol class="route-l" id="routeL"><span class="route-fill" aria-hidden="true"></span>';
+    for(var i=0;i<9;i++){h+='<li><button type="button" data-jump="'+i+'" data-tip="'+(i<8?BR[i]+' · ':'')+PH[i]+'" aria-label="'+PH[i]+'"></button></li>';}
+    routeEl.innerHTML=h+'</ol><div class="route-meta"><span id="rmL"></span><span id="rmR" class="mono bear"></span></div>';
+    routeEl.dataset.built='1';
+  }
+  var lis=routeEl.querySelectorAll('li');
+  Array.prototype.forEach.call(lis,function(li,i){
+    li.className=i<S.phase?'done':(i===S.phase?'cur':'');
+    var bt=li.firstChild;bt.disabled=i>=S.phase;
+    if(i===S.phase)bt.setAttribute('aria-current','step');else bt.removeAttribute('aria-current');
+  });
+  $('#routeL').style.setProperty('--p',S.phase/8);
+  $('#rmL').innerHTML=S.phase<8?'Etapa '+(S.phase+1)+' din 8 · <b>'+PH[S.phase]+'</b>':'<b>Rezultate</b> · ocolul complet';
+  $('#rmR').textContent=BR[S.phase]+' '+pad3(S.phase*45)+'°';
+}
+function view(){
+  if(S.phase<0)return hero();
+  return [p0,p1,p2,p3,p4,p5,p6,p7,results][S.phase]();
+}
+function render(top){
+  var y=window.scrollY;
+  main.classList.remove('anim');
+  main.innerHTML=view();
+  lastPick=null;lastMove=null;lastAdded=null;
+  if(top){wasBlocked=null;void main.offsetWidth;main.classList.add('anim');}
+  renderProgress();
+  refreshNav();
+  after(top);
+  window.scrollTo(0,top?0:y);
+}
+function go(n){S.phase=n;save();render(true);}
+function after(top){
+  if($('#compass'))initCompass();
+  if(S.phase===6)updateLive();
+  if(S.phase===8&&top&&!RM){flap();countUp();}
+}
+
+/* ---------- interactive compass ---------- */
+function initCompass(){
+  var svg=$('#compass'),needle=$('#needle'),read=$('#cread'),hero=$('.hero');
+  if(!svg||svg.dataset.init)return;svg.dataset.init='1';
+  var st={a:RM?45:-210,v:0,target:45,hover:false,q:'q1'};
+  function quadAt(a){a=((a%360)+360)%360;return a<90?'q1':(a<180?'q3':(a<270?'q4':'q2'));}
+  function setQ(q){
+    if(q===st.q)return;st.q=q;
+    svg.setAttribute('class','compass is-'+q);
+    read.innerHTML=creadHtml(q);
+  }
+  function aim(e){
+    var r=svg.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);
+    if(dx*dx+dy*dy<100)return;
+    st.target=Math.atan2(dx,-dy)*180/Math.PI;st.hover=true;
+    if(RM){st.a=st.target;needle.setAttribute('transform','rotate('+f1(st.a)+' 200 200)');setQ(quadAt(st.a));}
+  }
+  hero.addEventListener('pointermove',aim);
+  hero.addEventListener('pointerdown',aim);
+  hero.addEventListener('pointerleave',function(){st.hover=false;st.target=45;if(RM){st.a=45;needle.setAttribute('transform','rotate(45 200 200)');setQ('q1');}});
+  if(RM)return;
+  var t0=null;
+  function loop(ts){
+    if(!svg.isConnected)return;
+    if(t0===null)t0=ts;
+    var wob=st.hover?0:Math.sin(ts/850)*5+Math.sin(ts/2300)*3;
+    var go=ts-t0>350;
+    var diff=((st.target+wob-st.a)%360+540)%360-180;
+    if(go){st.v=(st.v+diff*.035)*.88;st.a+=st.v;}
+    needle.setAttribute('transform','rotate('+f1(st.a)+' 200 200)');
+    setQ(quadAt(st.a));
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+}
+
+/* ---------- results effects ---------- */
+function flap(){
+  var spans=main.querySelectorAll('.code span'),L='RIASEC';
+  Array.prototype.forEach.call(spans,function(sp,i){
+    var fin=sp.dataset.l,n=0,stop=8+i*5;
+    var iv=setInterval(function(){
+      n++;
+      sp.textContent=n>=stop?fin:L[(Math.random()*6)|0];
+      sp.classList.remove('flip');void sp.offsetWidth;sp.classList.add('flip');
+      if(n>=stop)clearInterval(iv);
+    },70);
+  });
+}
+function countUp(){
+  var els=main.querySelectorAll('.pct[data-to]');
+  var t0=performance.now();
+  function step(ts){
+    var p=Math.min(1,(ts-t0)/1500),e=1-Math.pow(1-p,3);
+    Array.prototype.forEach.call(els,function(el){el.textContent=Math.round(+el.dataset.to*e);});
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function updateLive(){
+  var el=$('#liveplot');if(!el)return;
+  var r=S.items.filter(rated);
+  el.innerHTML=quadPlot(r,lastHot);
+  lastHot=null;
+  var cap=$('#livecap');
+  if(cap){
+    var g=r.filter(function(i){return quadOf(i)==='q1';}).length;
+    cap.textContent=!S.items.length?'Adaugă o activitate și notează-o ca să apară pe hartă.':(r.length?r.length+' din '+S.items.length+' pe hartă · '+g+' în zona de aur':'Notează activitățile ca să apară pe hartă.');
+  }
+}
+function updateBadge(i){
+  var el=main.querySelector('[data-qb="'+i+'"]');if(!el)return;
+  var tmp=document.createElement('div');tmp.innerHTML=badge(S.items[i],i);
+  var nb=tmp.firstChild;
+  if(el.textContent===nb.textContent&&el.className===nb.className)return;
+  el.replaceWith(nb);
+}
+
+/* ---------- AI report ---------- */
+var ctl=null,running=false;
+var PERSONA='Ești un consilier de carieră și autodescoperire cu experiență, bazat pe psihologie vocațională (Holland/RIASEC, Big Five, Career Anchors, Ikigai, Self-Determination Theory). Ești cald, direct și onest. Nu flatezi: dacă datele sunt contradictorii sau insuficiente, spui asta. Scrii în limba română, la persoana a doua singular, simplu, fără jargon nedefinit. Te bazezi DOAR pe datele de mai jos și nu inventezi fapte despre persoană. Nu pui diagnostice medicale sau psihologice; dacă răspunsurile arată suferință serioasă, recomanzi blând un specialist. Format: markdown simplu, cu titluri „## ”, liste cu „- ” și **bold**; fără tabele.';
+var INSTR_A='SARCINA (partea 1 din 2). Scrie, în această ordine, exact aceste secțiuni:\n'+
+'## 1. Profilul tău în 10 rânduri\n(cod Holland, Big Five pe scurt, valorile de top, ancora de carieră, stilul de lucru; conectează-le într-un portret coerent, nu le înșira.)\n'+
+'## 2. Ce spun cele 4 cadrane\n(interpretează fiecare cadran cu dovezi din răspunsurile persoanei; la „Potențial de dezvoltare” verifică dacă „nu sunt bun” poate însemna „nu am exersat”; la „Capcana confortului” spune cum poate fi folosit ca mijloc; adaugă o interpretare Ikigai: unde se intersectează ce iubește, la ce e bun, ce are nevoie lumea și pentru ce poate fi plătit.)\n'+
+'## 3. Top 5 direcții de carieră\n(pentru fiecare: de ce se potrivește, legat explicit de date din interviu; cum arată o zi tipică; competențe de acumulat; riscuri și dezavantaje reale; cât de cerută e piața, orientativ și onest, fără cifre inventate și cu mențiunea că nu ai date în timp real.)\n'+
+'## 4. 3 direcții neașteptate\n(la care persoana probabil nu s-ar fi gândit, cu motivul.)\n'+
+'## 5. Ce să eviți\n(tipuri de roluri sau medii care probabil o vor epuiza, cu dovezi din răspunsuri.)\n'+
+'Ține cont de constrângerile din context. Lungime țintă: aproximativ 1100 de cuvinte. Nu scrie nimic înainte de „## 1.” și nimic după secțiunea 5.';
+var INSTR_B='SARCINA (partea 2 din 2). Scrie, în această ordine, exact aceste secțiuni:\n'+
+'## 6. Cele 5 mini-experimente\n(fiecare de 1 până la 2 săptămâni, cost mic sau zero, concrete, adaptate persoanei: un proiect de weekend, un curs scurt gratuit, voluntariat, job shadowing etc. Unul trebuie să fie un interviu de 20 de minute cu un profesionist din domeniu, iar unul să fie „întreabă 3 oameni care te cunosc bine la ce te văd bun”. Pentru fiecare: ce faci, cât durează și criteriul clar „am aflat că îmi place / nu îmi place dacă...”.)\n'+
+'## 7. Planul pe 30 de zile\n(săptămână cu săptămână, realist față de timpul și constrângerile persoanei.)\n'+
+'## 8. Nivel de încredere\n(pentru fiecare concluzie mare din partea 1 și 2: încredere mare, medie sau mică și ce informație ar crește încrederea.)\n'+
+'## 9. Încheiere\n(3 până la 5 rânduri calde și oneste; menționează că interesele se schimbă și că testarea în realitate bate orice raport.)\n'+
+'Dacă în date există o zodie, adaugă la final „## Bonus pentru distracție”: 3 până la 4 rânduri despre „ce zice astrologia”, clar etichetat ca divertisment fără validitate științifică, fără legătură cu concluziile de mai sus. Dacă nu există zodie, nu scrie secțiunea. Lungime țintă: aproximativ 1000 de cuvinte. Nu repeta partea 1.';
+function dataBlock(){
+  var c=S.ctx,rs=riasecScores(),b=big5Scores(),L=[];
+  L.push('CONTEXT: vârstă '+c.age+'; ocupație/studii: '+c.job+'; situație de viață: '+(c.life||'nespecificat')+'; ce l-a adus aici: '+c.why+'; ce vrea să se schimbe în 1-2 ani: '+(c.change||'nespecificat'));
+  L.push('HOLLAND (scor 3-15 pe tip): '+RORDER.map(function(t){return t+' '+RT[t]+' '+rs.sc[t];}).join(', ')+'. Cod: '+rs.code.join(''));
+  L.push('BIG FIVE (0-100): '+BD.map(function(d){return BN[d]+' '+b[d].pct+' ('+LV[b[d].lvl]+')';}).join(', '));
+  L.push('STILURI PREFERATE (inteligențe multiple, model popular, slab validat): '+S.styles.map(function(s){return s+(S.styleEx[s]&&S.styleEx[s].trim()?' — exemplu: '+S.styleEx[s].trim():'');}).join(' | '));
+  L.push('VALORI (în ordine): '+S.values.map(function(v,i){return (i+1)+'. '+v+(i<3&&S.valEx[v]&&S.valEx[v].trim()?' (exemplu: '+S.valEx[v].trim()+')':'');}).join('; '));
+  L.push('ANCORE DE CARIERĂ: '+S.anchors.join(', '));
+  L.push('MOTIVAȚIE (SDT): autonom când: '+(S.sdt.auto||'nespecificat')+'; competent când: '+(S.sdt.comp||'nespecificat')+'; conectat când: '+(S.sdt.conn||'nespecificat'));
+  L.push('POVEȘTI: (1) realizare mândră: '+S.stories[0]+' (2) flow: '+S.stories[1]+' (3) ce îl roagă alții: '+S.stories[2]+' (4) eșec sau muncă urâtă: '+(S.stories[3]||'nespecificat'));
+  L.push('CELE 4 CADRANE (bun/pasionat, scara 1-6; 4+ = mare): '+S.items.map(function(i){return i.n+' [bun '+i.s+', pasionat '+i.p+' => '+QN[quadOf(i)].t+']';}).join('; '));
+  L.push('IKIGAI: iubește: '+(S.iki.love||'-')+'; bun la: '+(S.iki.good||'-')+'; lumea are nevoie de: '+(S.iki.need||'-')+'; poate fi plătit pentru: '+(S.iki.paid||'-'));
+  L.push('ZODIE (doar divertisment): '+(S.zodiac||'nu a fost dată'));
+  return L.join('\n');
+}
+function promptA(){return PERSONA+'\n\nDATELE PERSOANEI\n'+dataBlock()+'\n\n'+INSTR_A;}
+function promptB(){return PERSONA+'\n\nDATELE PERSOANEI\n'+dataBlock()+'\n\nPARTEA 1 (deja scrisă; nu o repeta, dar păstrează coerența cu ea):\n'+S.rep.a+'\n\n'+INSTR_B;}
+function fullPrompt(){return PERSONA+'\n\nDATELE PERSOANEI\n'+dataBlock()+'\n\n'+INSTR_A+'\n\nDupă aceea, continuă fără pauză cu:\n\n'+INSTR_B.replace('Nu repeta partea 1.','');}
+
+function actionsHtml(){
+  if(running)return '<button type="button" class="ghost" data-act="stop">■ Oprește</button>';
+  var has=S.rep.a||S.rep.b,h='';
+  h+='<button type="button" class="'+(has?'ghost':'primary')+'" data-act="gen">'+(has?'Regenerează raportul':'Generează raportul personalizat'+ARROW)+'</button>';
+  if(S.rep.a&&!S.rep.b)h+='<button type="button" class="ghost" data-act="genb">Continuă cu partea 2</button>';
+  h+='<button type="button" class="ghost" data-act="cp">Copiază raportul</button>';
+  if(has)h+='<button type="button" class="ghost" data-act="dl">Descarcă raportul (.md)</button>';
+  h+='<button type="button" class="linkbtn" data-act="cpp">Copiază datele și promptul</button>';
+  h+='<button type="button" class="linkbtn" data-act="dlp">Descarcă datele și promptul (.txt)</button>';
+  return h;
+}
+function copyText(text,okMsg){
+  var box=$('#copybox');if(box)box.innerHTML='';
+  function fallback(){
+    if(!box){setStatus('Nu am putut copia.',true);return;}
+    box.innerHTML='<div class="f" style="margin-top:12px"><label for="copyarea"><span>Selectează tot textul și copiază-l (Ctrl+C sau apăsare lungă)</span></label><textarea id="copyarea" readonly rows="10"></textarea></div>';
+    var ta=$('#copyarea');ta.value=text;ta.focus();ta.select();
+    setStatus('Copierea automată nu a mers. Textul e selectat mai jos: copiază-l manual.',true);
+  }
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){setStatus(okMsg);},fallback);
+    }else{fallback();}
+  }catch(e){fallback();}
+}
+function setStatus(t,err){var s=$('#status');if(s){s.textContent=t||'';s.className='status'+(err?' err':'');}}
+function refreshActions(){var a=$('#actions');if(a)a.innerHTML=actionsHtml();}
+function errCopy(code){
+  if(code==='rate_limited')return 'Prea multe cereri sau ai atins limita de utilizare. Încearcă din nou mai târziu.';
+  if(code==='session_expired')return 'Sesiunea a expirat. Autentifică-te din nou în claude.ai și încearcă iar.';
+  if(code==='not_granted')return 'Nu ai permis folosirea Claude pentru această pagină. Poți descărca datele și promptul și le poți lipi în orice asistent AI.';
+  if(code==='sampling_disabled'||code==='not_declared'||code==='capability_disabled'||code==='capability_removed')return 'Raportul scris nu e disponibil aici. Poți copia datele și promptul și le poți lipi în orice asistent AI.';
+  if(code==='refused')return 'Claude nu a putut scrie această parte. Încearcă să regenerezi.';
+  return 'A apărut o eroare temporară. Apasă din nou pe buton ca să reiei.';
+}
+async function getApi(name){
+  try{return window.claude&&window.claude.use?await window.claude.use(name):null;}catch(e){return null;}
+}
+async function runPart(n,sample){
+  var el=$('#rep'+n);
+  ctl=new AbortController();
+  setStatus('Partea '+n+' din 2: Claude scrie raportul. Poate dura până la 1-2 minute.');
+  if(el){el.innerHTML='<div class="thinking"><span class="spin" aria-hidden="true"></span>Se gândește…</div>';el.classList.add('streaming');}
+  try{
+    var res=await sample(n===1?promptA():promptB(),{
+      signal:ctl.signal,cache:false,
+      onText:function(u){var e=$('#rep'+n);if(e)e.innerHTML=md(u.text);}
+    });
+    S.rep[n===1?'a':'b']=res.text;save();
+    var e2=$('#rep'+n);
+    if(e2)e2.innerHTML=md(res.text)+(res.truncated?'<p class="muted">Textul a fost tăiat din cauza lungimii. Apasă „Regenerează raportul” ca să-l reiei.</p>':'');
+  }finally{var e3=$('#rep'+n);if(e3)e3.classList.remove('streaming');}
+}
+async function generate(which){
+  if(running)return;
+  running=true;refreshActions();setStatus('Pregătesc cererea…');
+  var sample=await getApi('sample');
+  if(!sample){running=false;refreshActions();setStatus(errCopy('sampling_disabled'),true);return;}
+  try{
+    if(which==='all'){S.rep={a:'',b:''};var r2=$('#rep2');if(r2)r2.innerHTML='';}
+    if(which==='all'||which==='a')await runPart(1,sample);
+    if(which==='all'||which==='b')await runPart(2,sample);
+    setStatus('Gata. Poți descărca raportul sau regenera o versiune nouă.');
+  }catch(e){
+    var code=e&&e.code;
+    if(code==='cancelled'){setStatus('Oprit. Ce a apucat să fie scris rămâne pe ecran.');}
+    else{
+      setStatus(errCopy(code),true);
+      var el=$('#rep'+(S.rep.a&&which!=='a'?2:1));
+      if(e&&e.text&&el)el.innerHTML=md(e.text);
+    }
+  }finally{running=false;ctl=null;refreshActions();}
+}
+async function saveFile(name,data){
+  var d=await getApi('downloads');
+  if(!d){setStatus('Descărcarea nu e disponibilă aici. Folosește butonul de copiere.',true);return;}
+  try{await d.save({filename:name,data:data});}
+  catch(e){if(!e||e.code!=='declined')setStatus('Nu am putut salva fișierul. Încearcă din nou.',true);}
+}
+function reportMd(){
+  var rs=riasecScores(),b=big5Scores();
+  var t='# Busola: profilul meu\n\n## Profil calculat\n\n';
+  t+='- Cod Holland: **'+rs.code.join('')+'** ('+rs.code.map(function(c){return RT[c];}).join(', ')+')\n';
+  BD.forEach(function(d){t+='- '+BN[d]+': '+b[d].pct+'/100 ('+LV[b[d].lvl]+')\n';});
+  t+='- Stiluri preferate: '+S.styles.join(', ')+'\n- Valori (în ordine): '+S.values.join(', ')+'\n- Ancore: '+S.anchors.join(', ')+'\n\n## Cele 4 cadrane\n\n';
+  ['q1','q2','q3','q4'].forEach(function(q){
+    var its=S.items.filter(function(i){return quadOf(i)===q;});
+    t+='**'+QN[q].t+'** ('+QN[q].s+'): '+(its.length?its.map(function(i){return i.n;}).join(', '):'-')+'\n\n';
+  });
+  if(S.rep.a)t+='\n'+S.rep.a+'\n';
+  if(S.rep.b)t+='\n'+S.rep.b+'\n';
+  return t;
+}
+
+/* ---------- events ---------- */
+main.addEventListener('input',function(e){
+  var t=e.target;
+  if(t.dataset&&t.dataset.bind){setPath(t.dataset.bind,t.value);save();refreshNav();}
+});
+main.addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&e.target&&e.target.id==='newItem'){e.preventDefault();addItem(e.target.value);}
+});
+function addItem(v){
+  v=String(v||'').trim();
+  if(!v||S.items.length>=12)return;
+  if(S.items.some(function(i){return i.n.toLowerCase()===v.toLowerCase();}))return;
+  S.items.push({n:v,s:null,p:null});save();lastAdded=v;render(false);
+  var inp=$('#newItem');if(inp)inp.focus({preventScroll:true});
+}
+main.addEventListener('click',function(e){
+  var b=e.target.closest('[data-act]');
+  if(!b)return;
+  var a=b.dataset.act,d=b.dataset;
+  if(a==='start'){DEMO=false;S=fresh();S.phase=0;save();render(true);return;}
+  if(a==='resume'){DEMO=false;S=load()||S;if(S.phase<0)S.phase=0;render(true);return;}
+  if(a==='demo'){DEMO=true;S=demoState();S.phase=8;render(true);return;}
+  if(a==='back'){go(S.phase===0?-1:S.phase-1);return;}
+  if(a==='next'){if(!need(S.phase))go(S.phase+1);return;}
+  if(a==='reset'){
+    if(b.dataset.armed){reset();return;}
+    b.dataset.armed='1';b.textContent=DEMO?'Ieși din exemplu? Apasă încă o dată':'Sigur? Apasă încă o dată ca să ștergi tot';return;
+  }
+  if(a==='lk'||a==='qs'){
+    var i=+d.i,v=+d.v,grp=b.parentNode,max=grp.children.length,prev;
+    if(a==='lk'){prev=S[d.k][i];S[d.k][i]=v;}else{prev=S.items[i][d.k];S.items[i][d.k]=v;}
+    save();
+    Array.prototype.forEach.call(grp.children,function(x){var xv=+x.dataset.v;x.className=xv===v?'on':(xv<v?'lit':'');x.setAttribute('aria-checked',xv===v);});
+    grp.style.setProperty('--p',(v-1)/(max-1));
+    void b.offsetWidth;b.classList.add('ring');
+    var card=b.closest('.q');if(card)card.classList.add('ok');
+    if(a==='qs'){updateBadge(i);if(rated(S.items[i]))lastHot=S.items[i].n;updateLive();}
+    if(a==='lk'&&prev==null&&card){
+      var nx=card.nextElementSibling;
+      while(nx&&nx.classList.contains('ok'))nx=nx.nextElementSibling;
+      if(nx){var r=nx.getBoundingClientRect();if(r.bottom>window.innerHeight-120){setTimeout(function(){nx.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});},280);}}
+    }
+    refreshNav();return;
+  }
+  if(a==='pick'){
+    var arr=S[d.k],idx=arr.indexOf(d.v),mx=+d.max;
+    if(idx>-1)arr.splice(idx,1);else if(arr.length<mx)arr.push(d.v);else{var h=$('#hint');if(h)h.textContent='Poți alege cel mult '+mx+'. Scoate unul ca să alegi altul.';return;}
+    lastPick=d.v;save();render(false);return;
+  }
+  if(a==='mv'){
+    var i2=+d.i,dd=+d.d,j2=i2+dd;
+    if(j2<0||j2>=S.values.length)return;
+    var tmp=S.values[i2];S.values[i2]=S.values[j2];S.values[j2]=tmp;
+    lastMove={from:i2,to:j2,d:dd};save();render(false);
+    var nb=main.querySelectorAll('.rank li')[j2];
+    if(nb){var btn=nb.querySelector('[data-d="'+dd+'"]');if(btn&&!btn.disabled)btn.focus({preventScroll:true});}
+    return;
+  }
+  if(a==='add'){var inp=$('#newItem');addItem(inp?inp.value:'');return;}
+  if(a==='sug'){addItem(d.v);return;}
+  if(a==='rm'){
+    var it=b.closest('.item');
+    if(!it||it.dataset.gone)return;
+    it.dataset.gone='1';
+    var ri=+d.i;
+    if(RM){S.items.splice(ri,1);save();render(false);return;}
+    it.classList.add('out');
+    setTimeout(function(){S.items.splice(ri,1);save();render(false);},240);
+    return;
+  }
+  if(a==='zod'){S.zodiac=S.zodiac===d.v?'':d.v;lastPick=S.zodiac;save();render(false);return;}
+  if(a==='gen'){generate('all');return;}
+  if(a==='genb'){generate('b');return;}
+  if(a==='stop'){if(ctl)ctl.abort();return;}
+  if(a==='cp'){copyText(reportMd(),'Raportul a fost copiat. Îl poți lipi oriunde.');return;}
+  if(a==='cpp'){copyText(fullPrompt(),'Datele și promptul au fost copiate. Lipește-le în orice asistent AI.');return;}
+  if(a==='dl'){saveFile('busola-raport.md',reportMd());return;}
+  if(a==='dlp'){saveFile('busola-date-si-prompt.txt',fullPrompt());return;}
+});
+function goHome(){DEMO=false;S=load()||fresh();S.phase=-1;render(true);}
+$('#brand').addEventListener('click',goHome);
+$('#demoPill').addEventListener('click',goHome);
+routeEl.addEventListener('click',function(e){
+  var b=e.target.closest('[data-jump]');if(!b||b.disabled)return;
+  var n=+b.dataset.jump;if(n<S.phase)go(n);
+});
+
+/* ---------- card spotlight ---------- */
+document.addEventListener('pointermove',function(e){
+  Topo.mouse(e.clientX,e.clientY);
+  var g=e.target.closest&&e.target.closest('.glow');
+  if(!g)return;
+  var r=g.getBoundingClientRect();
+  g.style.setProperty('--mx',(e.clientX-r.left)+'px');
+  g.style.setProperty('--my',(e.clientY-r.top)+'px');
+},{passive:true});
+document.addEventListener('pointerleave',function(){Topo.mouse(null);});
+
+/* ---------- topographic relief ---------- */
+var Topo=(function(){
+  var cv=$('#topo'),ctx=cv&&cv.getContext&&cv.getContext('2d');
+  if(!ctx)return {mouse:function(){},colors:function(){},draw:function(){}};
+  var P=new Uint8Array(512),seed=7;
+  var perm=[];for(var i=0;i<256;i++)perm.push(i);
+  for(i=255;i>0;i--){seed=(seed*16807)%2147483647;var r=seed%(i+1),t=perm[i];perm[i]=perm[r];perm[r]=t;}
+  for(i=0;i<512;i++)P[i]=perm[i&255];
+  function fade(t){return t*t*t*(t*(t*6-15)+10);}
+  function lerp(a,b,t){return a+t*(b-a);}
+  function grad(h,x,y,z){h&=15;var u=h<8?x:y,v=h<4?y:(h===12||h===14?x:z);return ((h&1)?-u:u)+((h&2)?-v:v);}
+  function noise(x,y,z){
+    var X=Math.floor(x),Y=Math.floor(y),Z=Math.floor(z);
+    x-=X;y-=Y;z-=Z;X&=255;Y&=255;Z&=255;
+    var u=fade(x),v=fade(y),w=fade(z);
+    var A=P[X]+Y,AA=P[A]+Z,AB=P[A+1]+Z,B=P[X+1]+Y,BA=P[B]+Z,BB=P[B+1]+Z;
+    return lerp(lerp(lerp(grad(P[AA],x,y,z),grad(P[BA],x-1,y,z),u),lerp(grad(P[AB],x,y-1,z),grad(P[BB],x-1,y-1,z),u),v),
+      lerp(lerp(grad(P[AA+1],x,y,z-1),grad(P[BA+1],x-1,y,z-1),u),lerp(grad(P[AB+1],x,y-1,z-1),grad(P[BB+1],x-1,y-1,z-1),u),v),w);
+  }
+  var W=0,H=0,cell=20,cols=0,rows=0,vals=null,col='rgba(0,0,0,.08)',colI='rgba(0,0,0,.16)';
+  var m={x:-9999,y:-9999,tx:-9999,ty:-9999,a:0,ta:0},last=0,lastT=0;
+  var SEG={1:[3,2],2:[2,1],3:[3,1],4:[0,1],5:[3,0,2,1],6:[0,2],7:[3,0],8:[3,0],9:[0,2],10:[0,1,3,2],11:[0,1],12:[3,1],13:[2,1],14:[3,2]};
+  function resize(){
+    var dpr=Math.min(window.devicePixelRatio||1,1.5);
+    W=window.innerWidth;H=window.innerHeight;
+    cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    cell=W<700?24:20;
+    cols=Math.ceil(W/cell)+2;rows=Math.ceil(H/cell)+2;vals=new Float32Array(cols*rows);
+  }
+  function colors(){
+    var cs=getComputedStyle(document.documentElement);
+    col=cs.getPropertyValue('--topo').trim()||col;colI=cs.getPropertyValue('--topo-i').trim()||colI;
+  }
+  function draw(ts){
+    var t=ts*.000028,sy=window.scrollY*.22;
+    m.x+=(m.tx-m.x)*.08;m.y+=(m.ty-m.y)*.08;m.a+=(m.ta-m.a)*.05;
+    var sg=2*150*150;
+    for(var y=0;y<rows;y++){
+      var py=y*cell,ny=(py+sy)*.0026;
+      for(var x=0;x<cols;x++){
+        var px=x*cell,f=noise(px*.0026,ny,t)+noise(px*.0068,(py+sy)*.0068,t*1.7+9)*.32;
+        if(m.a>.01){var dx=px-m.x,dy=py-m.y;f+=m.a*Math.exp(-(dx*dx+dy*dy)/sg);}
+        vals[y*cols+x]=f;
+      }
+    }
+    ctx.clearRect(0,0,W,H);
+    var pN=new Path2D(),pI=new Path2D(),step=.1,li=0;
+    for(var L=-1.3;L<1.9;L+=step,li++){
+      var path=(li%5===0)?pI:pN;
+      for(y=0;y<rows-1;y++){
+        for(x=0;x<cols-1;x++){
+          var a=vals[y*cols+x],b=vals[y*cols+x+1],c=vals[(y+1)*cols+x+1],d=vals[(y+1)*cols+x];
+          var cs=(a>L?8:0)|(b>L?4:0)|(c>L?2:0)|(d>L?1:0);
+          if(cs===0||cs===15)continue;
+          var sgm=SEG[cs],x0=x*cell,y0=y*cell;
+          for(var s=0;s<sgm.length;s+=2){
+            var p1=ept(sgm[s],x0,y0,a,b,c,d,L),p2=ept(sgm[s+1],x0,y0,a,b,c,d,L);
+            path.moveTo(p1[0],p1[1]);path.lineTo(p2[0],p2[1]);
+          }
+        }
+      }
+    }
+    ctx.lineWidth=1;ctx.strokeStyle=col;ctx.stroke(pN);
+    ctx.lineWidth=1.5;ctx.strokeStyle=colI;ctx.stroke(pI);
+  }
+  function ept(e,x0,y0,a,b,c,d,L){
+    if(e===0)return [x0+cell*(L-a)/(b-a),y0];
+    if(e===1)return [x0+cell,y0+cell*(L-b)/(c-b)];
+    if(e===2)return [x0+cell*(L-d)/(c-d),y0+cell];
+    return [x0,y0+cell*(L-a)/(d-a)];
+  }
+  function frame(ts){
+    requestAnimationFrame(frame);
+    if(ts-last<42)return;
+    last=ts;lastT=ts;draw(ts);
+  }
+  resize();colors();
+  window.addEventListener('resize',function(){resize();if(RM)draw(lastT);});
+  if(RM){draw(4000);window.addEventListener('scroll',function(){draw(4000);},{passive:true});}
+  else requestAnimationFrame(frame);
+  return {
+    mouse:function(x,y){if(x==null){m.ta=0;return;}if(m.tx<-9000){m.x=x;m.y=y;}m.tx=x;m.ty=y;m.ta=.55;},
+    colors:function(){colors();draw(lastT||4000);},
+    draw:draw
+  };
+})();
+
+/* ---------- theme ---------- */
+var mq=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null;
+function curTheme(){var t=document.documentElement.getAttribute('data-theme');return t||(mq&&mq.matches?'dark':'light');}
+function applyTheme(t){document.documentElement.setAttribute('data-theme',t);Topo.colors();}
+try{var tp=localStorage.getItem(THEME_KEY);if(tp==='dark'||tp==='light')applyTheme(tp);}catch(e){}
+if(mq&&mq.addEventListener)mq.addEventListener('change',function(){Topo.colors();});
+$('#themeBtn').addEventListener('click',function(){
+  var next=curTheme()==='dark'?'light':'dark';
+  try{localStorage.setItem(THEME_KEY,next);}catch(e){}
+  if(!document.startViewTransition||RM){applyTheme(next);return;}
+  var r=this.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;
+  var R=Math.hypot(Math.max(x,window.innerWidth-x),Math.max(y,window.innerHeight-y));
+  var tr=document.startViewTransition(function(){applyTheme(next);});
+  tr.ready.then(function(){
+    document.documentElement.animate({clipPath:['circle(0px at '+x+'px '+y+'px)','circle('+R+'px at '+x+'px '+y+'px)']},{duration:700,easing:'cubic-bezier(.6,0,.2,1)',pseudoElement:'::view-transition-new(root)'});
+  }).catch(function(){});
+});
+
+S.phase=-1;
+render(true);
+})();
+</script>
+</body>
+</html>
