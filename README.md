@@ -1,34 +1,43 @@
 # Busola — Career Self-Assessment
 
 A guided career and self-discovery assessment for Romanian speakers. In 8 steps it combines
-established models from vocational psychology (Holland RIASEC, Big Five, career anchors, Ikigai,
-self-determination theory) with the person's own stories and a skill-versus-passion matrix. The
-result is a profile calculated in the browser, plus an optional written report. It helps people
+public instruments from vocational psychology (the O*NET Interest Profiler and the Mini-IPIP
+Big Five scale) with values, career anchors, work environment preferences, the person's own
+stories and a skill-versus-passion matrix. The result is a profile and a list of matching
+occupations, all calculated in the browser, plus an optional written report. It helps people
 who feel stuck see where their interests, strengths and motivation overlap, and decide what to
 try next.
 
 "Busola" means "compass" in Romanian. The interface content is in Romanian, for a local audience.
 
-**Tech stack:** HTML · CSS (custom properties, `color-mix`, View Transitions) · vanilla JavaScript · Canvas 2D · inline SVG · `localStorage`
+**Tech stack:** HTML · CSS (custom properties, `color-mix`, View Transitions) · vanilla JavaScript · Canvas 2D · inline SVG · `localStorage` · Node test runner · Playwright · axe-core · GitHub Actions
 
 ---
 
 ## What I built
 
-- **An 8-step guided interview:** context, interests (18 RIASEC items), personality (15 Big Five
-  items, including reverse-scored ones), work and learning styles, values and career anchors,
-  evidence stories, the skill/passion matrix, and an optional zodiac step. Each step is validated
-  before the user can move on, with a live hint explaining what is still missing.
-- **A results page calculated without AI:** a 3-letter Holland code, a radar chart of all 6
-  interest types, Big Five bars with the thresholds drawn on the track, ranked values, career
-  anchors, a scatter plot of the four quadrants and an Ikigai summary.
+- **An 8-step guided interview:** context and practical constraints, interests (60 items from
+  the O*NET Interest Profiler Short Form), personality (20 Mini-IPIP items, including
+  reverse-keyed ones), work and learning styles, work environment, values and career anchors,
+  evidence stories, and the skill/passion matrix. Each step is validated before the user can
+  move on, with a live hint explaining what is still missing.
+- **A results page calculated without AI:** a 3-letter Holland code with ties explained, a radar
+  chart of all 6 interest types, Big Five bars with the thresholds drawn on the track, work
+  environment preferences, practical constraints, ranked values, career anchors, a scatter plot
+  of the four quadrants and an Ikigai summary.
+- **Occupation matching:** the person's interest scores are compared with the Holland codes of
+  67 occupations. Each match shows a fit percentage, the code letters it shares with the person,
+  whether it can be done remotely, and whether it usually needs more study than the person
+  currently has.
 - **A live quadrant map:** while the user rates each activity from 1 to 6 for skill and passion,
   a side panel places it in one of four zones ("golden zone", "comfort trap", "growth potential",
   "avoid or delegate") and updates instantly.
-- **An optional written report:** the answers are turned into a structured two-part prompt and
-  the report is streamed into the page, with a stop button and the option to continue with
-  part 2. When the AI runtime is not available, the user can copy or download the data and the
-  prompt and paste them into any assistant.
+- **An optional written report:** the answers, constraints and matched occupations are turned
+  into a structured two-part prompt. Where an AI runtime is available, the report is streamed
+  into the page, with a stop button and the option to continue with part 2. Everywhere else,
+  the user can copy or download the prompt and use it with any assistant.
+- **Export:** the profile downloads as Markdown, the prompt as a text file, and the results page
+  has a print stylesheet for saving as PDF.
 - **An interactive compass on the home page:** the needle follows the pointer with spring
   physics, and the quadrant it points to is highlighted and described below it.
 - **A generative topographic background:** contour lines computed in real time from 3D Perlin
@@ -36,8 +45,8 @@ try next.
   rises under the cursor and drifts with scroll.
 - **Compass-based navigation:** each step maps to a compass bearing (N 000° to NW 315°), shown in
   a clickable route in the header, and the results close the circle at 360°.
-- **Example profile mode:** loads a complete, pre-filled profile for exploring the results
-  without overwriting the user's own saved answers.
+- **Example profile:** opens a complete, pre-filled profile (also directly at `#exemplu`) without
+  overwriting the user's own saved answers.
 - **Light and dark themes** that follow the system setting, with a manual toggle that reveals
   the new theme in a circle from the button.
 
@@ -45,32 +54,50 @@ try next.
 
 | Decision | Why |
 | --- | --- |
-| **Single HTML file, no framework, no build step** | The app is a sequence of forms and charts, which plain DOM rendering handles well. It opens directly from disk and runs on any static host. |
-| **All scoring done in the browser** | The profile is deterministic and works without a network connection or an account. AI is used only for the optional written report. |
-| **Answers stored only in `localStorage`** | No backend and no accounts. Progress is saved after every change and can be resumed, and nothing leaves the device unless the user asks for the report. |
+| **Public, published instruments instead of self-written questions** | Three self-written items per scale are not reliable. The O*NET Interest Profiler and the Mini-IPIP are free to use, documented and validated in English. The interface states that the Romanian translation has not been validated separately. |
+| **Scoring and data in their own file (`scoring.js`)** | The question banks, occupation table and scoring functions have no DOM code, so the same file runs in the browser and in Node unit tests. |
+| **Occupation matching in the browser** | The app gives concrete directions even with no AI available. AI is used only for the optional written report. |
+| **Weighted fit (3, 2, 1) on the occupation's code letters** | The first letter of a Holland code matters most. Weighting by position ranks an IAS occupation above an SAI one for an IAS person, which a plain sum would not. |
+| **Constraints as single-choice questions** | Time, education, mobility and budget used to be free text. As structured answers they can flag occupations that need more study and make the report prompt more precise. |
+| **No framework, no build step** | The app is a sequence of forms and charts, which plain DOM rendering handles well. It opens directly from disk and runs on any static host. |
+| **Answers stored only in `localStorage`** | No backend and no accounts. Progress is saved after every change and can be resumed, and nothing leaves the device unless the user asks for the report. Answers from the first version are migrated, keeping the free-text parts. |
 | **Charts drawn by hand in SVG** | The radar and the quadrant plot take their colours from the same CSS tokens as the rest of the page, so they work in both themes without a charting library. |
 | **Canvas for the background, SVG for the charts** | The contour lines are recalculated many times per second, which suits a canvas. The charts are static and need crisp, accessible text, which suits SVG. |
-| **Full re-render on step change, targeted updates inside a step** | Rating an item updates only the scale, the badge and the live map, so entry animations do not replay and the scroll position stays put. |
-| **Report split into two prompts** | Each part has a clear list of sections and a target length. Part 2 receives part 1 as context, so the two stay consistent and a long answer is less likely to be cut off. |
 | **Own Markdown renderer that escapes HTML first** | The report text comes from a model. Escaping before formatting means it can only produce headings, lists, bold and italics, never markup or scripts. |
-| **Confirmation built into the button** | "Start a new test" asks for a second click instead of using a browser dialog, so all data is never deleted by a single accidental click. |
-| **Limits stated in the interface** | Multiple intelligences are presented as preferred styles because the model is weakly validated, and the zodiac step is labelled as entertainment and excluded from every conclusion. |
+| **Limits stated in the interface** | Occupation codes are labelled as indicative, multiple intelligences are presented as preferred styles because the model is weakly validated, and the zodiac is a hidden bonus that is excluded from every conclusion. |
 
 ## Quality
 
+**Automated testing**
+- **Unit tests** (Node test runner) for the scoring core: question bank structure, RIASEC sums
+  and tie detection, Big Five reverse keying and thresholds, quadrant boundaries, occupation fit
+  and the extra-study flag.
+- **End-to-end tests** (Playwright, on a desktop and a mobile profile): completing all 8 steps
+  and checking the calculated code and occupations, step validation, saving and resuming after
+  a reload, reopening steps from the route, the live quadrant map, the example profile not
+  overwriting saved answers, Markdown and text downloads, tie messages, the zodiac bonus, the
+  two-click reset, the theme toggle, the "saved" indicator and the absence of horizontal scroll.
+- **Accessibility audit** with axe-core (WCAG 2.2 AA rules) on the home page, the context step,
+  the interests step and the results page, in both themes.
+- A test checks that the only external requests are for Google Fonts.
+- GitHub Actions runs the unit and end-to-end tests on every push and pull request.
+
 **Accessibility**
-- Rating scales use `role="radiogroup"` with `aria-checked`. Multi-select options use
-  `aria-pressed`. Every text field has an accessible label.
+- Rating scales and single-choice questions use `role="radiogroup"` with `aria-checked`.
+  Multi-select options use `aria-pressed`. Every text field has an accessible label.
 - Validation hints and report status are announced through `aria-live` regions.
-- All controls are native buttons and work from the keyboard, with a visible focus outline.
-  Values are reordered with up/down buttons instead of drag and drop.
+- All controls are native buttons and work from the keyboard, with a visible focus outline and
+  touch targets of at least 24 × 24 px. Values are reordered with up/down buttons instead of
+  drag and drop.
 - With `prefers-reduced-motion`, animations and transitions are turned off, the background is
   drawn once as a static image and the compass needle snaps instead of swinging.
 
 **Performance**
-- No JavaScript dependencies. The only external resource is Google Fonts.
+- No runtime dependencies. The only external resource is Google Fonts.
 - The background canvas redraws at about 24 frames per second, caps the pixel ratio at 1.5 and
   draws each line type as a single `Path2D`. It pauses automatically in background tabs.
+- Inside a step, answering a question updates only the affected elements, so entry animations
+  do not replay and the scroll position stays put.
 
 **Security and privacy**
 - No backend, no analytics, no cookies.
@@ -81,12 +108,13 @@ try next.
 ## Project structure
 
 ```
-index.html    the whole application
-  <style>       design tokens (light and dark), layout, components, animations
-  <script>      question data, state and persistence, scoring, SVG charts,
-                step views, validation, report prompts, interactive compass,
-                topographic background, theme toggle
-README.md
+index.html              the application: styles, step views, charts, compass, background
+scoring.js              question banks, occupation table and pure scoring functions
+tests/unit/             Node unit tests for scoring.js
+tests/e2e/              Playwright end-to-end and axe accessibility tests
+scripts/serve.js        minimal static server used locally and by the tests
+playwright.config.js    desktop and mobile test profiles
+.github/workflows/      CI
 ```
 
 ## Running locally
@@ -94,19 +122,30 @@ README.md
 Open `index.html` in a browser. To serve it over HTTP instead:
 
 ```bash
-python3 -m http.server 8000
-# then open http://localhost:8000
+npm run serve
+# then open http://localhost:4173
 ```
 
-The written report is generated through the AI runtime of the hosting page
-(`window.claude.use("sample")`). Everywhere else, the copy and download buttons provide the
-data and the prompt so the report can be generated in any assistant.
+To run the tests:
+
+```bash
+npm install
+npm test
+```
+
+Locally, the end-to-end tests use the installed Google Chrome. In CI they use Playwright's
+Chromium (`npx playwright install chromium`).
 
 ## Configuration
 
-No configuration is needed. Answers are stored in `localStorage` under the key `busola-v1`, and
-the theme choice under `busola-theme`.
+No configuration is needed. Answers are stored in `localStorage` under the key `busola-v2`, and
+the theme choice under `busola-theme`. The written report is generated when the page runs in an
+AI runtime that exposes `window.claude.use("sample")`; elsewhere the report section offers the
+prompt for copying or downloading instead.
 
 ---
 
-The example profile contains illustrative data.
+Interest items are adapted from the O*NET Interest Profiler Short Form (U.S. Department of
+Labor, Employment and Training Administration). Personality items are from the Mini-IPIP
+(Donnellan et al., 2006), part of the public-domain International Personality Item Pool. The
+example profile contains illustrative data.
