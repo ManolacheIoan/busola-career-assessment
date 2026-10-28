@@ -116,10 +116,10 @@ describe('careerMatches', () => {
   });
 
   test('flags occupations that usually need more study than the person has', () => {
-    const highSchool = C.careerMatches(sc, 67, { edu: 1 });
+    const highSchool = C.careerMatches(sc, C.OCC.length, { edu: 1 });
     const psych = highSchool.find((j) => j.n === 'Psiholog');
     assert.equal(psych.extraStudy, 'master sau o specializare lungă');
-    const masters = C.careerMatches(sc, 67, { edu: 5 });
+    const masters = C.careerMatches(sc, C.OCC.length, { edu: 5 });
     assert.ok(masters.every((j) => j.extraStudy === ''));
   });
 

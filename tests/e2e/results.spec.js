@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { test, expect } = require('./helpers');
+const { test, expect, completeAssessment } = require('./helpers');
 
 test('#exemplu opens the example profile without overwriting saved answers', async ({ page }) => {
   await page.goto('/');
@@ -76,4 +76,39 @@ test('starting a new test asks for a second click', async ({ page }) => {
   await expect(page.locator('.demo-note')).toBeVisible();
   await btn.click();
   await expect(page.getByRole('button', { name: /Începe testul/ })).toBeVisible();
+});
+
+test('without AI, starting experiments are calculated and their results are saved', async ({ page }) => {
+  await completeAssessment(page);
+  const items = page.locator('#exp .exps > li');
+  await expect(items).toHaveCount(5);
+  await expect(items.first()).toContainText('Interviu de 20 de minute');
+  await expect(items.first()).toContainText('UX researcher');
+
+  await items.nth(1).getByRole('radio', { name: 'Așa și așa' }).click();
+  await page.fill('#f-exp-1-note', 'Doi au spus „explici bine”.');
+  await page.locator('#newExp').fill('Un proiect open source');
+  await page.getByRole('button', { name: 'Adaugă', exact: true }).last().click();
+  await expect(items).toHaveCount(6);
+
+  await page.reload();
+  await page.getByRole('button', { name: 'Continuă de unde ai rămas' }).click();
+  await expect(page.locator('#exp .counter')).toContainText('Încercate: 1 din 6');
+  await expect(page.locator('#f-exp-1-note')).toHaveValue('Doi au spus „explici bine”.');
+});
+
+test('the checks card explains how reliable the profile is', async ({ page }) => {
+  await completeAssessment(page);
+  const card = page.locator('#checks');
+  await expect(card.locator('.ck-t').nth(0)).toContainText('ridicată');
+  await expect(card.locator('.ck-t').nth(1)).toContainText('Investigativ și Artistic sunt vecine');
+  /* the helper answers in seconds and writes short stories, so the quality checks must notice */
+  await expect(card).toContainText('Interese completate foarte repede');
+  await expect(card).toContainText('Povești scurte');
+  await expect(card.locator('.ck-t').nth(2)).toContainText('scăzută');
+});
+
+test('regulated professions are marked in the occupation list', async ({ page }) => {
+  await page.goto('/#exemplu');
+  await expect(page.locator('#careers')).toContainText('Reglementată: atestat de liberă practică de la Colegiul Psihologilor din România');
 });
