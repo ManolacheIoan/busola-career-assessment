@@ -58,3 +58,12 @@ test('the compass description box keeps the same height for every quadrant', asy
   }
   expect(new Set(heights).size).toBe(1);
 });
+
+test('the header controls never cover the step route', async ({ page }) => {
+  await page.goto('/#exemplu');
+  const route = await page.locator('#routeT').boundingBox();
+  const lastDot = await page.locator('#route [data-jump="8"]').boundingBox();
+  const right = await page.locator('.top-r').boundingBox();
+  expect(lastDot.x + lastDot.width).toBeLessThanOrEqual(route.x + route.width + 1);
+  expect(route.x + route.width).toBeLessThanOrEqual(right.x);
+});
