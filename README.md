@@ -12,6 +12,8 @@ try next.
 
 **Live:** [manolacheioan.github.io/busola-career-assessment](https://manolacheioan.github.io/busola-career-assessment/) · [example profile](https://manolacheioan.github.io/busola-career-assessment/#exemplu)
 
+![Busola home page: an interactive compass whose four quadrants are the skill-versus-passion zones](docs/screenshots/home-dark.png)
+
 **Tech stack:** HTML · CSS (custom properties, `color-mix`, View Transitions) · vanilla JavaScript · Canvas 2D · inline SVG · `localStorage` · Node test runner · Playwright · axe-core · GitHub Actions
 
 ---
@@ -71,6 +73,20 @@ try next.
   overwriting the user's own saved answers.
 - **Light and dark themes** that follow the system setting, with a manual toggle that reveals
   the new theme in a circle from the button.
+
+## Screenshots
+
+| Results: Holland code and interest radar | Profile checks and matched occupations |
+| --- | --- |
+| ![Results page with the 3-letter Holland code and a radar chart of the six interest types](docs/screenshots/results-light.png) | ![Profile checks with a Holland hexagon, confidence tiles and the first matched occupations](docs/screenshots/checks-careers-light.png) |
+| **Written report with evidence tags** | **Skill/passion matrix with the live map** |
+| ![Written report where every claim ends with an evidence tag such as Povestea 1](docs/screenshots/report-light.png) | ![Quadrant step where each rated activity appears on a live map](docs/screenshots/quadrants-dark.png) |
+
+<p>
+  <img src="docs/screenshots/mobile-home.png" alt="Home page on a phone" width="260">
+  &nbsp;
+  <img src="docs/screenshots/mobile-results.png" alt="Results page on a phone" width="260">
+</p>
 
 ## Decisions and why
 
@@ -145,6 +161,7 @@ tests/unit/             Node unit tests for scoring.js
 tests/e2e/              Playwright end-to-end and axe accessibility tests
 scripts/serve.js        minimal static server used locally and by the tests
 playwright.config.js    desktop and mobile test profiles
+docs/screenshots/       images used in this README
 .github/workflows/      CI
 ```
 
