@@ -285,7 +285,9 @@ input[type=text]:focus,textarea:focus{border-color:var(--gold);outline:none;box-
 .cread b{font-weight:600}
 .cread small{color:var(--ink-3);font-size:13.5px}
 .cread p{font-size:14.5px;color:var(--ink-2);margin-top:2px}
-.cread .swap{animation:swap .35s var(--ease)}
+.cread .stack{display:grid;flex:1;min-width:0}
+.cread .stack>div{grid-area:1/1;visibility:hidden}
+.cread .stack>.on{visibility:visible;animation:swap .35s var(--ease)}
 .hint-c{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
 .sec-h{display:grid;gap:12px;margin:72px 0 24px}
 .sec-h h2{font-size:clamp(24px,3.4vw,34px);max-width:22ch}
@@ -579,7 +581,7 @@ var QN={
   q1:{t:'Zona de aur',s:'bun și pasionat',d:'Aici construiești. Caută roluri care te țin cât mai mult în această zonă.'},
   q2:{t:'Capcana confortului',s:'bun, dar nepasionat',d:'Poate fi bine plătit, dar te golește în timp. Folosește-l ca mijloc, nu ca scop.'},
   q3:{t:'Potențial de dezvoltare',s:'pasionat, dar încă nepriceput',d:'De învățat sistematic. „Nu sunt bun” poate însemna doar „n-am exersat încă”.'},
-  q4:{t:'De evitat sau delegat',s:'nici bun, nici pasionat',d:'Aici nu merită să-ți investești energia, dacă ai de ales.'}
+  q4:{t:'De evitat',s:'nici bun, nici pasionat',d:'Aici nu merită să-ți investești energia. Dacă se poate, deleagă sau automatizează.'}
 };
 function qv(q){return '--qc:var(--'+q+');--qbg:var(--'+q+'-bg);--qt:var(--'+q+'-t)';}
 
@@ -708,7 +710,7 @@ function compassSVG(){
   s+='<text x="207" y="76" font-size="9" fill="var(--ink-2)" letter-spacing=".8">ABILITATE ↑</text>';
   s+='<text x="336" y="190" text-anchor="end" font-size="9" fill="var(--ink-2)" letter-spacing=".8">PASIUNE →</text>';
   s+='<g id="needle" transform="rotate(45 200 200)"><path d="M200 58 L215 200 L185 200Z" fill="var(--gold)"/><path d="M200 58 L200 200 L185 200Z" fill="var(--gold-ink)" fill-opacity=".14"/><path d="M185 200 L215 200 L200 342Z" fill="var(--ink-3)"/><path d="M200 200 L215 200 L200 342Z" fill="var(--ink)" fill-opacity=".18"/></g>';
-  var labs={q1:['Zona','de aur',45],q3:['Potențial de','dezvoltare',135],q4:['De evitat','sau delegat',225],q2:['Capcana','confortului',315]};
+  var labs={q1:['Zona','de aur',45],q3:['Potențial de','dezvoltare',135],q4:['De','evitat',225],q2:['Capcana','confortului',315]};
   Object.keys(labs).forEach(function(q){
     var L=labs[q],p=polar(100,L[2]);
     s+='<text class="slab" data-q="'+q+'" x="'+f1(p[0])+'" y="'+f1(p[1]-4)+'" text-anchor="middle" font-size="13" fill="var(--'+q+'-t)" stroke="var(--panel)" stroke-width="5" paint-order="stroke" stroke-linejoin="round" pointer-events="none"><tspan x="'+f1(p[0])+'">'+L[0]+'</tspan><tspan x="'+f1(p[0])+'" dy="16">'+L[1]+'</tspan></text>';
@@ -716,8 +718,11 @@ function compassSVG(){
   s+='<circle cx="200" cy="200" r="12" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/><circle cx="200" cy="200" r="4.5" fill="var(--gold)"/>';
   return s+'</svg>';
 }
+/* all four descriptions share one grid cell, so the box keeps the height of the longest one */
 function creadHtml(q){
-  return '<i style="--c:var(--'+q+')"></i><div class="swap"><b>'+QN[q].t+'</b> <small>· '+QN[q].s+'</small><p>'+QN[q].d+'</p></div>';
+  return '<i style="--c:var(--'+q+')"></i><div class="stack">'+['q1','q2','q3','q4'].map(function(k){
+    return '<div data-q="'+k+'"'+(k===q?' class="on"':' aria-hidden="true"')+'><b>'+QN[k].t+'</b> <small>· '+QN[k].s+'</small><p>'+QN[k].d+'</p></div>';
+  }).join('')+'</div>';
 }
 function radar(vals,labels,scores,top){
   var c=150,r=114,n=vals.length;
@@ -758,7 +763,7 @@ function quadPlot(items,hot){
   g+='<text x="'+(mx+12)+'" y="'+(T+24)+'" font-size="15" font-weight="700" fill="var(--q1-t)">Zona de aur</text>';
   g+='<text x="'+(L+12)+'" y="'+(T+24)+'" font-size="15" font-weight="700" fill="var(--q2-t)">Capcana confortului</text>';
   g+='<text x="'+(mx+12)+'" y="'+(T+ph-14)+'" font-size="15" font-weight="700" fill="var(--q3-t)">Potențial de dezvoltare</text>';
-  g+='<text x="'+(L+12)+'" y="'+(T+ph-14)+'" font-size="15" font-weight="700" fill="var(--q4-t)">De evitat sau delegat</text>';
+  g+='<text x="'+(L+12)+'" y="'+(T+ph-14)+'" font-size="15" font-weight="700" fill="var(--q4-t)">De evitat</text>';
   g+='<text x="'+(L+pw/2)+'" y="'+(H-8)+'" text-anchor="middle" font-size="14" font-weight="600" fill="var(--ink)">Cât de pasionat ești →</text>';
   g+='<text transform="translate(18 '+(T+ph/2)+') rotate(-90)" text-anchor="middle" font-size="14" font-weight="600" fill="var(--ink)">Cât de bun ești →</text>';
   /* labels on the same row alternate above / below so they don't overlap */
@@ -1162,7 +1167,11 @@ function initCompass(){
   function setQ(q){
     if(q===st.q)return;st.q=q;
     svg.setAttribute('class','compass is-'+q);
-    read.innerHTML=creadHtml(q);
+    read.querySelector('i').style.setProperty('--c','var(--'+q+')');
+    Array.prototype.forEach.call(read.querySelectorAll('.stack>div'),function(el){
+      var on=el.dataset.q===q;el.className=on?'on':'';
+      if(on)el.removeAttribute('aria-hidden');else el.setAttribute('aria-hidden','true');
+    });
   }
   function aim(e){
     var r=svg.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);

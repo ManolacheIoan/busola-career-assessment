@@ -31,7 +31,7 @@ try next.
   currently has.
 - **A live quadrant map:** while the user rates each activity from 1 to 6 for skill and passion,
   a side panel places it in one of four zones ("golden zone", "comfort trap", "growth potential",
-  "avoid or delegate") and updates instantly.
+  "avoid") and updates instantly.
 - **An optional written report:** the answers, constraints and matched occupations are turned
   into a structured two-part prompt. Where an AI runtime is available, the report is streamed
   into the page, with a stop button and the option to continue with part 2. Everywhere else,

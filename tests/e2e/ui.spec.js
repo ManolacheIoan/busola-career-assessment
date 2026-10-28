@@ -46,3 +46,15 @@ test('a "Salvat" indicator appears after an answer is saved', async ({ page }) =
   await page.fill('#f-ctx-age', '24');
   await expect(page.locator('#saved')).toHaveClass(/on/);
 });
+
+test('the compass description box keeps the same height for every quadrant', async ({ page }) => {
+  await page.goto('/');
+  const box = page.locator('#cread');
+  const heights = [];
+  for (const q of ['q1', 'q2', 'q3', 'q4']) {
+    await page.locator(`.compass .sec[data-q="${q}"]`).hover({ force: true });
+    await expect(box.locator('.on')).toHaveAttribute('data-q', q);
+    heights.push((await box.boundingBox()).height);
+  }
+  expect(new Set(heights).size).toBe(1);
+});
