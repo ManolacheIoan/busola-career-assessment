@@ -17,12 +17,11 @@ test('the next step stays locked until the required answers are given', async ({
 
   const nextBtn = page.locator('#next');
   await expect(nextBtn).toBeDisabled();
-  await expect(page.locator('#hint')).toHaveText('Completează vârsta, ocupația și ce te-a adus aici.');
+  await expect(page.locator('#hint')).toHaveText('Completează vârsta și ce te-a adus aici.');
 
   await page.fill('#f-ctx-age', '30');
-  await page.fill('#f-ctx-job', 'Contabil');
   await page.fill('#f-ctx-why', 'Vreau o schimbare.');
-  await expect(page.locator('#hint')).toHaveText('Mai ai de ales 4 variante despre situația ta.');
+  await expect(page.locator('#hint')).toHaveText('Mai ai de ales 5 variante despre situația ta.');
 
   await fillContext(page);
   await expect(nextBtn).toBeEnabled();
@@ -66,4 +65,40 @@ test('the live map places each rated activity in its quadrant', async ({ page })
   await expect(page.locator('#livecap')).toContainText('5 din 5 pe hartă');
   await page.locator('[data-act="qs"][data-k="p"][data-i="0"][data-v="6"]').click();
   await expect(page.locator('[data-qb="0"]')).toHaveText('Zona de aur');
+});
+
+test('people who do not work can say so and skip the occupation details', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: /Începe testul/ }).click();
+  await page.fill('#f-ctx-age', '35');
+  await page.fill('#f-ctx-why', 'Vreau să mă reapuc de muncă.');
+  await page.getByRole('button', { name: 'Nu lucrez acum' }).click();
+  await page.getByRole('button', { name: 'Remote, de acasă' }).click();
+  await page.getByRole('button', { name: 'În orașul meu' }).click();
+  for (const k of ['hours', 'edu', 'budget']) await page.locator(`[data-act="ctx"][data-k="${k}"][data-v="0"]`).click();
+
+  await expect(page.locator('#f-ctx-job')).toHaveValue('');
+  await expect(page.locator('#next')).toBeEnabled();
+});
+
+test('several answers can be chosen where more than one can be true', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: /Începe testul/ }).click();
+  const student = page.getByRole('button', { name: 'Sunt elev sau student' });
+  const partTime = page.getByRole('button', { name: 'Lucrez part-time' });
+  await student.click();
+  await partTime.click();
+  await expect(student).toHaveAttribute('aria-pressed', 'true');
+  await expect(partTime).toHaveAttribute('aria-pressed', 'true');
+  await partTime.click();
+  await expect(partTime).toHaveAttribute('aria-pressed', 'false');
+});
+
+test('one work style and one career anchor are enough to continue', async ({ page }) => {
+  await page.goto('/#exemplu');
+  await page.locator('#route [data-jump="3"]').click();
+  for (const s of ['Logic / numeric', 'Introspectiv']) await page.locator(`[data-act="pick"][data-v="${s}"]`).click();
+  await expect(page.locator('#next')).toBeEnabled();
+  await page.locator('[data-act="pick"][data-v="Vizual / spațial"]').click();
+  await expect(page.locator('#hint')).toHaveText('Alege cel puțin un stil.');
 });

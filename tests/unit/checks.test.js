@@ -126,3 +126,45 @@ describe('regulated professions', () => {
     assert.ok(C.careerMatches({ R: 10, I: 50, A: 40, S: 30, E: 20, C: 20 }, C.OCC.length).some((j) => j.reg));
   });
 });
+
+describe('wellbeing and self-esteem (WHO-5, PHQ-4, Rosenberg)', () => {
+  test('WHO-5 uses the standard 0-100 index and needs all five answers', () => {
+    assert.deepEqual(C.who5Score([6, 6, 6, 6, 6]), { index: 100, lvl: 'hi' });
+    assert.deepEqual(C.who5Score([4, 4, 4, 4, 4]), { index: 60, lvl: 'hi' });
+    assert.deepEqual(C.who5Score([3, 4, 3, 4, 3]), { index: 48, lvl: 'mid' });
+    assert.deepEqual(C.who5Score([2, 2, 2, 3, 3]), { index: 28, lvl: 'lo' });
+    assert.equal(C.who5Score([6, 6, null, 6, 6]), null);
+  });
+
+  test('PHQ-4 splits into PHQ-2 and GAD-2 with the cut-off at 3', () => {
+    assert.deepEqual(C.phq4Score([2, 3, 1, 1]), { dep: 3, anx: 0, depFlag: true, anxFlag: false });
+    assert.deepEqual(C.phq4Score([2, 2, 2, 3]), { dep: 2, anx: 3, depFlag: false, anxFlag: true });
+    assert.equal(C.phq4Score([1, 1, 1]), null);
+  });
+
+  test('Rosenberg scores 0-30 with five reverse-keyed items', () => {
+    assert.equal(C.RSE.filter((it) => it[1]).length, 5);
+    assert.deepEqual(C.rseScore([4, 1, 4, 4, 1, 1, 4, 1, 1, 4]), { total: 30, pct: 100, lvl: 'hi' });
+    assert.deepEqual(C.rseScore([3, 2, 3, 3, 2, 2, 3, 2, 2, 3]), { total: 20, pct: 67, lvl: 'mid' });
+    assert.deepEqual(C.rseScore([2, 3, 2, 2, 3, 3, 2, 3, 3, 2]), { total: 10, pct: 33, lvl: 'lo' });
+  });
+
+  test('rarely feeling energetic or rested is flagged as low energy', () => {
+    assert.deepEqual(keys(C.profileChecks(base({ who5: [5, 5, 2, 5, 5] })).tensions), ['low-energy']);
+    assert.deepEqual(keys(C.profileChecks(base({ who5: [5, 5, 5, 5, 5] })).tensions), []);
+  });
+
+  test('low wellbeing and answers over the PHQ-2 or GAD-2 cut-off suggest support', () => {
+    assert.ok(keys(C.profileChecks(base({ who5: [3, 3, 3, 3, 3] })).tensions).includes('low-wellbeing'));
+    const k = C.profileChecks(base({ phq4: [1, 1, 3, 2] }));
+    assert.ok(keys(k.tensions).includes('distress'));
+    assert.match(k.tensions.find((t) => t.k === 'distress').d, /anxietate/);
+    assert.ok(!keys(C.profileChecks(base({ phq4: [2, 2, 2, 2] })).tensions).includes('distress'));
+  });
+
+  test('low self-esteem is linked to activities rated "passionate but not good yet"', () => {
+    const low = [2, 3, 2, 2, 3, 3, 2, 3, 3, 2];
+    const t = C.profileChecks(base({ rse: low, items: [{ n: 'Programare', s: 5, p: 5 }, { n: 'Desen', s: 2, p: 6 }] })).tensions.find((x) => x.k === 'low-confidence');
+    assert.match(t.d, /lipsă de exercițiu sau de încredere, nu de talent/);
+  });
+});

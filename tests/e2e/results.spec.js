@@ -34,7 +34,7 @@ test('the data and prompt download as a text file', async ({ page }) => {
     page.getByRole('button', { name: 'Descarcă datele și promptul (.txt)' }).click(),
   ]);
   const text = fs.readFileSync(await download.path(), 'utf8');
-  expect(text).toContain('HOLLAND (O*NET Interest Profiler');
+  expect(text).toContain('HOLLAND (60 de activități');
   expect(text).toContain('MESERII CALCULATE DIN COD');
   expect(text).toContain('timp disponibil: 6–10 ore');
 });
@@ -111,4 +111,81 @@ test('the checks card explains how reliable the profile is', async ({ page }) =>
 test('regulated professions are marked in the occupation list', async ({ page }) => {
   await page.goto('/#exemplu');
   await expect(page.locator('#careers')).toContainText('Reglementată: atestat de liberă practică de la Colegiul Psihologilor din România');
+});
+
+test('the wellbeing step is optional', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: /Începe testul/ }).click();
+  await page.evaluate(() => {
+    const s = JSON.parse(localStorage.getItem('busola-v2'));
+    s.phase = 4; s.env = [3, 3, 3, 3];
+    localStorage.setItem('busola-v2', JSON.stringify(s));
+  });
+  await page.reload();
+  await page.getByRole('button', { name: 'Continuă de unde ai rămas' }).click();
+  await expect(page.getByRole('heading', { level: 1, name: 'Starea ta și mediul de lucru' })).toBeVisible();
+  await expect(page.locator('[data-k="who5"][aria-checked="true"]')).toHaveCount(0);
+  await expect(page.locator('#next')).toBeEnabled();
+});
+
+test('the results show the standard wellbeing scores and a support note when days are hard', async ({ page }) => {
+  await page.goto('/');
+  await page.evaluate(() => {
+    const types = ['R', 'I', 'A', 'S', 'E', 'C'], byType = { R: 1, I: 5, A: 4, S: 3, E: 2, C: 2 };
+    localStorage.setItem('busola-v2', JSON.stringify({
+      phase: 8,
+      riasec: Array.from({ length: 60 }, (_, i) => byType[types[i % 6]]),
+      big5: Array(20).fill(3),
+      who5: [2, 2, 2, 2, 3],
+      phq4: [3, 3, 2, 2],
+      rse: [2, 3, 2, 2, 3, 3, 2, 3, 3, 2],
+      well: { move: 0, charge: [1, 2] },
+    }));
+  });
+  await page.reload();
+  await page.getByRole('button', { name: 'Continuă de unde ai rămas' }).click();
+
+  const card = page.locator('#well');
+  await expect(card).toContainText('Starea de bine (WHO-5)');
+  await expect(card).toContainText('24 / 100');
+  await expect(card).toContainText('10 / 30');
+  await expect(card).toContainText('Tristețe (PHQ-2)merită atenție');
+  await expect(card).toContainText('Natura, Prietenii');
+  await expect(card.locator('.support')).toContainText('0372 403 403');
+  for (const t of ['Energie scăzută', 'Stare de bine scăzută', 'Zile grele', 'Încredere în tine scăzută']) {
+    await expect(page.locator('#checks')).toContainText(t);
+  }
+});
+
+test('the results gather what does not suit the person, without AI', async ({ page }) => {
+  await page.goto('/#exemplu');
+  const card = page.locator('#avoid');
+  await expect(card).toContainText('Ce nu ți se potrivește');
+  for (const t of ['Multe ședințe', 'Vânzări și ținte de cifre', 'Ture de noapte sau în weekend', 'ca în call center']) await expect(card).toContainText(t);
+  await expect(card).toContainText('Întreprinzător');
+  await expect(card).toContainText('Convins sau vândut');
+  await expect(card.locator('.quote')).toContainText('call center');
+
+  const [download] = await Promise.all([
+    page.waitForEvent('download'),
+    page.getByRole('button', { name: 'Descarcă datele și promptul (.txt)' }).click(),
+  ]);
+  const text = require('fs').readFileSync(await download.path(), 'utf8');
+  expect(text).toContain('CE N-AR ACCEPTA ÎNTR-UN JOB: Multe ședințe, Vânzări și ținte de cifre, Ture de noapte sau în weekend');
+});
+
+test('deal-breakers are optional and can be chosen several at a time', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: /Începe testul/ }).click();
+  await page.evaluate(() => {
+    const s = JSON.parse(localStorage.getItem('busola-v2'));
+    s.phase = 4; s.env = [3, 3, 3, 3];
+    localStorage.setItem('busola-v2', JSON.stringify(s));
+  });
+  await page.reload();
+  await page.getByRole('button', { name: 'Continuă de unde ai rămas' }).click();
+  await expect(page.locator('#next')).toBeEnabled();
+  await page.getByRole('button', { name: 'Multe ședințe' }).click();
+  await page.getByRole('button', { name: 'Deplasări dese' }).click();
+  await expect(page.locator('[data-k="avoid"][aria-pressed="true"]')).toHaveCount(2);
 });

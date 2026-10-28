@@ -12,7 +12,7 @@ function big5Answers(byDim) {
 }
 
 describe('question banks', () => {
-  test('interests: 60 O*NET items, 10 per Holland type', () => {
+  test('interests: 60 everyday activities, 10 per Holland type', () => {
     assert.equal(C.RIT.length, 60);
     for (const t of C.RORDER) assert.equal(C.RIT.filter((it) => it.t === t).length, 10);
   });

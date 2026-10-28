@@ -32,7 +32,7 @@ test('the report shows evidence pills and the prompt carries the checks and raw 
   const [first] = await page.evaluate(() => window.__prompts);
   expect(first).toContain('DOVEZI:');
   expect(first).toContain('VERIFICĂRI AUTOMATE: diferențiere Holland 40 din 40');
-  expect(first).toContain('ACTIVITĂȚI NOTATE CU 5 (i-ar plăcea foarte mult): Dezvolt un medicament nou');
+  expect(first).toContain('ACTIVITĂȚI NOTATE CU 5 (i-ar plăcea foarte mult): Caut cum funcționează ceva până înțeleg complet');
   expect(first).toContain('timp disponibil: 3–6 ore');
 });
 

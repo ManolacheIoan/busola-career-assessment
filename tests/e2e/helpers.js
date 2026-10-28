@@ -29,9 +29,8 @@ async function fillContext(page) {
   await page.fill('#f-ctx-age', '24');
   await page.fill('#f-ctx-job', 'Student la Informatică');
   await page.fill('#f-ctx-why', 'Vreau o direcție mai clară.');
-  for (const k of ['hours', 'edu', 'mobility', 'budget']) {
-    await page.locator(`[data-act="ctx"][data-k="${k}"][data-v="1"]`).click();
-  }
+  for (const k of ['work', 'mobility']) await page.locator(`[data-act="ctxm"][data-k="${k}"][data-v="1"]`).click();
+  for (const k of ['hours', 'edu', 'budget']) await page.locator(`[data-act="ctx"][data-k="${k}"][data-v="1"]`).click();
 }
 
 /* Completes all 8 steps. Interest answers give R 10, I 50, A 40, S 30, E 20, C 20, so the code is IAS. */
