@@ -1,0 +1,19 @@
+// Minimal static server for local testing: serves the project root on http://localhost:4173
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
+const root = path.resolve(__dirname, '..');
+const port = Number(process.env.PORT) || 4173;
+const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.png': 'image/png', '.svg': 'image/svg+xml' };
+
+http.createServer((req, res) => {
+  const urlPath = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
+  const file = path.join(root, urlPath === '/' ? 'index.html' : urlPath);
+  if (!file.startsWith(root + path.sep)) { res.writeHead(403); res.end(); return; }
+  fs.readFile(file, (err, data) => {
+    if (err) { res.writeHead(404); res.end('Not found'); return; }
+    res.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream' });
+    res.end(data);
+  });
+}).listen(port, () => console.log(`Busola running at http://localhost:${port}`));

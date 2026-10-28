@@ -1,0 +1,16 @@
+{
+  "name": "busola-career-assessment",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Guided career self-assessment in Romanian with an animated compass UI.",
+  "scripts": {
+    "serve": "node scripts/serve.js",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "node --test tests/unit/*.test.js",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.64.1"
+  }
+}
