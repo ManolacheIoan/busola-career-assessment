@@ -10,6 +10,8 @@ try next.
 
 "Busola" means "compass" in Romanian. The interface content is in Romanian, for a local audience.
 
+**Live:** [manolacheioan.github.io/busola-career-assessment](https://manolacheioan.github.io/busola-career-assessment/) · [example profile](https://manolacheioan.github.io/busola-career-assessment/#exemplu)
+
 **Tech stack:** HTML · CSS (custom properties, `color-mix`, View Transitions) · vanilla JavaScript · Canvas 2D · inline SVG · `localStorage` · Node test runner · Playwright · axe-core · GitHub Actions
 
 ---
