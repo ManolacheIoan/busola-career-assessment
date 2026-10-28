@@ -1,9 +1,9 @@
 # Busola — Career Self-Assessment
 
 A guided career and self-discovery assessment for Romanian speakers. In 8 steps it combines
-public instruments from vocational psychology (the O*NET Interest Profiler and the Mini-IPIP
-Big Five scale) with values, career anchors, work environment preferences, the person's own
-stories and a skill-versus-passion matrix. The result is a profile and a list of matching
+Holland interest types (60 everyday activities) and the Mini-IPIP Big Five scale with values,
+career anchors, work environment preferences, the person's own stories and a
+skill-versus-passion matrix. The result is a profile and a list of matching
 occupations, all calculated in the browser, plus an optional written report. It helps people
 who feel stuck see where their interests, strengths and motivation overlap, and decide what to
 try next.
@@ -20,15 +20,29 @@ try next.
 
 ## What I built
 
-- **An 8-step guided interview:** context and practical constraints, interests (60 items from
-  the O*NET Interest Profiler Short Form), personality (20 Mini-IPIP items, including
-  reverse-keyed ones), work and learning styles, work environment, values and career anchors,
+- **An 8-step guided interview:** context and practical constraints, interests (60 everyday
+  activities, 10 per Holland type), personality (20 Mini-IPIP items, including
+  reverse-keyed ones), work and learning styles, current state and work environment, values and career anchors,
   evidence stories, and the skill/passion matrix. Each step is validated before the user can
   move on, with a live hint explaining what is still missing.
 - **A results page calculated without AI:** a 3-letter Holland code with ties explained, a radar
   chart of all 6 interest types, Big Five bars with the thresholds drawn on the track, work
   environment preferences, practical constraints, ranked values, career anchors, a scatter plot
   of the four quadrants and an Ikigai summary.
+- **Wellbeing and self-esteem (optional, standard short scales):** the WHO-5 Well-Being Index,
+  the PHQ-4 (PHQ-2 for low mood and GAD-2 for anxiety) and the Rosenberg Self-Esteem Scale,
+  scored with their published methods and cut-offs, plus how often the person exercises and what
+  gives them energy. The results show the scores with their cut-offs drawn on the bars, the
+  checks flag low energy, low wellbeing and low self-esteem, and answers over the PHQ-2 or GAD-2
+  cut-off bring a gentle suggestion to talk to a doctor or psychologist, with a support line.
+  The interface says clearly that this is not a diagnosis.
+- **What does not suit the person, without AI:** an optional deal-breakers question ("what
+  would you not accept in a job", several answers allowed, plus free text) and a results card
+  that gathers everything pointing the other way: deal-breakers, the two least attractive
+  Holland types, activities rated "not at all", the "avoid" and "comfort trap" quadrants,
+  environments rated at the far end of a scale and the story about a job the person disliked.
+  The report prompt receives the same data and must say which matched occupations conflict
+  with the deal-breakers.
 - **Occupation matching:** the person's interest scores are compared with the Holland codes of
   120 occupations. Each match shows a fit percentage, the code letters it shares with the person,
   whether it can be done remotely, and whether it usually needs more study than the person
@@ -92,7 +106,9 @@ try next.
 
 | Decision | Why |
 | --- | --- |
-| **Public, published instruments instead of self-written questions** | Three self-written items per scale are not reliable. The O*NET Interest Profiler and the Mini-IPIP are free to use, documented and validated in English. The interface states that the Romanian translation has not been validated separately. |
+| **Everyday activities for interests** | Formal interest inventories describe work settings that read oddly in Romanian ("build kitchen cabinets", "raise fish in a hatchery"). Hobbies, chores and school or work situations are easier to picture. Ten items per type keep the scores stable; the interface says the items follow the Holland model but are not a validated inventory. |
+| **Standard scales for wellbeing and self-esteem** | Mood, anxiety and self-esteem are sensitive, so the app uses short, widely used scales (WHO-5, PHQ-4, Rosenberg) with their published scoring and cut-offs instead of self-written questions and invented thresholds. They are optional and every score needs all of its items answered. |
+| **A published scale for personality** | The Mini-IPIP is short, public domain and validated in English, with reverse-keyed items in every dimension. The interface states that the Romanian translation has not been validated separately. |
 | **Scoring and data in their own file (`scoring.js`)** | The question banks, occupation table and scoring functions have no DOM code, so the same file runs in the browser and in Node unit tests. |
 | **Occupation matching in the browser** | The app gives concrete directions even with no AI available. AI is used only for the optional written report. |
 | **Weighted fit (3, 2, 1) on the occupation's code letters** | The first letter of a Holland code matters most. Weighting by position ranks an IAS occupation above an SAI one for an IAS person, which a plain sum would not. |
@@ -113,12 +129,14 @@ try next.
 - **Unit tests** (Node test runner) for the scoring core: question bank structure, RIASEC sums
   and tie detection, Big Five reverse keying and thresholds, quadrant boundaries, occupation fit,
   the extra-study and regulated-profession flags, Holland differentiation and consistency, every
-  tension and answer-quality rule, experiment parsing and the starting experiments.
+  tension and answer-quality rule, WHO-5, PHQ-4 and Rosenberg scoring and their cut-offs,
+  experiment parsing and the starting experiments.
 - **End-to-end tests** (Playwright, on a desktop and a mobile profile): completing all 8 steps
   and checking the calculated code and occupations, step validation, saving and resuming after
   a reload, reopening steps from the route, the live quadrant map, the example profile not
   overwriting saved answers, Markdown and text downloads, tie messages, the zodiac bonus, the
-  two-click reset, the experiment tracker and its persistence, the checks card, the theme
+  two-click reset, the experiment tracker and its persistence, the checks card, the
+  "does not suit" card and deal-breakers, the wellbeing scores, the theme
   toggle, the "saved" indicator and the absence of horizontal scroll.
 - **AI flows with a mocked runtime:** a stand-in for the AI API records every prompt and returns
   fixed Markdown, so the tests can check the evidence pills, that the prompt carries the checks
@@ -193,7 +211,9 @@ prompt for copying or downloading instead.
 
 ---
 
-Interest items are adapted from the O*NET Interest Profiler Short Form (U.S. Department of
-Labor, Employment and Training Administration). Personality items are from the Mini-IPIP
+Interest items were written for Busola following the Holland RIASEC model. Occupation codes
+are indicative and modelled on those published by O*NET. Wellbeing uses the WHO-5 Well-Being Index (World Health Organization),
+the PHQ-4 (Kroenke et al., 2009) and the Rosenberg Self-Esteem Scale (Rosenberg, 1965), translated for
+this test. Personality items are from the Mini-IPIP
 (Donnellan et al., 2006), part of the public-domain International Personality Item Pool. The
 example profile contains illustrative data.

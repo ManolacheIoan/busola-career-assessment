@@ -19,14 +19,15 @@
     E: 'te atrag inițiativa, convingerea, conducerea proiectelor și afacerile proprii',
     C: 'te atrag ordinea, procesele clare, detaliile și sistemele care funcționează fără greșeli'
   };
-  /* Items adapted from the O*NET Interest Profiler Short Form (U.S. Department of Labor), translated into Romanian. */
+  /* Everyday activities written for Busola, 10 per Holland type. They follow the RIASEC model
+     but are not a validated instrument. */
   var RQ = {
-    R: ['Construiesc dulapuri de bucătărie', 'Zidesc sau pun gresie și faianță', 'Repar electrocasnice', 'Cresc pești într-o crescătorie', 'Asamblez componente electronice', 'Conduc un camion care livrează colete', 'Testez calitatea pieselor înainte de livrare', 'Repar și montez încuietori', 'Pregătesc și operez mașini care produc obiecte', 'Sting incendii de pădure'],
-    I: ['Dezvolt un medicament nou', 'Studiez metode de reducere a poluării apei', 'Fac experimente chimice', 'Studiez mișcarea planetelor', 'Examinez probe de sânge la microscop', 'Investighez cauza unui incendiu', 'Găsesc o metodă mai bună de prognoză meteo', 'Lucrez într-un laborator de biologie', 'Inventez un înlocuitor pentru zahăr', 'Fac analize de laborator ca să identific boli'],
-    A: ['Scriu cărți sau piese de teatru', 'Cânt la un instrument muzical', 'Compun sau fac aranjamente muzicale', 'Desenez', 'Creez efecte speciale pentru filme', 'Pictez decoruri pentru piese de teatru', 'Scriu scenarii pentru filme sau seriale', 'Dansez jazz sau step', 'Cânt într-o trupă', 'Montez filme'],
-    S: ['Îi predau cuiva un program de exerciții fizice', 'Ajut oameni cu probleme personale sau emoționale', 'Ofer consiliere în carieră', 'Fac terapie de recuperare', 'Fac voluntariat la o organizație non-profit', 'Îi învăț pe copii un sport', 'Predau limbajul semnelor persoanelor cu deficiențe de auz', 'Ajut la conducerea unei ședințe de terapie de grup', 'Am grijă de copii într-o grădiniță', 'Predau la o clasă de liceu'],
-    E: ['Cumpăr și vând acțiuni și obligațiuni', 'Conduc un magazin', 'Conduc un salon de înfrumusețare sau o frizerie', 'Conduc un departament într-o companie mare', 'Îmi pornesc propria afacere', 'Negociez contracte de afaceri', 'Reprezint un client într-un proces', 'Promovez o nouă colecție de haine', 'Vând produse într-un magazin universal', 'Administrez un magazin de haine'],
-    C: ['Fac un tabel de calcul pe calculator', 'Corectez înregistrări sau formulare', 'Instalez programe pe calculatoarele dintr-o rețea mare', 'Fac calcule cu un calculator de birou', 'Țin evidența livrărilor și a recepțiilor', 'Calculez salariile angajaților', 'Fac inventarul cu un scanner portabil', 'Înregistrez plățile de chirie', 'Țin evidența stocurilor', 'Sortez și distribui corespondența unei organizații']
+    R: ['Repar o bicicletă, o mașină sau un aparat stricat', 'Montez o mobilă sau un raft după instrucțiuni', 'Lucrez în aer liber, în natură sau pe un șantier', 'Folosesc unelte: bormașină, ciocan, șurubelniță', 'Construiesc ceva cu mâinile, de exemplu o machetă', 'Conduc o mașină, un utilaj sau o dronă', 'Asamblez un calculator sau îi schimb o piesă', 'Am grijă de animale sau de o grădină', 'Fac reparații prin casă: o priză, un robinet, o ușă', 'Fac o muncă fizică după care văd clar rezultatul'],
+    I: ['Caut cum funcționează ceva până înțeleg complet', 'Rezolv o problemă de logică sau de matematică', 'Fac un experiment ca să văd ce se întâmplă', 'Analizez date sau statistici ca să descopăr un tipar', 'Citesc sau mă uit la documentare despre știință', 'Caut cauza unei probleme până o găsesc', 'Învăț cum funcționează corpul uman sau o boală', 'Compar mai multe surse ca să aflu ce e adevărat', 'Scriu un program care rezolvă o problemă', 'Studiez un subiect în profunzime, doar din curiozitate'],
+    A: ['Desenez, pictez sau fac grafică', 'Scriu povești, poezii sau texte pentru un blog', 'Cânt sau compun muzică', 'Fac fotografii sau filmez și editez clipuri', 'Amenajez o cameră ca să arate frumos', 'Creez conținut pentru rețelele sociale', 'Joc teatru, fac improvizație sau stand-up', 'Desenez cum ar arăta un site, o aplicație sau un logo', 'Fac haine, accesorii sau obiecte lucrate de mână', 'Vin cu idei originale în loc să urmez un model'],
+    S: ['Îi explic unui coleg ceva ce nu înțelege', 'Ascult un prieten care trece printr-o perioadă grea', 'Fac voluntariat pentru o cauză în care cred', 'Lucrez cu copii: îi învăț sau mă joc cu ei', 'Ajut pe cineva să-și atingă un obiectiv, ca un antrenor', 'Îi ajut pe oamenii noi să se integreze într-un grup', 'Am grijă de cineva bolnav sau în vârstă', 'Țin o prezentare ca să-i învăț pe alții ceva util', 'Împac doi oameni care s-au certat', 'Îi ajut pe clienți să găsească ce le trebuie'],
+    E: ['Conving un grup să-mi adopte ideea', 'Vând ceva: un produs, un serviciu sau lucruri de care nu mai am nevoie', 'Conduc o echipă la un proiect', 'Pornesc o mică afacere sau un proiect pe cont propriu', 'Negociez un preț sau o înțelegere', 'Iau decizia când ceilalți ezită', 'Organizez un eveniment și mă ocup de buget și de oameni', 'Strâng bani sau sponsori pentru o idee', 'Prezint un proiect în fața unor oameni importanți', 'Caut o ocazie de afaceri pe care alții n-au văzut-o'],
+    C: ['Fac ordine în fișiere, documente sau poze', 'Țin un buget și notez fiecare cheltuială', 'Lucrez într-un tabel Excel cu multe date', 'Verific un text sau un formular ca să nu aibă greșeli', 'Urmez o procedură clară, pas cu pas', 'Îmi planific săptămâna în calendar', 'Țin evidența unor comenzi, stocuri sau termene', 'Completez acte și formulare oficiale', 'Pun la punct un sistem ca lucrurile să meargă de la sine', 'Sortez lucruri pe categorii și fac un inventar']
   };
   var R_PER = 10;
   var RIT = [];
@@ -59,9 +60,10 @@
 
   /* ---------- context and work environment ---------- */
   var CONSTR = [
+    { k: 'work', multi: true, q: 'Ce faci acum?', o: ['Sunt elev sau student', 'Lucrez cu normă întreagă', 'Lucrez part-time', 'Lucrez pe cont propriu', 'Nu lucrez acum'] },
     { k: 'hours', q: 'Câte ore pe săptămână poți dedica pentru ceva nou?', o: ['Sub 3 ore', '3–6 ore', '6–10 ore', 'Peste 10 ore'] },
     { k: 'edu', q: 'Ce studii ai acum?', o: ['Liceu în curs', 'Liceu terminat', 'Școală postliceală sau curs de calificare', 'Facultate în curs', 'Licență', 'Master sau doctorat'] },
-    { k: 'mobility', q: 'Cât de flexibil ești cu locul de muncă?', o: ['Doar în orașul meu', 'Orașul meu sau remote', 'M-aș muta în alt oraș', 'M-aș muta și în altă țară'] },
+    { k: 'mobility', multi: true, q: 'Unde ai putea lucra?', o: ['În orașul meu', 'Remote, de acasă', 'M-aș muta în alt oraș', 'M-aș muta în altă țară'] },
     { k: 'budget', q: 'Cât poți investi lunar în cursuri?', o: ['Nimic, doar resurse gratuite', 'Sub 200 lei', '200–500 lei', 'Peste 500 lei'] }
   ];
   var EDU_LEVEL = [0, 0, 1, 1, 2, 3];
@@ -72,6 +74,53 @@
     { k: 'pace', a: 'Ritm constant, previzibil', b: 'Ritm alert, cu schimbări' },
     { k: 'rules', a: 'Pași și reguli clare', b: 'Libertate să decid cum' }
   ];
+
+  /* ---------- wellbeing and self-esteem (optional, standard short scales) ---------- */
+  /* WHO-5 Well-Being Index (World Health Organization). Answers stored 1-6, scored 0-5. */
+  var WHO5 = ['M-am simțit vesel și bine dispus', 'M-am simțit calm și relaxat', 'M-am simțit activ și plin de energie', 'M-am trezit odihnit și proaspăt', 'Viața mea de zi cu zi a fost plină de lucruri care mă interesează'];
+  var WHO5_SCALE = ['niciodată', 'uneori', 'mai puțin de jumătate din timp', 'mai mult de jumătate din timp', 'de cele mai multe ori', 'tot timpul'];
+  /* PHQ-4 (Kroenke et al., 2009): PHQ-2 (items 1-2) and GAD-2 (items 3-4). Answers stored 1-4, scored 0-3. */
+  var PHQ4 = ['Puțin interes sau plăcere pentru lucrurile pe care le faci', 'Tristețe, deprimare sau lipsă de speranță', 'Nervozitate, anxietate sau tensiune', 'Îngrijorări pe care nu le poți opri sau controla'];
+  var PHQ_SCALE = ['deloc', 'câteva zile', 'mai mult de jumătate din zile', 'aproape în fiecare zi'];
+  /* Rosenberg Self-Esteem Scale (Rosenberg, 1965). [statement, reverse-keyed]; answers stored 1-4. */
+  var RSE = [
+    ['În general, sunt mulțumit de mine', 0],
+    ['Uneori cred că nu sunt bun de nimic', 1],
+    ['Simt că am o serie de calități', 0],
+    ['Pot face lucrurile la fel de bine ca majoritatea oamenilor', 0],
+    ['Simt că nu am prea multe lucruri cu care să mă mândresc', 1],
+    ['Uneori mă simt cu adevărat inutil', 1],
+    ['Simt că sunt o persoană valoroasă, cel puțin la fel ca ceilalți', 0],
+    ['Mi-aș dori să am mai mult respect față de mine', 1],
+    ['Per total, înclin să cred că sunt un ratat', 1],
+    ['Am o atitudine pozitivă față de mine', 0]
+  ];
+  var RSE_SCALE = ['total dezacord', 'dezacord', 'acord', 'total acord'];
+  var WELL = [
+    { k: 'move', q: 'Cât de des faci mișcare (sport, sală, mers pe jos)?', o: ['Aproape deloc', '1–2 ori pe săptămână', '3–4 ori pe săptămână', 'Aproape zilnic'] },
+    { k: 'charge', multi: true, q: 'Ce îți dă energie?', o: ['Sportul', 'Natura', 'Prietenii', 'Timpul petrecut singur', 'Muzica', 'Să creez ceva', 'Să învăț ceva nou', 'Jocurile', 'Animalele', 'Familia'] }
+  ];
+  /* things that would spoil a job for the person, however well it fits otherwise */
+  var AVOID = { k: 'avoid', multi: true, q: 'Ce n-ai accepta într-un job?', o: ['Multe ședințe', 'Vânzări și ținte de cifre', 'Lucru cu publicul toată ziua', 'Muncă fizică grea', 'Ture de noapte sau în weekend', 'Deplasări dese', 'Activități repetitive, la fel în fiecare zi', 'Să lucrez singur toată ziua', 'Presiune mare și termene strânse', 'Să conduc oameni', 'Să stau la birou toată ziua', 'Riscuri pentru sănătate sau siguranță'] };
+  function complete(a, n) { return Array.isArray(a) && a.length === n && a.every(function (v) { return v != null; }); }
+  /* Standard scoring: raw 0-25 multiplied by 4. 50 or less is low wellbeing, 28 or less very low. Null unless all 5 are answered. */
+  function who5Score(a) {
+    if (!complete(a, 5)) return null;
+    var index = a.reduce(function (s, v) { return s + v - 1; }, 0) * 4;
+    return { index: index, lvl: index > 50 ? 'hi' : (index > 28 ? 'mid' : 'lo') };
+  }
+  /* PHQ-2 and GAD-2 range 0-6; 3 or more is the usual cut-off for further evaluation. */
+  function phq4Score(a) {
+    if (!complete(a, 4)) return null;
+    var dep = a[0] - 1 + a[1] - 1, anx = a[2] - 1 + a[3] - 1;
+    return { dep: dep, anx: anx, depFlag: dep >= 3, anxFlag: anx >= 3 };
+  }
+  /* Total 0-30; under 15 is low self-esteem, over 25 high. */
+  function rseScore(a) {
+    if (!complete(a, 10)) return null;
+    var total = RSE.reduce(function (s, it, i) { return s + (it[1] ? 4 - a[i] : a[i] - 1); }, 0);
+    return { total: total, pct: Math.round(total / 30 * 100), lvl: total < 15 ? 'lo' : (total <= 25 ? 'mid' : 'hi') };
+  }
 
   /* ---------- occupations ---------- */
   /* [name, Holland code, usual entry level (0-3, see EDU_LABEL), can be remote (1/0), what you do,
@@ -307,6 +356,19 @@
       tension('order-routine', 'Ordine fără rutină', 'Îți plac activitățile ordonate și procesele clare, dar spui că amâni lucrurile. Termenele externe și listele pot face diferența.');
     if (items.length && !items.some(function (it) { return it.s != null && it.p != null && quadOf(it) === 'q1'; }))
       tension('empty-gold', 'Zona de aur e goală', 'Nicio activitate nu are încă note mari și la abilitate, și la pasiune. Uită-te la „Potențial de dezvoltare”: acolo e cel mai probabil viitoarea ta zonă de aur.');
+    var who = who5Score(d.who5), phq = phq4Score(d.phq4), rse = rseScore(d.rse), w5 = d.who5 || [];
+    if ((w5[2] != null && w5[2] <= 2) || (w5[3] != null && w5[3] <= 2))
+      tension('low-energy', 'Energie scăzută', 'În ultimele două săptămâni te-ai simțit rar plin de energie sau odihnit. Alege experimente scurte, care nu-ți cer multă energie, și nu lua decizii mari pe fugă.');
+    if (who && who.index <= 50)
+      tension('low-wellbeing', 'Stare de bine scăzută', 'Indicele WHO-5 este ' + who.index + ' din 100. Sub 50 înseamnă de obicei o perioadă mai grea. Merită să ai grijă de tine înainte de schimbări mari.');
+    if (phq && (phq.depFlag || phq.anxFlag))
+      tension('distress', 'Zile grele', 'Răspunsurile despre ' + (phq.depFlag && phq.anxFlag ? 'tristețe și anxietate' : (phq.depFlag ? 'tristețe' : 'anxietate')) + ' sunt peste pragul la care se recomandă o discuție cu un specialist. Nu e un diagnostic, dar merită să vorbești cu un medic sau cu un psiholog.');
+    if (rse && rse.lvl === 'lo') {
+      var growing = items.some(function (it) { return it.s != null && it.p != null && quadOf(it) === 'q3'; });
+      tension('low-confidence', 'Încredere în tine scăzută', growing
+        ? 'Scorul de stimă de sine e scăzut, iar unele activități apar ca „pasionat, dar încă nepriceput”. Poate fi lipsă de exercițiu sau de încredere, nu de talent. Notează-ți micile reușite din experimente.'
+        : 'Scorul de stimă de sine e scăzut. Experimentele mici, duse până la capăt, sunt unul dintre cele mai bune moduri de a-ți construi încrederea.');
+    }
     if (d.ctx && d.ctx.hours === 0 && careerMatches(rs.sc, 3, d.ctx).some(function (j) { return j.extraStudy; }))
       tension('time-study', 'Timp puțin pentru studii', 'Primele meserii potrivite cer de obicei studii în plus, iar acum ai sub 3 ore pe săptămână. Începe cu pași mici, de test, înainte de un program lung.');
 
@@ -329,7 +391,7 @@
     if (time[2] && time[2] < 20000) flag('fast-personality', 'Personalitate completată foarte repede', 'Ai răspuns la cele 20 de afirmații în mai puțin de 20 de secunde.');
 
     var score = 3 - (diff.level === 'lo' ? 1 : 0) - Math.min(2, quality.length);
-    return { diff: diff, cons: cons, tensions: tensions, quality: quality, confidence: score >= 3 ? 'hi' : (score === 2 ? 'mid' : 'lo') };
+    return { diff: diff, cons: cons, who5: who, phq4: phq, rse: rse, tensions: tensions, quality: quality, confidence: score >= 3 ? 'hi' : (score === 2 ? 'mid' : 'lo') };
   }
 
   /* ---------- experiments ---------- */
@@ -374,6 +436,8 @@
   return {
     RORDER: RORDER, RT: RT, RD: RD, RQ: RQ, RIT: RIT, R_MIN: R_MIN, R_MAX: R_MAX,
     BD: BD, BN: BN, BQ: BQ, BIT: BIT, BTXT: BTXT, LV: LV, B_PER: B_PER,
+    WHO5: WHO5, WHO5_SCALE: WHO5_SCALE, PHQ4: PHQ4, PHQ_SCALE: PHQ_SCALE, RSE: RSE, RSE_SCALE: RSE_SCALE, WELL: WELL, AVOID: AVOID,
+    who5Score: who5Score, phq4Score: phq4Score, rseScore: rseScore,
     CONSTR: CONSTR, EDU_LEVEL: EDU_LEVEL, EDU_LABEL: EDU_LABEL, ENV: ENV, OCC: OCC,
     riasecScores: riasecScores, big5Scores: big5Scores, quadOf: quadOf,
     occupationFit: occupationFit, careerMatches: careerMatches,

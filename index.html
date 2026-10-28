@@ -91,8 +91,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 .route-l button::after{content:attr(data-tip);position:absolute;top:28px;left:50%;transform:translate(-50%,-4px);background:var(--ink);color:var(--bg);font-family:var(--f-mono);font-size:10.5px;padding:5px 9px;border-radius:7px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
 .route-l li:first-child button::after{left:0;transform:translate(0,-4px)}
 .route-l li:last-child button::after{left:auto;right:0;transform:translate(0,-4px)}
-.route-l button:hover::after,.route-l button:focus-visible::after{opacity:1;transform:translate(-50%,0)}
-.route-l li:first-child button:hover::after,.route-l li:last-child button:hover::after{transform:translate(0,0)}
+@media (hover:hover){.route-l button:hover::after{opacity:1;transform:translate(-50%,0)}}
+.route-l button:focus-visible::after{opacity:1;transform:translate(-50%,0)}
+.route-l li:first-child button:hover::after,.route-l li:last-child button:hover::after,.route-l li:first-child button:focus-visible::after,.route-l li:last-child button:focus-visible::after{transform:translate(0,0)}
 .route-meta{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--ink-2);white-space:nowrap;min-width:0}
 .route-meta span{overflow:hidden;text-overflow:ellipsis}
 .route-meta b{color:var(--ink);font-weight:600}
@@ -332,8 +333,8 @@ input[type=text]:focus,textarea:focus{border-color:var(--gold);outline:none;box-
 .lvl{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:var(--panel-2);border:1px solid var(--line);color:var(--ink-2)}
 .track{position:relative;height:10px;background:var(--bg-2);border-radius:10px}
 .track::before,.track::after{content:"";position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--panel);z-index:1}
-.track::before{left:34%}
-.track::after{left:67%}
+.track::before{left:var(--t1,34%)}
+.track::after{left:var(--t2,67%)}
 .fill{height:100%;border-radius:10px;background:linear-gradient(90deg,color-mix(in srgb,var(--gold) 35%,transparent),var(--gold))}
 .anim .fill{animation:grow 1.4s var(--ease) both;animation-delay:var(--d)}
 .bar-t{font-size:14.5px;color:var(--ink-2);margin-top:10px}
@@ -466,6 +467,17 @@ input[type=text]:focus,textarea:focus{border-color:var(--gold);outline:none;box-
 .ask{display:flex;gap:10px;align-items:flex-end}
 .ask textarea{min-height:52px;flex:1;min-width:0}
 
+/* wellbeing card */
+.well{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;margin-top:16px;align-items:start}
+.well-r{display:grid;gap:20px}
+.support{margin-top:20px;padding:14px 18px;border-radius:16px;background:var(--q3-bg);border:1px solid color-mix(in srgb,var(--q3) 40%,transparent);font-size:15px}
+
+/* what does not suit */
+.avoid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 32px;margin-top:18px}
+.avoid h3{font-size:16px;font-weight:600;margin-bottom:10px}
+.avoid .tag{border-color:color-mix(in srgb,var(--q2) 35%,var(--line));background:var(--q2-bg)}
+.quote{margin:0;padding:10px 14px;border-left:3px solid var(--q2);background:var(--panel-2);border-radius:0 12px 12px 0;font-size:15px;color:var(--ink-2)}
+
 /* print: results only, light colours */
 @media print{
   :root:not(#print){--bg:#fff;--bg-2:#E6EBF1;--panel:#fff;--panel-2:#F5F7FA;--glass:#fff;--ink:#0F1C2E;--ink-2:#3E4D63;--ink-3:#5C6B82;--line:#D3DBE5;--line-2:#B4C0D0;--gold:#E3A41F;--gold-t:#8F5D00;--gold-soft:rgba(227,164,31,.16);--q1-t:#8F5D00;--q2-t:#AE3F28;--q3-t:#2257AA;--q4-t:#5A677D;--shadow:none;color-scheme:light}
@@ -526,7 +538,7 @@ input[type=text]:focus,textarea:focus{border-color:var(--gold);outline:none;box-
   .legs{grid-template-columns:repeat(2,minmax(0,1fr))}
   .p6{grid-template-columns:minmax(0,1fr)}
   .p6-side{position:static;order:-1}
-  .r-grid,.quad-grid,.basis,.r-3,.iki,.careers,.ck,.notes{grid-template-columns:minmax(0,1fr)}
+  .r-grid,.quad-grid,.basis,.r-3,.iki,.careers,.ck,.notes,.well,.avoid{grid-template-columns:minmax(0,1fr)}
   .ck-tiles{grid-template-columns:minmax(0,1fr)}
 }
 @media (max-width:640px){
@@ -585,7 +597,7 @@ var HAS_AI=!!(window.claude&&window.claude.use);
 var C=window.BusolaCore;
 
 /* ---------- data ---------- */
-var RORDER=C.RORDER,RT=C.RT,RD=C.RD,RIT=C.RIT,BD=C.BD,BN=C.BN,BIT=C.BIT,BTXT=C.BTXT,LV=C.LV,CONSTR=C.CONSTR,ENV=C.ENV;
+var RORDER=C.RORDER,RT=C.RT,RD=C.RD,RIT=C.RIT,BD=C.BD,BN=C.BN,BIT=C.BIT,BTXT=C.BTXT,LV=C.LV,CONSTR=C.CONSTR,ENV=C.ENV,WHO5=C.WHO5,PHQ4=C.PHQ4,RSE=C.RSE,WELL=C.WELL,AVOID=C.AVOID;
 var NR=RIT.length,NB=BIT.length;
 
 var STYLES=[
@@ -612,9 +624,9 @@ var ANCHORS=[
 var SUGG=['Programare','Explicat lucruri altora','Scris','Organizat și planificat','Convins sau vândut','Design și desen','Analiză de date','Sport și antrenament','Lucru cu mâinile','Vorbit în public','Învățat limbi străine','Rezolvat probleme tehnice'];
 var ZODIAC=['Berbec','Taur','Gemeni','Rac','Leu','Fecioară','Balanță','Scorpion','Săgetător','Capricorn','Vărsător','Pești'];
 var ZG=['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'];
-var PH=['Context','Interese','Personalitate','Stil de lucru','Mediul de lucru','Valori și motivații','Povești','Cele 4 cadrane','Rezultate'];
+var PH=['Context','Interese','Personalitate','Stil de lucru','Starea ta și mediul de lucru','Valori și motivații','Povești','Cele 4 cadrane','Rezultate'];
 var BR=['N','NE','E','SE','S','SV','V','NV','N'];
-var LEGD=['De unde pornești și ce constrângeri reale ai.','60 de activități din O*NET Interest Profiler.','20 de afirmații din Mini-IPIP, cele 5 mari dimensiuni.','Cele 3 moduri în care înveți și lucrezi natural.','Birou sau remote, ritm, mărimea echipei, reguli.','Valori, ancore de carieră și ce te pune în mișcare.','4 întâmplări reale, cele mai bune dovezi.','Ce faci, cât de bun și cât de pasionat ești.'];
+var LEGD=['De unde pornești și ce constrângeri reale ai.','60 de activități de zi cu zi, după modelul Holland.','20 de afirmații din Mini-IPIP, cele 5 mari dimensiuni.','Cele 3 moduri în care înveți și lucrezi natural.','Cum te simți, încrederea în tine, mișcarea și unde lucrezi bine.','Valori, ancore de carieră și ce te pune în mișcare.','4 întâmplări reale, cele mai bune dovezi.','Ce faci, cât de bun și cât de pasionat ești.'];
 var QN={
   q1:{t:'Zona de aur',s:'bun și pasionat',d:'Aici construiești. Caută roluri care te țin cât mai mult în această zonă.'},
   q2:{t:'Capcana confortului',s:'bun, dar nepasionat',d:'Poate fi bine plătit, dar te golește în timp. Folosește-l ca mijloc, nu ca scop.'},
@@ -626,9 +638,10 @@ function qv(q){return '--qc:var(--'+q+');--qbg:var(--'+q+'-bg);--qt:var(--'+q+'-
 /* ---------- state ---------- */
 function fresh(){
   return {phase:-1,
-    ctx:{age:'',job:'',life:'',why:'',change:'',hours:null,edu:null,mobility:null,budget:null},
+    ctx:{age:'',job:'',life:'',why:'',change:'',work:[],hours:null,edu:null,mobility:[],budget:null},
     riasec:Array(NR).fill(null), big5:Array(NB).fill(null),
     styles:[], styleEx:{}, env:Array(ENV.length).fill(null), values:[], valEx:{}, anchors:[],
+    who5:Array(WHO5.length).fill(null), phq4:Array(PHQ4.length).fill(null), rse:Array(RSE.length).fill(null), well:{move:null,charge:[]}, pref:{avoid:[],other:''},
     sdt:{auto:'',comp:'',conn:''}, stories:['','','',''],
     items:[], iki:{love:'',good:'',need:'',paid:''},
     zodiac:'', rep:{a:'',b:'',c:''},
@@ -641,12 +654,16 @@ function normalize(o){
     if(Array.isArray(f[k])){
       if(!Array.isArray(o[k]))continue;
       /* fixed-length answer arrays keep their length when the question bank changes */
-      if(k==='riasec'||k==='big5'||k==='env'){if(o[k].length===f[k].length)f[k]=o[k];}
+      if(k==='riasec'||k==='big5'||k==='env'||k==='who5'||k==='phq4'||k==='rse'){if(o[k].length===f[k].length)f[k]=o[k];}
       else f[k]=o[k];
     }else if(f[k]&&typeof f[k]==='object'){
       if(o[k]&&typeof o[k]==='object')for(var kk in o[k])f[k][kk]=o[k][kk];
     }else f[k]=o[k];
   }
+  /* multiple-choice context questions are arrays; older saves stored a single index */
+  CONSTR.forEach(function(c){if(c.multi&&!Array.isArray(f.ctx[c.k]))f.ctx[c.k]=[];});
+  WELL.forEach(function(c){if(c.multi&&!Array.isArray(f.well[c.k]))f.well[c.k]=[];});
+  if(!Array.isArray(f.pref.avoid))f.pref.avoid=[];
   return f;
 }
 function load(){
@@ -690,13 +707,18 @@ function getPath(path){
 /* ---------- example profile ---------- */
 function demoState(){
   var d=fresh();
-  d.ctx={age:'24',job:'Masterand la Informatică, lucrez part-time ca tester QA',life:'Locuiesc în Cluj, am un buget mic și pot dedica 6–8 ore pe săptămână pentru ceva nou.',why:'Simt că testarea nu mi se potrivește pe termen lung și vreau o direcție mai clară înainte să termin masterul.',change:'Să lucrez la ceva care combină partea tehnică cu designul și cu oamenii.',hours:2,edu:4,mobility:1,budget:1};
+  d.ctx={age:'24',job:'Masterand la Informatică, lucrez part-time ca tester QA',life:'Locuiesc în Cluj, am un buget mic și pot dedica 6–8 ore pe săptămână pentru ceva nou.',why:'Simt că testarea nu mi se potrivește pe termen lung și vreau o direcție mai clară înainte să termin masterul.',change:'Să lucrez la ceva care combină partea tehnică cu designul și cu oamenii.',work:[0,2],hours:2,edu:4,mobility:[0,1],budget:1};
   var RV={R:[2,1,2,3,2,1,2,2,3,1],I:[5,4,5,4,5,4,4,5,4,5],A:[5,4,4,5,3,4,4,3,4,5],S:[4,3,4,3,4,4,3,3,4,4],E:[2,2,1,2,3,2,1,2,2,1],C:[3,2,2,3,2,3,2,3,2,2]};
   var BV={O:[5,1,2,1],C:[3,3,4,2],E:[2,4,2,4],A:[5,2,4,2],N:[3,3,3,4]};
   d.riasec=[];d.big5=[];
   for(var a=0;a<10;a++)RORDER.forEach(function(t){d.riasec.push(RV[t][a]);});
   for(var b=0;b<4;b++)BD.forEach(function(x){d.big5.push(BV[x][b]);});
   d.env=[4,2,2,5];
+  d.who5=[5,4,3,3,5];
+  d.phq4=[1,2,2,1];
+  d.rse=[3,2,3,3,2,2,3,2,2,3];
+  d.well={move:1,charge:[1,5,6]};
+  d.pref={avoid:[0,1,4],other:'Să răspund la telefon toată ziua, ca în call center.'};
   d.styles=['Vizual / spațial','Logic / numeric','Introspectiv'];
   d.styleEx={'Vizual / spațial':'Am învățat Figma într-un weekend doar uitându-mă la interfețe pe care le admir.','Logic / numeric':'Găsesc repede cauza unui bug când desenez fluxul pe hârtie.','Introspectiv':'Îmi țin un jurnal de proiecte și știu exact ce m-a motivat la fiecare.'};
   d.values=['creativitate','autonomie','învățare continuă','impact social','echilibru viață-muncă'];
@@ -861,12 +883,13 @@ function md(t){
 /* ---------- UI components ---------- */
 var ARROW='<svg class="arr" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 var lastPick=null,lastMove=null,lastAdded=null,lastHot=null,prevZ=0,eggOpen=false;
-function lk(act,k,i,val,label,max,ends){
+/* zero: show the labels from 0 (standard scales such as WHO-5 and PHQ-4); values are still stored from 1 */
+function lk(act,k,i,val,label,max,ends,zero){
   max=max||5;val=val||0;
   var h='<div class="lk" role="radiogroup" aria-label="'+esc(label)+'" style="--n:'+max+';--p:'+(val?(val-1)/(max-1):0)+'">';
   for(var v=1;v<=max;v++){
     var c=v===val?'on':(val&&v<val?'lit':'');
-    h+='<button type="button" role="radio" aria-checked="'+(v===val)+'" class="'+c+'" data-act="'+act+'" data-k="'+esc(k)+'" data-i="'+i+'" data-v="'+v+'">'+v+'</button>';
+    h+='<button type="button" role="radio" aria-checked="'+(v===val)+'" class="'+c+'" data-act="'+act+'" data-k="'+esc(k)+'" data-i="'+i+'" data-v="'+v+'">'+(zero?v-1:v)+'</button>';
   }
   h+='</div>';
   if(ends)h+='<div class="lk-ends" aria-hidden="true"><span>'+esc(ends[0])+'</span><span>'+esc(ends[1])+'</span></div>';
@@ -891,11 +914,22 @@ function stage(title,lead,body,label,wide){
 }
 function pickOn(arr,v){return arr.indexOf(v)>-1;}
 function just(v){return lastPick===v?' just':'';}
-function choiceGroup(c){
-  var cur=S.ctx[c.k];
+function choiceGroup(c,st){
+  st=st||'ctx';
+  var cur=S[st][c.k],ds=' data-s="'+st+'"';
+  if(c.multi){
+    return '<div class="cgroup" role="group" aria-labelledby="cg-'+c.k+'"><span id="cg-'+c.k+'">'+esc(c.q)+' <small style="display:inline;font-weight:400;color:var(--ink-2)">(poți alege mai multe)</small></span><div class="chips">'+
+      c.o.map(function(o,i){var on=cur.indexOf(i)>-1;return '<button type="button" aria-pressed="'+on+'" class="chip'+(on?' on':'')+just(c.k+i)+'" data-act="ctxm"'+ds+' data-k="'+c.k+'" data-v="'+i+'">'+esc(o)+'</button>';}).join('')+
+      '</div></div>';
+  }
   return '<div class="cgroup" role="radiogroup" aria-labelledby="cg-'+c.k+'"><span id="cg-'+c.k+'">'+esc(c.q)+'</span><div class="chips">'+
-    c.o.map(function(o,i){var on=cur===i;return '<button type="button" role="radio" aria-checked="'+on+'" class="chip'+(on?' on':'')+just(c.k+i)+'" data-act="ctx" data-k="'+c.k+'" data-v="'+i+'">'+esc(o)+'</button>';}).join('')+
+    c.o.map(function(o,i){var on=cur===i;return '<button type="button" role="radio" aria-checked="'+on+'" class="chip'+(on?' on':'')+just(c.k+i)+'" data-act="ctx"'+ds+' data-k="'+c.k+'" data-v="'+i+'">'+esc(o)+'</button>';}).join('')+
     '</div></div>';
+}
+function ctxText(c,st){
+  var v=S[st||'ctx'][c.k];
+  if(c.multi)return v&&v.length?v.slice().sort().map(function(i){return c.o[i];}).join(', '):'';
+  return v==null?'':c.o[v];
 }
 
 /* ---------- steps ---------- */
@@ -921,16 +955,17 @@ function hero(){
     h+='<div class="leg-card glow"><div class="leg-top">'+glyph(i*45)+'<span class="mono">'+BR[i]+' · '+pad3(i*45)+'°</span></div><b>'+PH[i]+'</b><p>'+LEGD[i]+'</p></div>';
   }
   h+='</div>';
-  h+='<div class="sec-h"><p class="eyebrow">Pe ce se sprijină</p><h2>Instrumente publice din psihologia vocațională</h2></div>'+
-  '<div class="basis card glow"><div><p class="note">Fiecare etapă folosește un model cercetat. Profilul și meseriile potrivite se calculează direct din răspunsurile tale.</p><div class="tags"><span class="tag">O*NET Interest Profiler</span><span class="tag">Mini-IPIP (Big Five)</span><span class="tag">Career Anchors</span><span class="tag">Ikigai</span><span class="tag">Teoria autodeterminării</span></div></div>'+
-  '<div class="basis-t"><p>Interesele folosesc cele 60 de activități din O*NET Interest Profiler, iar personalitatea cele 20 de afirmații din Mini-IPIP. Ambele sunt publice și au fost traduse în română pentru acest test; traducerea nu a fost validată separat.</p><p>Inteligențele multiple apar ca stiluri de lucru preferate, nu ca etichete științifice.</p></div></div>';
+  h+='<div class="sec-h"><p class="eyebrow">Pe ce se sprijină</p><h2>Modele din psihologia vocațională</h2></div>'+
+  '<div class="basis card glow"><div><p class="note">Fiecare etapă folosește un model cercetat. Profilul și meseriile potrivite se calculează direct din răspunsurile tale.</p><div class="tags"><span class="tag">Holland (RIASEC)</span><span class="tag">Mini-IPIP (Big Five)</span><span class="tag">Career Anchors</span><span class="tag">Ikigai</span><span class="tag">Teoria autodeterminării</span></div></div>'+
+  '<div class="basis-t"><p>Interesele folosesc 60 de activități de zi cu zi, scrise pentru acest test după modelul Holland. Personalitatea folosește cele 20 de afirmații din Mini-IPIP, un chestionar public, tradus în română; traducerea nu a fost validată separat.</p><p>Inteligențele multiple apar ca stiluri de lucru preferate, nu ca etichete științifice.</p></div></div>';
   return h+'</section>';
 }
 function p0(){
   return stage('Context','Câteva întrebări simple, ca să înțeleg de unde pornești și ce e realist pentru tine acum.',
-    '<div class="fields"><div class="row2">'+field('Câți ani ai?','ctx.age',{ph:'ex. 24',num:true})+
-    field('Ce faci acum (ocupație sau studii)?','ctx.job',{ph:'ex. student la Automatică, lucrez în retail...'})+'</div>'+
-    CONSTR.map(choiceGroup).join('')+
+    '<div class="fields"><div class="row2">'+field('Câți ani ai?','ctx.age',{ph:'ex. 24',num:true})+'</div>'+
+    choiceGroup(CONSTR[0])+
+    field('Pe scurt, ce faci sau ce ai făcut ultima dată? (opțional)','ctx.job',{ph:'ex. student la Automatică, am lucrat în retail...'})+
+    CONSTR.slice(1).map(function(c){return choiceGroup(c);}).join('')+
     field('Mai e ceva important despre situația ta?','ctx.life',{rows:3,hint:'Familie, sănătate, alte obligații. Opțional, dar face recomandările mai realiste.'})+
     field('Ce te-a adus aici acum?','ctx.why',{rows:3})+
     field('Ce ai vrea să se schimbe în 1 până la 2 ani?','ctx.change',{rows:3})+'</div>');
@@ -944,14 +979,14 @@ function qList(items,arr,key,ends){
 }
 function p1(){
   var h='<div class="legend-box"><span>Cât de mult ți-ar plăcea să faci asta?</span><span><b>1</b> = deloc · <b>3</b> = nu sunt sigur · <b>5</b> = foarte mult</span></div><p class="note">Nu te gândi dacă te pricepi, cât ai câștiga sau ce studii ar trebui. Gândește-te doar dacă ți-ar plăcea activitatea.</p>'+counter('riasec')+qList(RIT,S.riasec,'riasec',['deloc','foarte mult']);
-  return stage('Interese','Cele 60 de activități vin din O*NET Interest Profiler, un instrument public folosit în orientarea profesională. Ele sunt grupate în cele 6 tipuri Holland (RIASEC).',h);
+  return stage('Interese','60 de activități din viața de zi cu zi, grupate în cele 6 tipuri ale modelului Holland (RIASEC). Ce îți place să faci spune mult despre ce meserii ți s-ar potrivi.',h);
 }
 function p2(){
   var h='<div class="legend-box"><span>Cât de bine te descrie fiecare afirmație?</span><span><b>1</b> = deloc · <b>5</b> = mă descrie perfect</span></div><p class="note">Descrie-te așa cum ești în general acum, nu cum ți-ai dori să fii.</p>'+counter('big5')+qList(BIT,S.big5,'big5',['deloc','perfect']);
   return stage('Personalitate','Cele 20 de afirmații vin din Mini-IPIP, o formă scurtă și validată a modelului Big Five, cel mai bine cercetat model de personalitate. Rezultatele sunt tendințe, nu etichete.',h);
 }
 function p3(){
-  var h='<p class="counter"><span>Alese: '+S.styles.length+' din 3</span><span class="bar"><i style="width:'+(S.styles.length/3*100)+'%"></i></span></p><div class="opts">';
+  var h='<p class="counter"><span>Alese: '+S.styles.length+' (cel mult 3)</span><span class="bar"><i style="width:'+(S.styles.length/3*100)+'%"></i></span></p><div class="opts">';
   STYLES.forEach(function(s){
     var on=pickOn(S.styles,s.t);
     h+='<button type="button" class="opt glow'+(on?' on':'')+just(s.t)+'" aria-pressed="'+on+'" data-act="pick" data-k="styles" data-max="3" data-v="'+esc(s.t)+'"><strong>'+esc(s.t)+'</strong><span>'+esc(s.d)+'</span></button>';
@@ -962,15 +997,54 @@ function p3(){
     S.styles.forEach(function(s){h+=field(s,'styleEx.'+s,{rows:2});});
     h+='</div>';
   }
-  return stage('Stil de lucru și de învățare','Alege cele 3 stiluri în care te regăsești cel mai mult. Modelul inteligențelor multiple e popular, dar slab validat științific, așa că îl folosim doar ca „stiluri preferate”, nu ca adevăr despre creierul tău.',h);
+  return stage('Stil de lucru și de învățare','Alege până la 3 stiluri în care te regăsești cel mai mult, cel puțin unul. Modelul inteligențelor multiple e popular, dar slab validat științific, așa că îl folosim doar ca „stiluri preferate”, nu ca adevăr despre creierul tău.',h);
+}
+function scaleList(key,items,arr,max,ends,zero){
+  return '<div class="qs-list">'+items.map(function(t,i){
+    return '<div class="q'+(arr[i]!=null?' ok':'')+'" style="--qi:'+i+'"><div class="q-top"><p class="q-text">'+esc(t)+'</p></div><div class="q-sc">'+lk('lk',key,i,arr[i],t,max,ends,zero)+'</div></div>';
+  }).join('')+'</div>';
 }
 function pEnv(){
-  var h='<p class="note">Pentru fiecare pereche, alege unde te simți cel mai bine. 3 înseamnă că îți e la fel.</p><div class="qs-list">';
+  var h='<p class="note">Întrebările despre stare și încredere sunt opționale și folosesc chestionare standard, traduse pentru acest test. Nu sunt un diagnostic. Te ajută să primești sfaturi pe măsura energiei tale, iar răspunsurile rămân în browserul tău.</p>';
+  h+='<h2>Starea de bine în ultimele două săptămâni</h2><div class="legend-box"><span>Cât de des a fost adevărat?</span><span><b>0</b> = niciodată · <b>1</b> = uneori · <b>2</b> = mai puțin de jumătate din timp · <b>3</b> = mai mult de jumătate din timp · <b>4</b> = de cele mai multe ori · <b>5</b> = tot timpul</span></div>'+
+    scaleList('who5',WHO5,S.who5,6,['niciodată','tot timpul'],true)+'<p class="note">WHO-5, indicele stării de bine al Organizației Mondiale a Sănătății.</p>';
+  h+='<h2>Tristețe și anxietate</h2><div class="legend-box"><span>În ultimele două săptămâni, cât de des te-au deranjat următoarele?</span><span><b>0</b> = deloc · <b>1</b> = câteva zile · <b>2</b> = mai mult de jumătate din zile · <b>3</b> = aproape în fiecare zi</span></div>'+
+    scaleList('phq4',PHQ4,S.phq4,4,['deloc','aproape în fiecare zi'],true)+'<p class="note">PHQ-4, un chestionar scurt folosit de medici pentru a observa semnele de tristețe și anxietate.</p>';
+  h+='<h2>Încrederea în tine</h2><div class="legend-box"><span>Cât de mult ești de acord?</span><span><b>1</b> = total dezacord · <b>2</b> = dezacord · <b>3</b> = acord · <b>4</b> = total acord</span></div>'+
+    scaleList('rse',RSE.map(function(c){return c[0];}),S.rse,4,['total dezacord','total acord'])+'<p class="note">Scala Rosenberg, cea mai folosită scală de stimă de sine.</p>';
+  h+='<h2>Mișcare și energie</h2><div class="fields">'+WELL.map(function(c){return choiceGroup(c,'well');}).join('')+'</div>';
+  h+='<h2>Mediul de lucru</h2><p class="note">Pentru fiecare pereche, alege unde te simți cel mai bine. 3 înseamnă că îți e la fel.</p><div class="qs-list">';
   ENV.forEach(function(e,i){
     h+='<div class="q env'+(S.env[i]!=null?' ok':'')+'" style="--qi:'+i+'"><div class="q-top"><b>'+esc(e.a)+'</b><b>'+esc(e.b)+'</b></div>'+lk('lk','env',i,S.env[i],e.a+' sau '+e.b,5)+'</div>';
   });
   h+='</div>';
-  return stage('Mediul de lucru','Același job poate fi grozav într-un loc și epuizant în altul. Aici afli în ce condiții lucrezi cel mai bine.',h);
+  h+='<h2>Ce n-ai accepta într-un job</h2><p class="note">Alege ce ți-ar strica un job, oricât de bine s-ar potrivi în rest. Opțional: poți să nu alegi nimic.</p><div class="fields">'+
+    choiceGroup(AVOID,'pref')+field('Altceva ce n-ai accepta? (opțional)','pref.other',{ph:'ex. să mă mut des, să lucrez fără contract...'})+'</div>';
+  return stage('Starea ta și mediul de lucru','Cum te simți, cât crezi în tine și în ce condiții lucrezi cel mai bine. Toate contează când alegi o direcție și un ritm.',h);
+}
+var WHOTXT={hi:'Starea ta de bine e bună în ultima vreme.',mid:'Starea ta de bine e mai scăzută. Merită să ai grijă de tine înainte de schimbări mari.',lo:'Starea ta de bine e foarte scăzută. Vorbește cu cineva de încredere sau cu un medic.'};
+var RSETXT={hi:'Ai o imagine bună despre tine. Folosește-o ca să încerci lucruri noi.',mid:'Ai încredere în tine în multe situații, dar nu în toate. Experimentele mici o pot întări.',lo:'Te îndoiești des de tine. Asta nu spune nimic despre ce poți. Reușitele mici, notate, schimbă de obicei imaginea.'};
+var LVW={hi:'bună',mid:'scăzută',lo:'foarte scăzută'},LVC={hi:'ridicată',mid:'medie',lo:'scăzută'};
+function answered(a){return a.some(function(v){return v!=null;});}
+function hasWell(){return answered(S.who5)||answered(S.phq4)||answered(S.rse)||WELL.some(function(c){return c.multi?S.well[c.k].length:S.well[c.k]!=null;});}
+/* t1, t2: the scale's own cut-offs, drawn as ticks on the track */
+function scoreBar(title,value,max,pct,lvl,txt,t1,t2){
+  return '<div><div class="bar-h"><b>'+title+'</b><span class="r"><span class="pct">'+value+' / '+max+'</span><span class="lvl">'+lvl+'</span></span></div><div class="track" style="--t1:'+t1+'%;--t2:'+t2+'%"><div class="fill" style="width:'+Math.max(4,pct)+'%;--d:300ms"></div></div><p class="bar-t">'+txt+'</p></div>';
+}
+function wellCard(){
+  if(!hasWell())return '';
+  var who=C.who5Score(S.who5),phq=C.phq4Score(S.phq4),rse=C.rseScore(S.rse);
+  var support=(who&&who.lvl==='lo')||(phq&&(phq.depFlag||phq.anxFlag));
+  var h='<article class="card" id="well"><p class="eyebrow">Starea ta în ultima vreme</p><h2 class="c-title">Energie, stare și încredere</h2><div class="well"><div class="well-r">';
+  h+=who?scoreBar('Starea de bine (WHO-5)',who.index,100,who.index,LVW[who.lvl],WHOTXT[who.lvl],28,50):(answered(S.who5)?'<p class="note">Răspunde la toate cele 5 întrebări despre starea de bine ca să vezi scorul.</p>':'');
+  h+=rse?scoreBar('Încredere în tine (Rosenberg)',rse.total,30,rse.pct,LVC[rse.lvl],RSETXT[rse.lvl],50,83.3):(answered(S.rse)?'<p class="note">Răspunde la toate cele 10 afirmații despre încredere ca să vezi scorul.</p>':'');
+  h+='</div><div class="well-r"><ul class="facts-l">';
+  if(phq){
+    h+='<li><span>Tristețe (PHQ-2)</span><b>'+(phq.depFlag?'merită atenție':'fără semnale')+'</b></li><li><span>Anxietate (GAD-2)</span><b>'+(phq.anxFlag?'merită atenție':'fără semnale')+'</b></li>';
+  }else if(answered(S.phq4))h+='<li><span>Tristețe și anxietate</span><b>răspunde la toate 4</b></li>';
+  h+=WELL.map(function(c){var t=ctxText(c,'well');return t?'<li><span>'+esc(c.q.replace(/ \(.*\)/,'').replace(/\?$/,''))+'</span><b>'+esc(t)+'</b></li>':'';}).join('')+'</ul></div></div>';
+  if(support)h+='<div class="support"><b>Nu ești singur.</b> Răspunsurile tale arată o perioadă grea. Nu e un diagnostic, dar merită să vorbești cu cineva de încredere, cu medicul de familie sau cu un psiholog. Telefonul Sufletului, linie de sprijin emoțional: <b>0372 403 403</b>. În caz de urgență, sună la <b>112</b>.</div>';
+  return h+'</article>';
 }
 function p4(){
   var h='<h2 style="margin-top:0">Valorile tale</h2><p class="note">Alege 5 valori care contează cel mai mult pentru tine. Apoi ordonează-le. ('+S.values.length+' din 5)</p><div class="chips">';
@@ -992,7 +1066,7 @@ function p4(){
     S.values.slice(0,3).forEach(function(v){h+=field(v,'valEx.'+v,{rows:2});});
     h+='</div>';
   }
-  h+='<h2>Ancora ta de carieră</h2><p class="note">Ce descrie cel mai bine ce cauți într-o carieră? Alege 2. ('+S.anchors.length+' din 2)</p><div class="opts">';
+  h+='<h2>Ancora ta de carieră</h2><p class="note">Ce descrie cel mai bine ce cauți într-o carieră? Alege una sau două. ('+S.anchors.length+' din cel mult 2)</p><div class="opts">';
   ANCHORS.forEach(function(a){
     var on=pickOn(S.anchors,a.t);
     h+='<button type="button" class="opt glow'+(on?' on':'')+just(a.t)+'" aria-pressed="'+on+'" data-act="pick" data-k="anchors" data-max="2" data-v="'+esc(a.t)+'"><strong>'+esc(a.t)+'</strong><span>'+esc(a.d)+'</span></button>';
@@ -1108,6 +1182,38 @@ function chatHtml(){
   if(HAS_AI)h+='<div class="ask"><div class="f" style="flex:1;min-width:0"><label for="askq"><span class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Întrebarea ta</span></label><textarea id="askq" rows="2" placeholder="ex. De ce nu e programarea pe primul loc?"></textarea></div><button type="button" class="ghost" data-act="ask"'+(running?' disabled':'')+'>Întreabă</button></div><p class="status" id="chatStatus" aria-live="polite"></p>';
   return h+'</div>';
 }
+/* everything the answers say about what does not suit the person, gathered in one place */
+function avoidData(){
+  var rs=riasecScores(),low=RORDER.slice().sort(function(a,b){return rs.sc[a]-rs.sc[b];}).slice(0,2);
+  var acts=RIT.filter(function(_,i){return S.riasec[i]===1;}).map(function(it){return it.text;});
+  var q4=S.items.filter(function(i){return rated(i)&&quadOf(i)==='q4';}).map(function(i){return i.n;});
+  var q2=S.items.filter(function(i){return rated(i)&&quadOf(i)==='q2';}).map(function(i){return i.n;});
+  var envNo=ENV.map(function(e,i){var v=S.env[i];return v==null?'':(v>=5?e.a:(v<=1?e.b:''));}).filter(Boolean);
+  var deal=ctxText(AVOID,'pref'),other=String(S.pref.other||'').trim(),story=String(S.stories[3]||'').trim();
+  var hasR=S.riasec.some(function(v){return v!=null;});
+  var lines=[];
+  if(deal)lines.push('N-aș accepta: '+deal);
+  if(other)lines.push('Altceva: '+other);
+  if(hasR)lines.push('Tipurile care mă atrag cel mai puțin: '+low.map(function(t){return RT[t]+' ('+rs.sc[t]+')';}).join(', '));
+  if(acts.length)lines.push('Activități care nu-mi plac deloc: '+acts.join('; '));
+  if(q4.length)lines.push('De evitat: '+q4.join(', '));
+  if(q2.length)lines.push('Capcana confortului: '+q2.join(', '));
+  if(envNo.length)lines.push('Medii care nu mi se potrivesc: '+envNo.join(', '));
+  return {low:low,acts:acts,q4:q4,q2:q2,envNo:envNo,deal:deal,other:other,story:story,hasR:hasR,any:lines.length>0||!!story,lines:lines};
+}
+function avoidCard(){
+  var a=avoidData();if(!a.any)return '';
+  var rs=riasecScores(),blocks=[];
+  function tags(list){return '<div class="tags">'+list.map(function(x){return '<span class="tag">'+esc(x)+'</span>';}).join('')+'</div>';}
+  if(a.deal||a.other)blocks.push('<div><h3>N-ai accepta</h3>'+(a.deal?tags(a.deal.split(', ')):'')+(a.other?'<p class="note" style="margin-top:8px">'+esc(a.other)+'</p>':'')+'</div>');
+  var RDS={R:'unelte, mașini, muncă fizică',I:'analiză, cercetare, date',A:'creație, design, scris',S:'ajutat și învățat oameni',E:'convins, vândut, condus',C:'ordine, proceduri, detalii'};
+  if(a.hasR)blocks.push('<div><h3>Te atrag cel mai puțin</h3><ul class="hl" style="margin-top:8px">'+a.low.map(function(t){return '<li><b>'+rs.sc[t]+'</b><span><strong>'+RT[t]+'</strong>: '+RDS[t]+'</span></li>';}).join('')+'</ul></div>');
+  if(a.acts.length)blocks.push('<div><h3>Activități notate cu „deloc”</h3>'+tags(a.acts.slice(0,10))+(a.acts.length>10?'<p class="note">și încă '+(a.acts.length-10)+'</p>':'')+'</div>');
+  if(a.q4.length||a.q2.length)blocks.push('<div><h3>Din cadranele tale</h3>'+(a.q4.length?'<p class="note">De evitat</p>'+tags(a.q4):'')+(a.q2.length?'<p class="note" style="margin-top:8px">Capcana confortului: bun, dar fără plăcere</p>'+tags(a.q2):'')+'</div>');
+  if(a.envNo.length)blocks.push('<div><h3>Medii care nu ți se potrivesc</h3>'+tags(a.envNo)+'</div>');
+  if(a.story)blocks.push('<div><h3>Din povestea ta</h3><blockquote class="quote">'+esc(a.story.length>240?a.story.slice(0,239)+'…':a.story)+'</blockquote></div>');
+  return '<article class="card" id="avoid"><p class="eyebrow">Ce să eviți · fără AI</p><h2 class="c-title">Ce nu ți se potrivește</h2><p class="note">Tot ce spun răspunsurile tale despre ce te-ar epuiza, adunat la un loc. Un job poate fi grozav pe hârtie și totuși greu de dus dacă include unul dintre aceste lucruri.</p><div class="avoid">'+blocks.join('')+'</div></article>';
+}
 function refreshPart(id,html){var el=$('#'+id);if(el)el.outerHTML=html;}
 function tiesNote(rs){
   if(!rs.ties.length)return '';
@@ -1135,6 +1241,7 @@ function results(){
       '<div class="fitbar"><span>potrivire</span><span class="track"><span class="fill" style="width:'+j.fit+'%;--d:400ms;display:block"></span></span><span class="pct">'+j.fit+'%</span></div>'+(tags.length?'<div class="tags">'+tags.join('')+'</div>':'')+'</div>';
   });
   h+='</div></article>';
+  h+=avoidCard();
   h+='<article class="card"><p class="eyebrow">Personalitate · Big Five</p><h2 class="c-title">Tendințe, nu etichete</h2><p class="note">Un scor mai mare nu e „mai bun”: fiecare capăt al scalei are avantaje și riscuri.</p><div class="b5">';
   BD.forEach(function(d,i){
     h+='<div><div class="bar-h"><b>'+BN[d]+'</b><span class="r"><span class="pct" data-to="'+b[d].pct+'">'+b[d].pct+'</span><span class="lvl">'+LV[b[d].lvl]+'</span></span></div><div class="track"><div class="fill" style="width:'+Math.max(4,b[d].pct)+'%;--d:'+(i*120+300)+'ms"></div></div><p class="bar-t">'+BTXT[d][b[d].lvl]+'</p></div>';
@@ -1145,8 +1252,9 @@ function results(){
       return '<div class="bip"><div class="bip-l"><span>'+esc(e.a)+'</span><span>'+esc(e.b)+'</span></div><div class="bip-t" role="img" aria-label="'+esc(e.a)+' sau '+esc(e.b)+': '+v+' din 5"><i style="left:'+((v-1)/4*100)+'%"></i></div></div>';
     }).join('')+'</div></article>'+
     '<article class="card glow"><p class="eyebrow">Punctul tău de plecare</p><ul class="facts-l">'+CONSTR.map(function(c){
-      var v=S.ctx[c.k];return '<li><span>'+esc(c.q.replace(/\?$/,''))+'</span><b>'+(v==null?'—':esc(c.o[v]))+'</b></li>';
+      var t=ctxText(c);return '<li><span>'+esc(c.q.replace(/\?$/,''))+'</span><b>'+(t?esc(t):'—')+'</b></li>';
     }).join('')+'</ul></article></div>';
+  h+=wellCard();
   h+='<div class="r-3"><article class="card glow"><p class="eyebrow">Stiluri preferate</p><div class="tags">'+S.styles.map(function(s){return '<span class="tag">'+esc(s)+'</span>';}).join('')+'</div></article>'+
     '<article class="card glow"><p class="eyebrow">Valorile tale, în ordine</p><ol class="vlist">'+S.values.map(function(v){return '<li>'+esc(v)+'</li>';}).join('')+'</ol></article>'+
     '<article class="card glow"><p class="eyebrow">Ancore de carieră</p><div class="tags">'+S.anchors.map(function(s){return '<span class="tag">'+esc(s)+'</span>';}).join('')+'</div></article></div>';
@@ -1185,17 +1293,17 @@ function count(arr){return arr.filter(function(x){return x!==null;}).length;}
 function need(ph){
   var c=S.ctx;
   if(ph===0){
-    if(!c.age.trim()||!c.job.trim()||!c.why.trim())return 'Completează vârsta, ocupația și ce te-a adus aici.';
-    var miss=CONSTR.filter(function(x){return c[x.k]==null;}).length;
+    if(!c.age.trim()||!c.why.trim())return 'Completează vârsta și ce te-a adus aici.';
+    var miss=CONSTR.filter(function(x){return x.multi?!(c[x.k]&&c[x.k].length):c[x.k]==null;}).length;
     return miss?'Mai ai de ales '+miss+(miss===1?' variantă':' variante')+' despre situația ta.':'';
   }
   if(ph===1){var n=NR-count(S.riasec);return n?'Mai ai de răspuns la '+n+(n===1?' activitate.':' activități.'):'';}
   if(ph===2){var m=NB-count(S.big5);return m?'Mai ai de răspuns la '+m+(m===1?' afirmație.':' afirmații.'):'';}
-  if(ph===3){return S.styles.length<3?'Alege 3 stiluri ('+S.styles.length+' din 3).':'';}
+  if(ph===3){return S.styles.length<1?'Alege cel puțin un stil.':'';}
   if(ph===4){var e=ENV.length-count(S.env);return e?'Mai ai de ales la '+e+(e===1?' pereche.':' perechi.'):'';}
   if(ph===5){
     if(S.values.length<5)return 'Alege 5 valori ('+S.values.length+' din 5).';
-    if(S.anchors.length<2)return 'Alege 2 ancore de carieră ('+S.anchors.length+' din 2).';
+    if(S.anchors.length<1)return 'Alege cel puțin o ancoră de carieră.';
     return '';
   }
   if(ph===6){var f=S.stories.filter(function(s){return s.trim().length>=20;}).length;return f<3?'Scrie cel puțin 3 povești (câteva propoziții fiecare).':'';}
@@ -1365,11 +1473,11 @@ var INSTR_A='SARCINA (partea 1 din 2). Scrie, în această ordine, exact aceste 
 '## 2. Ce spun cele 4 cadrane\n(interpretează fiecare cadran cu dovezi din răspunsurile persoanei; la „Potențial de dezvoltare” verifică dacă „nu sunt bun” poate însemna „nu am exersat”; la „Capcana confortului” spune cum poate fi folosit ca mijloc; adaugă o interpretare Ikigai: unde se intersectează ce iubește, la ce e bun, ce are nevoie lumea și pentru ce poate fi plătit.)\n'+
 '## 3. Top 5 direcții de carieră\n(poți porni de la meseriile calculate din codul Holland, dar alege tu, cu argumente; pentru fiecare: de ce se potrivește, legat explicit de date din interviu; cum arată o zi tipică; competențe de acumulat; riscuri și dezavantaje reale; cât de cerută e piața, orientativ și onest, fără cifre inventate și cu mențiunea că nu ai date în timp real; dacă e profesie reglementată în România, spune ce aviz sau atestat cere.)\n'+
 '## 4. 3 direcții neașteptate\n(la care persoana probabil nu s-ar fi gândit, cu motivul.)\n'+
-'## 5. Ce să eviți\n(tipuri de roluri sau medii care probabil o vor epuiza, cu dovezi din răspunsuri.)\n'+
+'## 5. Ce să eviți\n(tipuri de roluri sau medii care probabil o vor epuiza, cu dovezi din răspunsuri: pornește de la CE N-AR ACCEPTA ÎNTR-UN JOB, activitățile notate cu 1, tipurile Holland cu cel mai mic scor, cadranele „De evitat” și „Capcana confortului” și povestea 4; spune explicit care dintre meseriile calculate intră în conflict cu ce n-ar accepta.)\n'+
 'Ține cont de constrângerile din context (timp, studii, mobilitate, buget). Lungime țintă: aproximativ 1100 de cuvinte. Nu scrie nimic înainte de „## 1.” și nimic după secțiunea 5.';
 var INSTR_B='SARCINA (partea 2 din 2). Scrie, în această ordine, exact aceste secțiuni:\n'+
 '## 6. Cele 5 mini-experimente\n(fiecare de 1 până la 2 săptămâni, cost mic sau zero, potrivite cu timpul și bugetul persoanei, concrete: un proiect de weekend, un curs scurt gratuit, voluntariat, job shadowing etc. Unul trebuie să fie un interviu de 20 de minute cu un profesionist din domeniu, iar unul să fie „întreabă 3 oameni care te cunosc bine la ce te văd bun”. Pentru fiecare: ce faci, cât durează și criteriul clar „am aflat că îmi place / nu îmi place dacă...”. Scrie fiecare experiment ca UN SINGUR element de listă, fără sub-liste, care începe cu **Titlu scurt:** urmat de descriere.)\n'+
-'## 7. Planul pe 30 de zile\n(săptămână cu săptămână, realist față de orele disponibile și constrângerile persoanei.)\n'+
+'## 7. Planul pe 30 de zile\n(săptămână cu săptămână, realist față de orele disponibile, constrângerile persoanei și energia ei din ultima vreme; dacă face mișcare sau are surse de energie, folosește-le în plan.)\n'+
 '## 8. Nivel de încredere\n(pornește de la VERIFICĂRI AUTOMATE: diferențiere, consistență și calitatea răspunsurilor; apoi, pentru fiecare concluzie mare din partea 1 și 2: încredere mare, medie sau mică și ce informație ar crește încrederea.)\n'+
 '## 9. Încheiere\n(3 până la 5 rânduri calde și oneste; menționează că interesele se schimbă și că testarea în realitate bate orice raport.)\n'+
 'Dacă în date există o zodie, adaugă la final „## Bonus pentru distracție”: 3 până la 4 rânduri despre „ce zice astrologia”, clar etichetat ca divertisment fără validitate științifică, fără legătură cu concluziile de mai sus. Dacă nu există zodie, nu scrie secțiunea. Lungime țintă: aproximativ 1000 de cuvinte. Nu repeta partea 1.';
@@ -1384,17 +1492,25 @@ function activities(v){
   var list=RIT.filter(function(_,i){return S.riasec[i]===v;}).map(function(it){return it.text;});
   return list.length?list.slice(0,12).join('; ')+(list.length>12?' și încă '+(list.length-12):''):'niciuna';
 }
-function optText(k){var c=CONSTR.filter(function(x){return x.k===k;})[0],v=S.ctx[k];return v==null?'nespecificat':c.o[v];}
+function optText(k){return ctxText(CONSTR.filter(function(x){return x.k===k;})[0])||'nespecificat';}
 function dataBlock(){
   var c=S.ctx,rs=riasecScores(),b=big5Scores(),L=[];
-  L.push('CONTEXT: vârstă '+c.age+'; ocupație/studii: '+c.job+'; studii: '+optText('edu')+'; timp disponibil: '+optText('hours')+' pe săptămână; mobilitate: '+optText('mobility')+'; buget pentru cursuri: '+optText('budget')+'; alte detalii: '+(c.life||'nespecificat')+'; ce l-a adus aici: '+c.why+'; ce vrea să se schimbe în 1-2 ani: '+(c.change||'nespecificat'));
-  L.push('HOLLAND (O*NET Interest Profiler, scor '+C.R_MIN+'-'+C.R_MAX+' pe tip): '+RORDER.map(function(t){return t+' '+RT[t]+' '+rs.sc[t];}).join(', ')+'. Cod: '+rs.code.join('')+(rs.ties.length?' (există scoruri egale: '+rs.ties.map(function(g){return g.join('=');}).join(', ')+')':''));
+  L.push('CONTEXT: vârstă '+c.age+'; situație: '+optText('work')+'; detalii despre ocupație: '+(c.job||'nespecificat')+'; studii: '+optText('edu')+'; timp disponibil: '+optText('hours')+' pe săptămână; mobilitate: '+optText('mobility')+'; buget pentru cursuri: '+optText('budget')+'; alte detalii: '+(c.life||'nespecificat')+'; ce l-a adus aici: '+c.why+'; ce vrea să se schimbe în 1-2 ani: '+(c.change||'nespecificat'));
+  L.push('HOLLAND (60 de activități, scor '+C.R_MIN+'-'+C.R_MAX+' pe tip): '+RORDER.map(function(t){return t+' '+RT[t]+' '+rs.sc[t];}).join(', ')+'. Cod: '+rs.code.join('')+(rs.ties.length?' (există scoruri egale: '+rs.ties.map(function(g){return g.join('=');}).join(', ')+')':''));
   L.push('ACTIVITĂȚI NOTATE CU 5 (i-ar plăcea foarte mult): '+activities(5));
   L.push('ACTIVITĂȚI NOTATE CU 1 (nu i-ar plăcea deloc): '+activities(1));
   L.push('MESERII CALCULATE DIN COD (potrivire orientativă): '+careers(8).map(function(j){return j.n+' '+j.code+' '+j.fit+'%'+(j.reg?' (profesie reglementată: '+j.reg+')':'')+(j.extraStudy?' (cere de obicei '+j.extraStudy+')':'');}).join('; '));
   var k=checks();
   L.push('VERIFICĂRI AUTOMATE: diferențiere Holland '+k.diff.value+' din '+k.diff.max+' ('+LVF[k.diff.level]+'); consistență '+k.cons.pair.join('-')+' ('+LVF[k.cons.level]+'); încredere generală '+LVF[k.confidence]+'; tensiuni: '+(k.tensions.length?k.tensions.map(function(x){return x.t+' — '+x.d;}).join(' | '):'niciuna')+'; calitatea răspunsurilor: '+(k.quality.length?k.quality.map(function(x){return x.t+' — '+x.d;}).join(' | '):'fără probleme'));
   L.push('BIG FIVE (Mini-IPIP, 0-100): '+BD.map(function(d){return BN[d]+' '+b[d].pct+' ('+LV[b[d].lvl]+')';}).join(', '));
+  if(hasWell()){
+    var w5=C.who5Score(S.who5),p4=C.phq4Score(S.phq4),rs5=C.rseScore(S.rse);
+    L.push('STARE ȘI ÎNCREDERE (opțional, chestionare standard; nu sunt un diagnostic): WHO-5 '+(w5?w5.index+'/100 ('+LVW[w5.lvl]+'; sub 50 = stare de bine scăzută)':'necompletat')+
+      '; PHQ-2 '+(p4?p4.dep+'/6':'necompletat')+', GAD-2 '+(p4?p4.anx+'/6':'necompletat')+' (3 sau mai mult = se recomandă o evaluare de specialitate)'+
+      '; stima de sine Rosenberg '+(rs5?rs5.total+'/30 ('+LVC[rs5.lvl]+')':'necompletat')+
+      '. '+WELL.map(function(c){return c.q.replace(/\?$/,'')+': '+(ctxText(c,'well')||'nespecificat');}).join('; '));
+  }
+  L.push('CE N-AR ACCEPTA ÎNTR-UN JOB: '+(ctxText(AVOID,'pref')||'nimic ales')+(String(S.pref.other||'').trim()?'; altceva: '+S.pref.other.trim():''));
   L.push('MEDIU DE LUCRU (1 = prima variantă, 5 = a doua): '+ENV.map(function(e,i){return e.a+' vs '+e.b+': '+(S.env[i]||'-');}).join('; '));
   L.push('STILURI PREFERATE (inteligențe multiple, model popular, slab validat): '+S.styles.map(function(s){return s+(S.styleEx[s]&&S.styleEx[s].trim()?' — exemplu: '+S.styleEx[s].trim():'');}).join(' | '));
   L.push('VALORI (în ordine): '+S.values.map(function(v,i){return (i+1)+'. '+v+(i<3&&S.valEx[v]&&S.valEx[v].trim()?' (exemplu: '+S.valEx[v].trim()+')':'');}).join('; '));
@@ -1558,6 +1674,8 @@ function reportMd(){
   });
   var k=checks();
   t+='## Verificări automate\n\n- Diferențiere: '+LVF[k.diff.level]+' ('+k.diff.value+' din '+k.diff.max+')\n- Consistență: '+LVF[k.cons.level]+' ('+k.cons.pair.join('-')+')\n- Încredere generală: '+LVF[k.confidence]+'\n'+k.quality.concat(k.tensions).map(function(x){return '- '+x.t+': '+x.d;}).join('\n')+'\n\n';
+  if(hasWell()){var wm=C.who5Score(S.who5),pm=C.phq4Score(S.phq4),rm=C.rseScore(S.rse);t+='## Starea în ultima vreme\n\n'+(wm?'- Starea de bine (WHO-5): '+wm.index+'/100, '+LVW[wm.lvl]+'\n':'')+(pm?'- Tristețe (PHQ-2): '+(pm.depFlag?'merită atenție':'fără semnale')+'\n- Anxietate (GAD-2): '+(pm.anxFlag?'merită atenție':'fără semnale')+'\n':'')+(rm?'- Încredere în tine (Rosenberg): '+rm.total+'/30, '+LVC[rm.lvl]+'\n':'')+'\n';}
+  var av=avoidData();if(av.any)t+='## Ce nu mi se potrivește\n\n'+av.lines.map(function(l){return '- '+l;}).join('\n')+'\n\n';
   if(S.exp.length)t+='## Experimente\n\n'+expBlock().split('\n').map(function(l){return '- '+l;}).join('\n')+'\n\n';
   if(S.rep.a)t+='\n'+S.rep.a+'\n';
   if(S.rep.b)t+='\n'+S.rep.b+'\n';
@@ -1599,8 +1717,15 @@ main.addEventListener('click',function(e){
     if(b.dataset.armed){reset();return;}
     b.dataset.armed='1';b.textContent=DEMO?'Ieși din exemplu? Apasă încă o dată':'Sigur? Apasă încă o dată ca să ștergi tot';return;
   }
+  if(a==='ctxm'){
+    var ms=S[d.s||'ctx'],mv=+d.v,ma=ms[d.k],mi=ma.indexOf(mv);
+    if(mi>-1)ma.splice(mi,1);else ma.push(mv);
+    lastPick=d.k+mv;save();render(false);
+    var nb1=main.querySelector('[data-act="ctxm"][data-k="'+d.k+'"][data-v="'+mv+'"]');if(nb1)nb1.focus({preventScroll:true});
+    return;
+  }
   if(a==='ctx'){
-    var cv=+d.v;S.ctx[d.k]=S.ctx[d.k]===cv?null:cv;lastPick=d.k+cv;save();render(false);
+    var cs=S[d.s||'ctx'],cv=+d.v;cs[d.k]=cs[d.k]===cv?null:cv;lastPick=d.k+cv;save();render(false);
     var nb0=main.querySelector('[data-act="ctx"][data-k="'+d.k+'"][data-v="'+cv+'"]');if(nb0)nb0.focus({preventScroll:true});
     return;
   }
